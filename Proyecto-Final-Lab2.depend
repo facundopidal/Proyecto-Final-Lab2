@@ -1,0 +1,16 @@
+# depslib dependency file v1.0
+1697825355 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\ingresos.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ingresos.h"
+
+1697826832 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\ingresos.h
+
+1697827158 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\main.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ingresos.h"
+	<stdbool.h>
+
