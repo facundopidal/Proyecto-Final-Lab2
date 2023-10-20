@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1697819786 source:c:\users\julian\desktop\proyecto\main.c
+	<stdio.h>
+	<stdlib.h>
+	"clientes.h"
+	"string.h"
+
+1697820433 source:c:\users\julian\desktop\proyecto\clientes.c
+	<stdio.h>
+	<stdlib.h>
+	"clientes.h"
+	"string.h"
+
+1697820279 c:\users\julian\desktop\proyecto\clientes.h
+
