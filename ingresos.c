@@ -3,5 +3,5 @@
 #include <stdbool.h>
 #include <string.h>
 #include "validaciones.h"
-#include "clientes.h"
+#include "pacientes.h"
 #include "ingresos.h"
