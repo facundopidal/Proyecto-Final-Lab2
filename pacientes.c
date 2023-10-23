@@ -4,9 +4,6 @@
 #include <string.h>
 #include "validaciones.h"
 #include "pacientes.h"
-//Paciente
-//PACIENTE
-//paciente
 
 nodoPaciente* crearNodoPaciente(PACIENTE x)
 {

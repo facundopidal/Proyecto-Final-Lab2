@@ -34,9 +34,14 @@
 		<Unit filename="ingresos.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="ingresos.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="pacientes.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="pacientes.h" />
 		<Unit filename="practicas.c">
 			<Option compilerVar="CC" />
 		</Unit>

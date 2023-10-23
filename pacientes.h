@@ -1,5 +1,5 @@
-#ifndef CLIENTES_H_INCLUDED
-#define CLIENTES_H_INCLUDED
+#ifndef PACIENTES_H_INCLUDED
+#define PACIENTES_H_INCLUDED
 
 typedef struct{
     char dni[9];
@@ -14,7 +14,7 @@ typedef struct{
 typedef struct nodoPaciente{
     struct nodoPaciente* izq;
     struct nodoPaciente* der;
-    struct nodoIngreso* ingresos;
+    struct nodoIngreso* listaIngresos;
     PACIENTE paciente;
 }nodoPaciente;
 
@@ -35,4 +35,4 @@ void appendPacienteArchivo(char nomArch[],PACIENTE x);
 
 
 
-#endif // CLIENTES_H_INCLUDED
+#endif

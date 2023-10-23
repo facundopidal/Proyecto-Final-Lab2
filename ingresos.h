@@ -13,8 +13,24 @@ typedef struct{
 typedef struct nodoIngreso{
     struct nodoIngreso* ant;
     struct nodoIngreso* sig;
+    struct nodoPxI* listaPxI;
     INGRESO ingreso;
 }nodoIngreso;
+
+
+typedef struct{
+    int idIngreso;
+    int nroPractica;
+    char resultado[40];
+}PRACTICAxINGRESO;
+
+
+typedef struct nodoPxI{
+    struct nodoPxI* sig;
+    PRACTICAxINGRESO PxI;
+}nodoPxI;
+
+
 
 
 

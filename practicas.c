@@ -11,7 +11,7 @@ PRACTICA cargarPractica()
 {
     PRACTICA x;
     x.eliminado = 0;
-    x.nro=obtenerUltimoNro(archivoPractica);
+//    x.nro=obtenerUltimoNro(archivoPractica);
     printf("\nIngrese Nombre de la Practica:  ");
     gets(x.nombrePractica);
     while(!validarPalabras(x.nombrePractica))
