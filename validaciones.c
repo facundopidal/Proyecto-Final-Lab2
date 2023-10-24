@@ -3,7 +3,10 @@
 #include <stdbool.h>
 #include <string.h>
 #include "validaciones.h"
+#include "ingresos.h"
+#include "practicas.h"
 
+#include <time.h>
 bool validarDNI(const char *dni)
 {
     int len = strlen(dni);
@@ -52,7 +55,7 @@ bool validarFecha(const char *fecha) {
         return false;
 
     // Verifica el año
-    if (anio <= 2022)
+    if (anio < 2023)
         return false;
 
     // Verifica el mes (debe estar en el rango 1-12)
@@ -72,7 +75,7 @@ bool validarFecha(const char *fecha) {
 
             break;
         case 2:
-            if (anio == 2024) { //Se podria hacer una validacion completa para todos los años bisiestos
+            if ((anio % 4 == 0 && anio % 100 != 0) || (anio % 400 == 0)) { //Pregunta si el año es bisiesto
                 if (dia < 1 || dia > 29)
                     return false;  // Año bisiesto, febrero puede tener 29 días
             } else {
@@ -86,4 +89,57 @@ bool validarFecha(const char *fecha) {
 
     // Si no se encontraron problemas, la fecha es válida
     return true;
+}
+
+bool validarFechaPosterior(const char *fechaP, const char *fechaA) {
+    if (!validarFecha(fechaP) || !validarFecha(fechaA))
+        return false;  // Al menos una de las fechas no es válida
+
+    int dia1, mes1, anio1;
+    int dia2, mes2, anio2;
+    sscanf(fechaP, "%d/%d/%d", &dia1, &mes1, &anio1);
+    sscanf(fechaA, "%d/%d/%d", &dia2, &mes2, &anio2);
+
+    if (anio1 > anio2) {
+        return true;
+    } else if (anio1 == anio2) {
+        if (mes1 > mes2) {
+            return true;
+        } else if (mes1 == mes2) {
+            if (dia1 > dia2) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+void obtenerFechaActual(int *dia, int *mes, int *anio)
+{
+    time_t tiempo;
+    struct tm *tm_info;
+
+    time(&tiempo);
+    tm_info = localtime(&tiempo);
+
+    *dia = tm_info->tm_mday;
+    *mes = tm_info->tm_mon + 1; // Añadimos 1 porque enero es 0
+    *anio = tm_info->tm_year + 1900; // Añadimos 1900 porque el año se cuenta desde 1900
+}
+
+bool validarExistenciaPractica(int id, char nombreArchivo[])
+{
+     FILE *buffer = fopen(nombreArchivo, "rb");
+     PRACTICA aux;
+     if(buffer)
+     {
+          while(fread(&aux, sizeof(PRACTICA), 1, buffer) >0)
+          {
+               if((aux.nro == id) && (aux.eliminado == 0))
+                    return true;
+          }
+          fclose(buffer);
+     }
+     return false;
 }

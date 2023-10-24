@@ -1,6 +1,6 @@
 #ifndef INGRESOS_H_INCLUDED
 #define INGRESOS_H_INCLUDED
-
+#include "pacientes.h"
 typedef struct{
     int ID;
     char fechaIngreso[10];
@@ -30,8 +30,16 @@ typedef struct nodoPxI{
     PRACTICAxINGRESO PxI;
 }nodoPxI;
 
+///Funciones Ingreso
+INGRESO cargarIngreso(int id, char dni[]);
+nodoPaciente * altaIngreso(nodoPaciente * arbol);
+nodoIngreso * crearNodoIngreso(INGRESO ing);
+nodoIngreso * agregarPpioIngreso(nodoIngreso * lista, nodoIngreso * nodo);
+nodoIngreso * altaListaIngreso(nodoIngreso * lista, char dni[]);
 
-
-
-
+///Funciones PxI
+PRACTICAxINGRESO cargarPxI(int idIngreso);
+nodoPxI * altaListaPxI(nodoPxI * lista, int idIngreso);
+nodoPxI * crearNodoPxI(PRACTICAxINGRESO pxi);
+nodoPxI * agregarPpioPxI(nodoPxI * lista, nodoPxI * nodo);
 #endif // INGRESOS_H_INCLUDED

@@ -6,6 +6,8 @@
 #include "ingresos.h"
 #include "practicas.h"
 
+
+
 int main(){
 
 return 0;

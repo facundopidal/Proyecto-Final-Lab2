@@ -32,5 +32,25 @@ void appendPracticaArchivo(char nomArch[],PRACTICA x)
         fclose(buffer);
     }
 }
+void mostrarPractica(PRACTICA x)
+{
+     printf("\n----------------\n");
+     printf("ID: %i\n",x.nro);
+     printf("%s\n",x.nombrePractica);
+     printf("\n----------------\n");
+}
 
-
+void mostrarPracticasActivasArch(char nombreArchivo[])
+{
+     FILE *buffer = fopen(nombreArchivo, "rb");
+     if(buffer)
+     {
+          PRACTICA aux;
+          while(fread(&aux, sizeof(PRACTICA), 1, buffer) > 0)
+          {
+               if(aux.eliminado == 0)
+                    mostrarPractica(aux);
+          }
+          fclose(buffer);
+     }
+}

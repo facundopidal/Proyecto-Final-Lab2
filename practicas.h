@@ -8,4 +8,6 @@ typedef struct{
 }PRACTICA;
 
 
+void mostrarPractica(PRACTICA x);
+void mostrarPracticasActivasArch(char nombreArchivo[]);
 #endif // PRACTICAS_H_INCLUDED

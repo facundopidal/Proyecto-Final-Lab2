@@ -5,30 +5,46 @@
 #include "validaciones.h"
 #include "pacientes.h"
 #include "ingresos.h"
+#include "practicas.h"
 
-INGRESO cargarIngreso()
+#define archivoPracticas "practicas.bin" //constante de archivoPracticas
+
+INGRESO cargarIngreso(int id, char dni[])
 {
     INGRESO x;
+
+    strcpy(x.dni, dni);
+
+    x.ID = id;
+
     x.eliminado = 0;
     ///Fecha de ingreso
-    printf("Ingrese fecha de ingreso en formato dd/mm/aaaa:  ");
-    fflush(stdin);
-    gets(x.fechaIngreso);
-    while(!validarFecha(x.fechaIngreso))
-    {
-        printf("\nFECHA NO VALIDA Ej: 04/05/2023\nIngrese nuevamente:  ");
-        fflush(stdin);
-        gets(x.fechaIngreso);
-    }
+
+    int dia,mes,anio;
+    obtenerFechaActual(&dia, &mes, &anio);
+    sprintf(x.fechaIngreso, "%i/%i/%i", dia, mes, anio);
+    printf("La fecha de ingreso se completo con la del dia de hoy: %s", x.fechaIngreso);
+
     ///Fecha de retiro
-    printf("Ingrese fecha de retiro:  ");
+    printf("Ingrese fecha de retiro con formato dd/mm/aaaa:  ");
     fflush(stdin);
     gets(x.fechaRetiro);
+    while(!validarFechaPosterior(x.fechaRetiro, x.fechaIngreso)) //Valida que la sea sea posterior, no incluye mismo dia
+    {
+        printf("\nFECHA NO VALIDA \n-Ingrese una fecha valida con formato dd/mm/aaaa \n-Que sea posterior a hoy: ");
+        fflush(stdin);
+        gets(x.fechaRetiro);
+    }
     printf("\n");
+
+    ///Matricula
+    printf("Ingrese matricula del medico:  ");
+    fflush(stdin);
+    scanf("%i",&x.matricula);
     return x;
 }
 
-bool altaIngreso(nodoPaciente * arbol)
+nodoPaciente * altaIngreso(nodoPaciente * arbol)
 {
     char dni[9];
     printf("Ingrese dni del paciente: ");
@@ -40,31 +56,107 @@ bool altaIngreso(nodoPaciente * arbol)
         fflush(stdin);
         gets(dni);
     }
-    if(buscarPaciente(arbol, dni) != NULL) //Si el dni no es valido se vuelve al menu
+
+    nodoPaciente * paciente = buscarPaciente(arbol, dni);
+
+    if(paciente != NULL) //Si el dni no es valido se vuelve al menu
     {
         printf("No se encontro el paciente, debe darlo de alta en el menu principal");
         printf("Seleccione la opcion de CARGAR PACIENTE ");
-        return false;
+        return arbol;
     }
     printf("Se encontro el paciente, cargue el ingreso"); //Cargamos el ingreso
-    INGRESO aux = cargarIngreso();
-    strcpy(aux.dni, dni);
-    nodoPaciente * paciente = buscarPaciente(arbol, dni);
 
-    int idAnt = 0;
-    if(paciente->listaIngresos != NULL)
-        idAnt = paciente->listaIngresos->ingreso.ID;  //Se toma el ultimo id como el primero, ya que agregamos al principio
-    aux.ID = idAnt+ 1;                 //Si la lista ingresos todavia no existe se le asigna id 1
+    paciente->listaIngresos = altaListaIngreso(paciente->listaIngresos, dni); //carga el ingreso completo solo en la lista
 
-//    paciente->listaIngresos = agregarPpio(paciente->listaIngresos, crearNodoIngreso(aux, NULL));
-    ///falta agregar la estructura ingresosxpractica y ademas agregar el ingreso al archivo
+    paciente->listaIngresos->listaPxI = altaListaPxI(paciente->listaIngresos->listaPxI, paciente->listaIngresos->ingreso.ID); //carga pxi(puede ser mas de una) solo en la lista
+    //cargarArchivoPxI(paciente->listaIngresos->listaPxI->PxI, archivoPxI);
+    //cargarArchivoIngresos(paciente->listaIngresos->ingreso, archivoIngresos); //Guardamos los datos en el archivo
 
-
-
-
+    return arbol;
 }
 
-nodoIngreso * crearNodoIngreso(INGRESO ing, nodoPxI * pxi)
+nodoIngreso * altaListaIngreso(nodoIngreso * lista, char dni[])
+{
+    int idAnt = 0;
+    if(lista != NULL)
+        idAnt = lista->ingreso.ID;  //Se toma el ultimo id como el primero, ya que agregamos al principio
+    INGRESO aux = cargarIngreso(idAnt + 1, dni); ///SE CARGA EN EL ARCHIVO
+    lista = agregarPpioIngreso(lista, crearNodoIngreso(aux)); //añadimos ingreso a la lista
+
+    return lista;
+}
+
+
+nodoIngreso * crearNodoIngreso(INGRESO ing)
 {
     nodoIngreso * nodo = (nodoIngreso *) malloc(sizeof(nodoIngreso));
+    nodo->ant = NULL;
+    nodo->sig = NULL;
+    nodo->ingreso = ing;
+    nodo->listaPxI = NULL;
+    return nodo;
+}
+
+nodoIngreso * agregarPpioIngreso(nodoIngreso * lista, nodoIngreso * nodo)
+{
+    if(!lista)
+        return nodo;
+    else
+    {
+        nodo->sig = lista;
+        lista->ant = nodo;
+        return nodo;
+    }
+}
+
+PRACTICAxINGRESO cargarPxI(int idIngreso)
+{
+    PRACTICAxINGRESO pxi;
+    pxi.idIngreso = idIngreso; //cargamos id de ingreso
+    mostrarPracticasActivasArch(archivoPracticas);
+    printf("Ingrese el id de practica que desea: ");
+    fflush(stdin);
+    scanf("%i", &pxi.nroPractica);
+    while(!validarExistenciaPractica(pxi.nroPractica, archivoPracticas)) //buscamos la practica en el archivo
+    {
+        mostrarPracticasActivasArch(archivoPracticas);
+        printf("ID NO VALIDO\n Por favor ingrese uno de los mostrados en pantalla: ");
+        fflush(stdin);
+        scanf("%i", &pxi.nroPractica);
+    }
+    strcpy(pxi.resultado, "Pendiente"); //Ponemos resultado en pendiente por defecto para luego completar
+    return pxi;
+}
+
+nodoPxI * altaListaPxI(nodoPxI * lista, int idIngreso)
+{
+    char seguir = 's';
+    while(seguir == 's' || seguir == 'S')
+    {
+        lista = agregarPpioPxI(lista, crearNodoPxI(cargarPxI(idIngreso)));
+        printf("Ingrese s para cargar otra practica: ");
+        fflush(stdin);
+        scanf("%c", &seguir);
+    }
+    return lista;
+}
+
+nodoPxI * crearNodoPxI(PRACTICAxINGRESO pxi)
+{
+    nodoPxI *nodo = (nodoPxI *) malloc(sizeof(nodoPxI));
+    nodo->sig = NULL;
+    nodo->PxI = pxi;
+    return nodo;
+}
+
+nodoPxI * agregarPpioPxI(nodoPxI * lista, nodoPxI * nodo)
+{
+    if(lista)
+        return nodo;
+    else
+    {
+        nodo->sig = lista;
+        return nodo;
+    }
 }
