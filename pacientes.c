@@ -34,6 +34,7 @@ PACIENTE cargarPaciente()
         fflush(stdin);
         gets(x.dni);
     }
+               ///FALTA VALIDAR QUE NO EXISTA EL DNI
     ///APELLIDO
     printf("\nIngrese Apellido: ");
     fflush(stdin);

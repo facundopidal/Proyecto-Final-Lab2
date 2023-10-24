@@ -11,12 +11,12 @@ INGRESO cargarIngreso()
     INGRESO x;
     x.eliminado = 0;
     ///Fecha de ingreso
-    printf("Ingrese fecha de ingreso:  ");
+    printf("Ingrese fecha de ingreso en formato dd/mm/aaaa:  ");
     fflush(stdin);
     gets(x.fechaIngreso);
-//    while(!validarFecha(x.fechaIngreso))
+    while(!validarFecha(x.fechaIngreso))
     {
-        printf("\nFECHA NO VALIDA \nIngrese nuevamente:  ");
+        printf("\nFECHA NO VALIDA Ej: 04/05/2023\nIngrese nuevamente:  ");
         fflush(stdin);
         gets(x.fechaIngreso);
     }
@@ -50,14 +50,21 @@ bool altaIngreso(nodoPaciente * arbol)
     INGRESO aux = cargarIngreso();
     strcpy(aux.dni, dni);
     nodoPaciente * paciente = buscarPaciente(arbol, dni);
+
     int idAnt = 0;
     if(paciente->listaIngresos != NULL)
-        idAnt = paciente->listaIngresos->ingreso.ID;
-    aux.ID = idAnt+ 1;
-//    paciente->ingresos = agregarPpio(paciente->ingresos, crearNodoIngreso(aux));
+        idAnt = paciente->listaIngresos->ingreso.ID;  //Se toma el ultimo id como el primero, ya que agregamos al principio
+    aux.ID = idAnt+ 1;                 //Si la lista ingresos todavia no existe se le asigna id 1
+
+//    paciente->listaIngresos = agregarPpio(paciente->listaIngresos, crearNodoIngreso(aux, NULL));
     ///falta agregar la estructura ingresosxpractica y ademas agregar el ingreso al archivo
 
 
 
 
+}
+
+nodoIngreso * crearNodoIngreso(INGRESO ing, nodoPxI * pxi)
+{
+    nodoIngreso * nodo = (nodoIngreso *) malloc(sizeof(nodoIngreso));
 }
