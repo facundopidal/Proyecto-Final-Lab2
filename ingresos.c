@@ -7,8 +7,6 @@
 #include "ingresos.h"
 #include "practicas.h"
 
-#define archivoPracticas "practicas.bin" //constante de archivoPracticas
-
 INGRESO cargarIngreso(int id, char dni[])
 {
     INGRESO x;
@@ -18,6 +16,12 @@ INGRESO cargarIngreso(int id, char dni[])
     x.ID = id;
 
     x.eliminado = 0;
+
+    ///Matricula
+    printf("Ingrese matricula del medico:  ");
+    fflush(stdin);
+    scanf("%i",&x.matricula);
+
     ///Fecha de ingreso
 
     int dia,mes,anio;
@@ -37,10 +41,6 @@ INGRESO cargarIngreso(int id, char dni[])
     }
     printf("\n");
 
-    ///Matricula
-    printf("Ingrese matricula del medico:  ");
-    fflush(stdin);
-    scanf("%i",&x.matricula);
     return x;
 }
 
@@ -70,8 +70,9 @@ nodoPaciente * altaIngreso(nodoPaciente * arbol)
     paciente->listaIngresos = altaListaIngreso(paciente->listaIngresos, dni); //carga el ingreso completo solo en la lista
 
     paciente->listaIngresos->listaPxI = altaListaPxI(paciente->listaIngresos->listaPxI, paciente->listaIngresos->ingreso.ID); //carga pxi(puede ser mas de una) solo en la lista
-    //cargarArchivoPxI(paciente->listaIngresos->listaPxI->PxI, archivoPxI);
-    //cargarArchivoIngresos(paciente->listaIngresos->ingreso, archivoIngresos); //Guardamos los datos en el archivo
+
+    cargarArchivoPxI(archivoPxI, paciente->listaIngresos->listaPxI); //Se pasa la lista para ser recorrida en la funcion
+    cargarArchivoIngresos(archivoIngresos, paciente->listaIngresos->ingreso); //Guardamos los datos en el archivo
 
     return arbol;
 }
@@ -81,7 +82,7 @@ nodoIngreso * altaListaIngreso(nodoIngreso * lista, char dni[])
     int idAnt = 0;
     if(lista != NULL)
         idAnt = lista->ingreso.ID;  //Se toma el ultimo id como el primero, ya que agregamos al principio
-    INGRESO aux = cargarIngreso(idAnt + 1, dni); ///SE CARGA EN EL ARCHIVO
+    INGRESO aux = cargarIngreso(idAnt + 1, dni);
     lista = agregarPpioIngreso(lista, crearNodoIngreso(aux)); //añadimos ingreso a la lista
 
     return lista;
@@ -158,5 +159,29 @@ nodoPxI * agregarPpioPxI(nodoPxI * lista, nodoPxI * nodo)
     {
         nodo->sig = lista;
         return nodo;
+    }
+}
+
+void cargarArchivoIngresos(char nombreArch[],INGRESO x)
+{
+    FILE *buffer = fopen(nombreArch, "ab");
+    if(buffer)
+    {
+        fwrite(&x, sizeof(INGRESO), 1, buffer);
+        fclose(buffer);
+    }
+}
+
+void cargarArchivoPxI(char nombreArch[],nodoPxI * lista)
+{
+    FILE *buffer = fopen(nombreArch, "ab");
+    if(buffer)
+    {
+        while(lista)
+        {
+            fwrite(&lista->PxI, sizeof(PRACTICAxINGRESO), 1, buffer);
+            lista = lista->sig;
+        }
+        fclose(buffer);
     }
 }

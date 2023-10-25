@@ -5,8 +5,8 @@
 #include "validaciones.h"
 #include "ingresos.h"
 #include "practicas.h"
-
 #include <time.h>
+
 bool validarDNI(const char *dni)
 {
     int len = strlen(dni);

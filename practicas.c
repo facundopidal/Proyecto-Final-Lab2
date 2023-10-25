@@ -7,6 +7,8 @@
 #include "ingresos.h"
 #include "practicas.h"
 
+
+
 PRACTICA cargarPractica()
 {
     PRACTICA x;
@@ -23,9 +25,9 @@ PRACTICA cargarPractica()
     return x;
 }
 
-void appendPracticaArchivo(char nomArch[],PRACTICA x)
+void cargarArchivoPracticas(char nombreArch[],PRACTICA x)
 {
-    FILE *buffer = fopen(nomArch, "ab");
+    FILE *buffer = fopen(nombreArch, "ab");
     if(buffer)
     {
         fwrite(&x, sizeof(PRACTICA), 1, buffer);

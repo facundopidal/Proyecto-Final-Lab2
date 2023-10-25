@@ -22,14 +22,11 @@ typedef struct nodoPaciente{
 
 nodoPaciente* crearNodoPaciente(PACIENTE x);
 PACIENTE cargarPaciente();
-
 nodoPaciente * buscarPaciente(nodoPaciente * arbol, char dni[9]);
-
 void mostrarPaciente(PACIENTE x);
 void mostrarPacientesTodos(nodoPaciente* arbol);
 void mostrarPacientesActivos(nodoPaciente* arbol);
-
-void appendPacienteArchivo(char nomArch[],PACIENTE x);
+void cargarArchivoPacientes(char nombreArch[],PACIENTE x);
 
 
 

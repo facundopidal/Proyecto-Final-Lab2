@@ -17,7 +17,6 @@ typedef struct nodoIngreso{
     INGRESO ingreso;
 }nodoIngreso;
 
-
 typedef struct{
     int idIngreso;
     int nroPractica;
@@ -30,16 +29,26 @@ typedef struct nodoPxI{
     PRACTICAxINGRESO PxI;
 }nodoPxI;
 
+#define archivoIngresos "ingresos.bin" //constante de archivoIngresos
+#define archivoPxI "pxi.bin" //constante de archivoPxI
+
 ///Funciones Ingreso
 INGRESO cargarIngreso(int id, char dni[]);
 nodoPaciente * altaIngreso(nodoPaciente * arbol);
 nodoIngreso * crearNodoIngreso(INGRESO ing);
 nodoIngreso * agregarPpioIngreso(nodoIngreso * lista, nodoIngreso * nodo);
 nodoIngreso * altaListaIngreso(nodoIngreso * lista, char dni[]);
+void cargarArchivoIngresos(char nombreArch[],INGRESO x);
+
+
 
 ///Funciones PxI
 PRACTICAxINGRESO cargarPxI(int idIngreso);
 nodoPxI * altaListaPxI(nodoPxI * lista, int idIngreso);
 nodoPxI * crearNodoPxI(PRACTICAxINGRESO pxi);
 nodoPxI * agregarPpioPxI(nodoPxI * lista, nodoPxI * nodo);
+void cargarArchivoPxI(char nombreArch[],nodoPxI * lista);
+
+
+
 #endif // INGRESOS_H_INCLUDED

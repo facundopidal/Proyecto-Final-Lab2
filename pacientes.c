@@ -34,7 +34,6 @@ PACIENTE cargarPaciente()
         fflush(stdin);
         gets(x.dni);
     }
-               ///FALTA VALIDAR QUE NO EXISTA EL DNI
     ///APELLIDO
     printf("\nIngrese Apellido: ");
     fflush(stdin);
@@ -118,9 +117,9 @@ void mostrarPacientesActivos(nodoPaciente* arbol)
     }
 }
 
-void appendPacienteArchivo(char nomArch[],PACIENTE x)
+void cargarArchivoPacientes(char nombreArch[],PACIENTE x)
 {
-    FILE *buffer = fopen(nomArch, "ab");
+    FILE *buffer = fopen(nombreArch, "ab");
     if(buffer)
     {
         fwrite(&x, sizeof(PACIENTE), 1, buffer);
