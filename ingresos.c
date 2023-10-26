@@ -185,3 +185,5 @@ void cargarArchivoPxI(char nombreArch[],nodoPxI * lista)
         fclose(buffer);
     }
 }
+
+

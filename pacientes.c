@@ -20,12 +20,11 @@ nodoPaciente* crearNodoPaciente(PACIENTE x)
     return NNP;
 }
 
-PACIENTE cargarPaciente()
+
+nodoPaciente* AltaPaciente(nodoPaciente* arbol)
 {
     PACIENTE x;
-    x.eliminado = 0;
-    ///DNI
-    printf("Ingrese DNI:  ");
+    printf("Ingrese DNI del Paciente:  ");
     fflush(stdin);
     gets(x.dni);
     while(!validarDNI(x.dni))
@@ -34,6 +33,41 @@ PACIENTE cargarPaciente()
         fflush(stdin);
         gets(x.dni);
     }
+    PACIENTE aux=buscarPacienteArchivo(archivoPacientes,x.dni);
+    if(aux)
+    {
+        if(aux.eliminado==0)
+        {
+            printf("El Paciente que ingreso ya existe en la base de datos, puede modificarlo desde el menu principal\n");
+            mostrarPaciente(aux);
+        }
+        else
+        {
+            printf("¡El Paciente se encontraba dado de baja, Ahora se encuentra dado de alta!\n");
+            mostrarPaciente(aux);
+            aux.eliminado=0;
+            CambiarEliminadoPaciente(0,aux,archivoPacientes);
+            arbol = agregarPacienteArbol(arbol,aux);
+        }
+    }
+    else
+    {
+        x=cargarPaciente(x.dni);
+        arbol = agregarPacienteArbol(arbol,x);
+        cargarArchivoPacientes(archivoPaciente,x);
+    }
+
+   return arbol;
+}
+
+
+
+
+PACIENTE cargarPaciente(char dni[])
+{
+    PACIENTE x;
+    x.dni=dni;
+    x.eliminado = 0;
     ///APELLIDO
     printf("\nIngrese Apellido: ");
     fflush(stdin);
@@ -126,4 +160,6 @@ void cargarArchivoPacientes(char nombreArch[],PACIENTE x)
         fclose(buffer);
     }
 }
+
+void CambiarEliminadoPaciente(int valor,)
 
