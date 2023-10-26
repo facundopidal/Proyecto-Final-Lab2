@@ -33,8 +33,8 @@ nodoPaciente* AltaPaciente(nodoPaciente* arbol)
         fflush(stdin);
         gets(x.dni);
     }
-    PACIENTE aux=buscarPacienteArchivo(archivoPacientes,x.dni);
-    if(aux)
+    PACIENTE aux= buscarPacienteArchivo(archivoPacientes,x.dni);
+    if(aux.edad != -1)
     {
         if(aux.eliminado==0)
         {
@@ -54,7 +54,7 @@ nodoPaciente* AltaPaciente(nodoPaciente* arbol)
     {
         x=cargarPaciente(x.dni);
         arbol = agregarPacienteArbol(arbol,x);
-        cargarArchivoPacientes(archivoPaciente,x);
+        cargarArchivoPacientes(archivoPacientes,x);
     }
 
    return arbol;
@@ -66,8 +66,15 @@ nodoPaciente* AltaPaciente(nodoPaciente* arbol)
 PACIENTE cargarPaciente(char dni[])
 {
     PACIENTE x;
-    x.dni=dni;
+    strcpy(x.dni, dni);
     x.eliminado = 0;
+    printf("\nIngrese edad del paciente: ");
+    fflush(stdin);
+    while(scanf("%i", &x.edad) != 1 || !validarEdad(x.edad))
+    {
+        printf("\nError al ingresar edad - Ingrese nuevamente edad del paciente: ");
+        fflush(stdin);
+    }
     ///APELLIDO
     printf("\nIngrese Apellido: ");
     fflush(stdin);
@@ -161,5 +168,119 @@ void cargarArchivoPacientes(char nombreArch[],PACIENTE x)
     }
 }
 
-void CambiarEliminadoPaciente(int valor,)
+void CambiarEliminadoPaciente(int valor, PACIENTE x, char nombreArch[])
+{
+    x.eliminado = valor;
+    FILE * buffer = fopen(nombreArch, "r+b");
+    PACIENTE aux;
+    if(buffer)
+    {
+        while(fread(&aux, sizeof(PACIENTE), 1, buffer) > 0)
+        {
+            if(strcmp(aux.dni, x.dni) == 0)
+            {
+                fseek(buffer, -1 * sizeof(PACIENTE), SEEK_CUR);
+                fwrite(&x, sizeof(PACIENTE), 1, buffer);
+            }
+        }
+        fclose(buffer);
+    }
+}
 
+PACIENTE buscarPacienteArchivo(char nombreArch[], char dni[])
+{
+    FILE * buffer = fopen(nombreArch, "rb");
+    PACIENTE aux;
+    if(buffer)
+    {
+        while(fread(&aux, sizeof(PACIENTE), 1, buffer) > 0)
+        {
+            if(strcmp(aux.dni, dni) == 0)
+                return aux;
+        }
+        fclose(buffer);
+    }
+    aux.edad = -1;
+    return aux;
+}
+
+nodoPaciente * agregarPacienteArbol(nodoPaciente * arbol, PACIENTE x)
+{
+    if (!arbol)
+        return crearNodoPaciente(x);
+
+    if (strcmp(arbol->paciente.dni, x.dni) > 0)
+        arbol->izq = agregarPacienteArbol(arbol->izq, x);
+    else if (strcmp(arbol->paciente.dni, x.dni) < 0)
+        arbol->der = agregarPacienteArbol(arbol->der, x);
+
+    return arbol;
+}
+
+nodoPaciente * bajaPaciente(nodoPaciente * arbol)
+{
+    char dni[9];
+    printf("Ingrese DNI del Paciente a dar de baja:  ");
+    fflush(stdin);
+    gets(dni);
+    while(!validarDNI(dni))
+    {
+        printf("\nDNI NO VALIDO \nIngrese nuevamente:  ");
+        fflush(stdin);
+        gets(dni);
+    }
+    nodoPaciente * nodo = buscarPaciente(arbol, dni);
+    if(nodo)
+    {
+        if(nodo->listaIngresos == NULL)
+        {
+            CambiarEliminadoPaciente(1,nodo->paciente,archivoPacientes);
+            arbol = eliminarNodoPaciente(arbol, nodo);
+        }
+        else
+        {
+            printf("\nERROR--El paciente tiene ingresos asignados\n");
+            printf("Si desea darlo de baja, debera dar de baja sus ingresos en el menu\n");
+        }
+    }
+    else
+        printf("\nERROR-- El paciente no existe o ya fue dado de baja\n");
+
+     return arbol;
+}
+
+nodoPaciente * eliminarNodoPaciente(nodoPaciente * arbol, nodoPaciente * nodo)
+{
+    if (arbol == NULL)
+        return NULL;
+
+    else
+    {
+        /// el nodo a eliminar ha sido encontrado (NO FUE NI MENOR NI MAYOR)
+        /// Caso 1: Nodo sin hijos o un solo hijo (los mas sencillos)
+        if (nodo->izq == NULL)
+        {
+            nodoPaciente* temp = nodo->der;
+            free(nodo);
+            return temp;
+        }
+        else if (nodo->der == NULL)
+        {
+            nodoPaciente* temp = nodo->izq;
+            free(nodo);
+            return temp;
+        }
+
+        /// Caso 2: Nodo con dos hijos
+        /// Encontrar el sucesor inmediato (nodo más a la izquierda en el subárbol derecho)
+        nodoPaciente* temp = encontrarMenorArbolPaciente(nodo->der);///funcion complementaria...
+
+        /// Copiar el valor del sucesor inmediato al nodo actual
+        nodo->paciente = temp->paciente;
+
+        /// Eliminar el sucesor inmediato
+        nodo->der = eliminarNodoPaciente(nodo->der, temp);
+    }
+
+    return arbol;
+}

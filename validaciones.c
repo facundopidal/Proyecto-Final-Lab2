@@ -143,3 +143,10 @@ bool validarExistenciaPractica(int id, char nombreArchivo[])
      }
      return false;
 }
+
+bool validarEdad(int edad)
+{
+    if(edad < 0 || edad > 125)
+        return false;
+    return true;
+}
