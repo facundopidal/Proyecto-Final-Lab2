@@ -68,7 +68,8 @@ void menuAdmin()
                     system("pause");
                     break;
                 case 3:
-
+                    arbolPacientes = bajaPaciente(arbolPacientes);
+                    system("pause");
                     break;
                 case 4:
 

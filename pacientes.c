@@ -10,13 +10,8 @@
 nodoPaciente* crearNodoPaciente(PACIENTE x)
 {
     nodoPaciente* NNP=(nodoPaciente*)malloc(sizeof(nodoPaciente));
-    strcpy(NNP->paciente.apellido,x.apellido);
-    strcpy(NNP->paciente.nombre,x.nombre);
-    strcpy(NNP->paciente.dni,x.dni);
-    strcpy(NNP->paciente.direccion,x.direccion);
-    strcpy(NNP->paciente.telefono,x.telefono);
-    NNP->paciente.edad = x.edad;
-    NNP->paciente.eliminado = x.eliminado;
+    NNP->paciente = x;
+    NNP->listaIngresos = NULL;
     NNP->izq=NULL;
     NNP->der=NULL;
     return NNP;
@@ -147,7 +142,7 @@ void mostrarPacientesTodos(char nombreArchivo[])
     PACIENTE aux;
     if(buffer)
     {
-        while(fread(&aux,sizeof(PACIENTE),1,buffer)>0)
+        while(fread(&aux,sizeof(PACIENTE),1,buffer) == 1)
             mostrarPaciente(aux);
     fclose(buffer);
     }
@@ -176,17 +171,19 @@ void cargarArchivoPacientes(char nombreArch[],PACIENTE x)
 
 void CambiarEliminadoPaciente(int valor, PACIENTE x, char nombreArch[])
 {
-    x.eliminado = valor;
     FILE * buffer = fopen(nombreArch, "r+b");
     PACIENTE aux;
+    int flag = 0;
     if(buffer)
     {
-        while(fread(&aux, sizeof(PACIENTE), 1, buffer) > 0)
+        while(fread(&aux, sizeof(PACIENTE), 1, buffer) == 0 && flag == 0)
         {
             if(strcmp(aux.dni, x.dni) == 0)
             {
-                fseek(buffer, -1 * sizeof(PACIENTE), SEEK_CUR);
+                x.eliminado = valor;
+                fseek(buffer, -sizeof(PACIENTE), SEEK_CUR);
                 fwrite(&x, sizeof(PACIENTE), 1, buffer);
+                flag = 1;
             }
         }
         fclose(buffer);
@@ -379,7 +376,7 @@ void modificarArchivoPacientes(char nombreArch[], PACIENTE x)
     int flag = 0;
     if(buffer)
     {
-        while(fread(&aux, sizeof(PACIENTE), 1, buffer) > 0 && flag == 0)
+        while(fread(&aux, sizeof(PACIENTE), 1, buffer) == 1 && flag == 0)
         {
             if(strcmp(aux.dni, x.dni) == 0)
             {

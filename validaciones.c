@@ -23,6 +23,8 @@ bool validarDNI(const char *dni)
 bool validarPalabras(const char *Palabras)
 {
     int len = strlen(Palabras);
+    if(len > 19)
+        return false;
     for (int i = 0; i < len; i++)
         if (!((Palabras[i] >= 'A' && Palabras[i] <= 'Z') || (Palabras[i] >= 'a' && Palabras[i] <= 'z') || Palabras[i] == ' '))
             return false;
@@ -151,16 +153,23 @@ bool validarEdad(int edad)
     return true;
 }
 
-char * leerDNI()
-{
+char* leerDNI() {
     char dni[9];
+    char* dniValido = NULL;
+
     fflush(stdin);
     gets(dni);
-    while(!validarDNI(dni))
-    {
-        printf("\nDNI NO VALIDO \nIngrese nuevamente:  ");
+
+    while (!validarDNI(dni)) {
+        printf("\nDNI NO VALIDO\nIngrese nuevamente: ");
         fflush(stdin);
         gets(dni);
     }
-    return dni;
+
+    dniValido = (char*)malloc(9 * sizeof(char)); // Asigna memoria dinámica para el DNI
+    if (dniValido != NULL)
+        strcpy(dniValido, dni); // Copia el DNI válido a la memoria dinámica
+
+    return dniValido;
 }
+
