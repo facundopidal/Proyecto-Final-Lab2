@@ -57,7 +57,7 @@ nodoPaciente* AltaPaciente(nodoPaciente* arbol)
         cargarArchivoPacientes(archivoPacientes,x);
     }
 
-   return arbol;
+    return arbol;
 }
 
 
@@ -72,7 +72,7 @@ PACIENTE cargarPaciente(char dni[])
     fflush(stdin);
     while(scanf("%i", &x.edad) != 1 || !validarEdad(x.edad))
     {
-        printf("\nError al ingresar edad - Ingrese nuevamente edad del paciente: ");
+        printf("\nEdad no valida - Ingrese nuevamente edad del paciente: ");
         fflush(stdin);
     }
     ///APELLIDO
@@ -219,16 +219,9 @@ nodoPaciente * agregarPacienteArbol(nodoPaciente * arbol, PACIENTE x)
 
 nodoPaciente * bajaPaciente(nodoPaciente * arbol)
 {
-    char dni[9];
     printf("Ingrese DNI del Paciente a dar de baja:  ");
-    fflush(stdin);
-    gets(dni);
-    while(!validarDNI(dni))
-    {
-        printf("\nDNI NO VALIDO \nIngrese nuevamente:  ");
-        fflush(stdin);
-        gets(dni);
-    }
+    char * dni = leerDNI(dni);
+
     nodoPaciente * nodo = buscarPaciente(arbol, dni);
     if(nodo)
     {
@@ -246,7 +239,7 @@ nodoPaciente * bajaPaciente(nodoPaciente * arbol)
     else
         printf("\nERROR-- El paciente no existe o ya fue dado de baja\n");
 
-     return arbol;
+    return arbol;
 }
 
 nodoPaciente * eliminarNodoPaciente(nodoPaciente * arbol, nodoPaciente * nodo)
@@ -273,7 +266,7 @@ nodoPaciente * eliminarNodoPaciente(nodoPaciente * arbol, nodoPaciente * nodo)
 
         /// Caso 2: Nodo con dos hijos
         /// Encontrar el sucesor inmediato (nodo más a la izquierda en el subárbol derecho)
-        nodoPaciente* temp = encontrarMenorArbolPaciente(nodo->der);///funcion complementaria...
+        nodoPaciente* temp = encontrarMenorArbolPaciente(nodo->der);///funcion no codeada
 
         /// Copiar el valor del sucesor inmediato al nodo actual
         nodo->paciente = temp->paciente;
@@ -284,3 +277,115 @@ nodoPaciente * eliminarNodoPaciente(nodoPaciente * arbol, nodoPaciente * nodo)
 
     return arbol;
 }
+
+nodoPaciente * modificarPaciente(nodoPaciente * arbol)
+{
+    printf("Ingrese DNI del Paciente:  ");
+    char * dni = leerDNI(dni);
+    nodoPaciente * pacienteAModificar = buscarPaciente(arbol, dni);
+    if(pacienteAModificar)
+    {
+        int opcion;
+        do
+        {
+            printf("MODIFICAR Paciente\n");
+            mostrarPaciente(pacienteAModificar->paciente);
+            printf("Ingrese:\n(1) Nombre y Apellido\n(2) Edad\n(3) Telefono\n(4) Direccion\n(00) Salir\n");
+            scanf("%i", &opcion);
+            fflush(stdin);
+            switch(opcion)
+            {
+            case 1:
+                printf("\nIngrese nuevo Apellido: ");
+                fflush(stdin);
+                gets(pacienteAModificar->paciente.apellido);
+                while(!validarPalabras(pacienteAModificar->paciente.apellido))
+                {
+                    printf("\nApellido NO VALIDO\n Ingrese nuevamente:  ");
+                    fflush(stdin);
+                    gets(pacienteAModificar->paciente.apellido);
+                }
+
+                printf("\nIngrese nuevo Nombre: ");
+                fflush(stdin);
+                gets(pacienteAModificar->paciente.nombre);
+                while(!validarPalabras(pacienteAModificar->paciente.nombre))
+                {
+                    printf("\nNOMBRE NO VALIDO\n Ingrese nuevamente:  ");
+                    fflush(stdin);
+                    gets(pacienteAModificar->paciente.nombre);
+                }
+                system("cls");
+                printf("El nuevo nombre y apellido es: %s %s",pacienteAModificar->paciente.nombre, pacienteAModificar->paciente.apellido);
+                break;
+            case 2:
+                printf("Ingrese la nueva edad: \n");
+                fflush(stdin);
+                while(scanf("%i", &pacienteAModificar->paciente.edad) != 1 || !validarEdad(pacienteAModificar->paciente.edad))
+                {
+                    printf("\nEdad no valida - Ingrese nuevamente edad del paciente: ");
+                    fflush(stdin);
+                }
+                system("cls");
+                printf("Se edito la edad a:%i\n", pacienteAModificar->paciente.edad);
+                break;
+            case 3:
+                printf("\n Ingrese el nuevo Telefono");
+                fflush(stdin);
+                gets(pacienteAModificar->paciente.telefono);
+                while(!validarTelefono(pacienteAModificar->paciente.telefono))
+                {
+                    printf("\nTelefono NO VALIDO\n Ingrese nuevamente:  ");
+                    fflush(stdin);
+                    gets(pacienteAModificar->paciente.telefono);
+                }
+                system("cls");
+                printf("Se edito el telefono a:%s\n", pacienteAModificar->paciente.telefono);
+                break;
+            case 4:
+                printf("\nIngrese nueva Direccion: ");
+                fflush(stdin);
+                gets(pacienteAModificar->paciente.direccion);
+                system("cls");
+                printf("Se edito la direccion a:%s\n", pacienteAModificar->paciente.direccion);
+                break;
+            case 00:
+                modificarArchivoPacientes(archivoPacientes, pacienteAModificar->paciente);
+                printf("Saliendo...\n");
+                system("pause");
+                break;
+            default:
+                printf("No ingreso un numero valido\n");
+            }
+        }
+        while(opcion != 00);
+    }
+    else
+        printf("ERROR--El paciente que quiere modificar, no se encuentra en al lista de pacientes dados de alta");
+
+    return arbol;
+}
+
+void modificarArchivoPacientes(char nombreArch[], PACIENTE x)
+{
+    FILE * buffer = fopen(nombreArch, "r+b");
+    PACIENTE aux;
+    int flag = 0;
+    if(buffer)
+    {
+        while(fread(&aux, sizeof(PACIENTE), 1, buffer) > 0 && flag == 0)
+        {
+            if(strcmp(aux.dni, x.dni) == 0)
+            {
+                fseek(buffer, -1 * sizeof(PACIENTE), SEEK_CUR);
+                fwrite(&x, sizeof(PACIENTE), 1, buffer);
+                flag = 1;
+            }
+        }
+        fclose(buffer);
+    }
+}
+
+
+
+

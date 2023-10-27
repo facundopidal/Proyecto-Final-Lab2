@@ -150,3 +150,16 @@ bool validarEdad(int edad)
         return false;
     return true;
 }
+
+char * leerDNI(char dni[])
+{
+    fflush(stdin);
+    gets(dni);
+    while(!validarDNI(dni))
+    {
+        printf("\nDNI NO VALIDO \nIngrese nuevamente:  ");
+        fflush(stdin);
+        gets(dni);
+    }
+    return dni;
+}
