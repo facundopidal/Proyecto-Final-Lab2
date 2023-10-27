@@ -9,5 +9,7 @@ bool validarFechaPosterior(const char *fechaP, const char *fechaA);
 void obtenerFechaActual(int *dia, int *mes, int *anio);
 bool validarExistenciaPractica(int id, char nombreArchivo[]);
 bool validarEdad(int edad);
+char * leerDNI();
+
 
 #endif // VALIDACIONES_H_INCLUDED

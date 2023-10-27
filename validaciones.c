@@ -151,8 +151,9 @@ bool validarEdad(int edad)
     return true;
 }
 
-char * leerDNI(char dni[])
+char * leerDNI()
 {
+    char dni[9];
     fflush(stdin);
     gets(dni);
     while(!validarDNI(dni))

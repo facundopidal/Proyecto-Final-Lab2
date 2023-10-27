@@ -4,6 +4,8 @@
 #include <string.h>
 #include "validaciones.h"
 #include "pacientes.h"
+#include "ingresos.h"
+#include "practicas.h"
 
 nodoPaciente* crearNodoPaciente(PACIENTE x)
 {
@@ -21,7 +23,7 @@ nodoPaciente* crearNodoPaciente(PACIENTE x)
 }
 
 
-nodoPaciente* AltaPaciente(nodoPaciente* arbol)
+nodoPaciente* altaPaciente(nodoPaciente* arbol)
 {
     PACIENTE x;
     printf("Ingrese DNI del Paciente:  ");
@@ -38,7 +40,7 @@ nodoPaciente* AltaPaciente(nodoPaciente* arbol)
     {
         if(aux.eliminado==0)
         {
-            printf("El Paciente que ingreso ya existe en la base de datos, puede modificarlo desde el menu principal\n");
+            printf("El Paciente que quiere agregar ya existe en la base de datos, puede modificarlo desde el menu principal\n");
             mostrarPaciente(aux);
         }
         else
@@ -55,6 +57,8 @@ nodoPaciente* AltaPaciente(nodoPaciente* arbol)
         x=cargarPaciente(x.dni);
         arbol = agregarPacienteArbol(arbol,x);
         cargarArchivoPacientes(archivoPacientes,x);
+        printf("Paciente cargado con exito\n");
+        mostrarPaciente(x);
     }
 
     return arbol;
@@ -68,25 +72,18 @@ PACIENTE cargarPaciente(char dni[])
     PACIENTE x;
     strcpy(x.dni, dni);
     x.eliminado = 0;
-    printf("\nIngrese edad del paciente: ");
-    fflush(stdin);
-    while(scanf("%i", &x.edad) != 1 || !validarEdad(x.edad))
-    {
-        printf("\nEdad no valida - Ingrese nuevamente edad del paciente: ");
-        fflush(stdin);
-    }
     ///APELLIDO
     printf("\nIngrese Apellido: ");
     fflush(stdin);
     gets(x.apellido);
     while(!validarPalabras(x.apellido))
     {
-        printf("\nApellido NO VALIDO\n Ingrese nuevamente:  ");
+        printf("Apellido NO VALIDO\n Ingrese nuevamente:  ");
         fflush(stdin);
         gets(x.apellido);
     }
     ///NOMBRE
-    printf("\nIngrese Nombre: ");
+    printf("Ingrese Nombre: ");
     fflush(stdin);
     gets(x.nombre);
     while(!validarPalabras(x.nombre))
@@ -96,11 +93,11 @@ PACIENTE cargarPaciente(char dni[])
         gets(x.nombre);
     }
     ///DIRECCION
-    printf("\nIngrese Direccion: ");
+    printf("Ingrese Direccion: ");
     fflush(stdin);
     gets(x.direccion);
     ///TELEFONO
-    printf("\n Ingrese Telefono");
+    printf("Ingrese Telefono: ");
     fflush(stdin);
     gets(x.telefono);
     while(!validarTelefono(x.telefono))
@@ -109,11 +106,18 @@ PACIENTE cargarPaciente(char dni[])
         fflush(stdin);
         gets(x.telefono);
     }
+    printf("\nIngrese edad del paciente: ");
+    fflush(stdin);
+    while(scanf("%i", &x.edad) != 1 || !validarEdad(x.edad))
+    {
+        printf("\nEdad no valida - Ingrese nuevamente edad del paciente: ");
+        fflush(stdin);
+    }
 
     return x;
 }
 
-nodoPaciente * buscarPaciente(nodoPaciente * arbol, char dni[9])
+nodoPaciente * buscarPaciente(nodoPaciente * arbol, char dni[])
 {
     if(arbol)
     {
@@ -134,16 +138,18 @@ void mostrarPaciente(PACIENTE x)
     printf("\nApellido y Nombre: %s %s",x.apellido,x.nombre);
     printf("\nDireccion: %s",x.direccion);
     printf("\nTelefono: %s",x.telefono);
-    printf("Edad: %i",x.edad);
+    printf("\nEdad: %i\n",x.edad);
 }
 
-void mostrarPacientesTodos(nodoPaciente* arbol)
+void mostrarPacientesTodos(char nombreArchivo[])
 {
-    if(arbol)
+    FILE *buffer= fopen(nombreArchivo,"rb");
+    PACIENTE aux;
+    if(buffer)
     {
-        mostrarPacientesTodos(arbol->izq);
-        mostrarPaciente(arbol->paciente);
-        mostrarPacientesTodos(arbol->der);
+        while(fread(&aux,sizeof(PACIENTE),1,buffer)>0)
+            mostrarPaciente(aux);
+    fclose(buffer);
     }
 }
 
@@ -220,7 +226,7 @@ nodoPaciente * agregarPacienteArbol(nodoPaciente * arbol, PACIENTE x)
 nodoPaciente * bajaPaciente(nodoPaciente * arbol)
 {
     printf("Ingrese DNI del Paciente a dar de baja:  ");
-    char * dni = leerDNI(dni);
+    char * dni = leerDNI();
 
     nodoPaciente * nodo = buscarPaciente(arbol, dni);
     if(nodo)
@@ -266,7 +272,7 @@ nodoPaciente * eliminarNodoPaciente(nodoPaciente * arbol, nodoPaciente * nodo)
 
         /// Caso 2: Nodo con dos hijos
         /// Encontrar el sucesor inmediato (nodo más a la izquierda en el subárbol derecho)
-        nodoPaciente* temp = encontrarMenorArbolPaciente(nodo->der);///funcion no codeada
+        nodoPaciente* temp=encontrarMenorArbolPaciente(nodo->der);
 
         /// Copiar el valor del sucesor inmediato al nodo actual
         nodo->paciente = temp->paciente;
@@ -281,7 +287,7 @@ nodoPaciente * eliminarNodoPaciente(nodoPaciente * arbol, nodoPaciente * nodo)
 nodoPaciente * modificarPaciente(nodoPaciente * arbol)
 {
     printf("Ingrese DNI del Paciente:  ");
-    char * dni = leerDNI(dni);
+    char * dni = leerDNI();
     nodoPaciente * pacienteAModificar = buscarPaciente(arbol, dni);
     if(pacienteAModificar)
     {
@@ -361,7 +367,7 @@ nodoPaciente * modificarPaciente(nodoPaciente * arbol)
         while(opcion != 00);
     }
     else
-        printf("ERROR--El paciente que quiere modificar, no se encuentra en al lista de pacientes dados de alta");
+        printf("ERROR--El paciente que quiere modificar, no se encuentra en al lista de pacientes dados de alta\n");
 
     return arbol;
 }
@@ -384,6 +390,13 @@ void modificarArchivoPacientes(char nombreArch[], PACIENTE x)
         }
         fclose(buffer);
     }
+}
+
+nodoPaciente * encontrarMenorArbolPaciente(nodoPaciente * arbol)
+{
+    while(arbol->izq)
+        arbol = arbol->izq;
+    return arbol;
 }
 
 
