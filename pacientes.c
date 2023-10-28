@@ -176,12 +176,12 @@ void CambiarEliminadoPaciente(int valor, PACIENTE x, char nombreArch[])
     int flag = 0;
     if(buffer)
     {
-        while(fread(&aux, sizeof(PACIENTE), 1, buffer) == 0 && flag == 0)
+        while(flag == 0 && fread(&aux, sizeof(PACIENTE), 1, buffer) > 0)
         {
             if(strcmp(aux.dni, x.dni) == 0)
             {
                 x.eliminado = valor;
-                fseek(buffer, -sizeof(PACIENTE), SEEK_CUR);
+                fseek(buffer, (-1) * sizeof(PACIENTE),1);
                 fwrite(&x, sizeof(PACIENTE), 1, buffer);
                 flag = 1;
             }
@@ -232,6 +232,9 @@ nodoPaciente * bajaPaciente(nodoPaciente * arbol)
         {
             CambiarEliminadoPaciente(1,nodo->paciente,archivoPacientes);
             arbol = eliminarNodoPaciente(arbol, nodo);
+            printf("El paciente: ");
+            mostrarPaciente(nodo->paciente);
+            printf("\nFue dado de baja exitosamente\n");
         }
         else
         {
@@ -355,7 +358,7 @@ nodoPaciente * modificarPaciente(nodoPaciente * arbol)
             case 00:
                 modificarArchivoPacientes(archivoPacientes, pacienteAModificar->paciente);
                 printf("Saliendo...\n");
-                system("pause");
+                //system("pause");
                 break;
             default:
                 printf("No ingreso un numero valido\n");
@@ -376,11 +379,11 @@ void modificarArchivoPacientes(char nombreArch[], PACIENTE x)
     int flag = 0;
     if(buffer)
     {
-        while(fread(&aux, sizeof(PACIENTE), 1, buffer) == 1 && flag == 0)
+        while(flag == 0 &&fread(&aux, sizeof(PACIENTE), 1, buffer) == 1)
         {
             if(strcmp(aux.dni, x.dni) == 0)
             {
-                fseek(buffer, -1 * sizeof(PACIENTE), SEEK_CUR);
+                fseek(buffer, (-1) * sizeof(PACIENTE), 1);
                 fwrite(&x, sizeof(PACIENTE), 1, buffer);
                 flag = 1;
             }
