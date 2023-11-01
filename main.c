@@ -21,6 +21,7 @@ void menuAdmin()
 {
     int opt;
     int optPacientes;
+    int optPracticas;
     do{
         //system("cls");
         printf("Bienvenido al LABORATORIO \n   ---NOMBRE ACA---\n\n");
@@ -28,7 +29,7 @@ void menuAdmin()
         printf("1.PACIENTES\n");
         printf("2.INGRESOS\n");
         printf("3.\n");
-        printf("4.\n");
+        printf("4.PRACTICAS\n");
         printf("5.\n");
         printf("6.\n");
         printf("\n00,para salir\n");
@@ -60,11 +61,11 @@ void menuAdmin()
                 switch(optPacientes)
                 {
                 case 1:
-                    arbolPacientes=altaPaciente(arbolPacientes);
+                    arbolPacientes = altaPaciente(arbolPacientes);
                     system("pause");
                     break;
                 case 2:
-                    arbolPacientes=modificarPaciente(arbolPacientes);
+                    arbolPacientes = modificarPaciente(arbolPacientes);
                     system("pause");
                     break;
                 case 3:
@@ -93,6 +94,52 @@ void menuAdmin()
             }
             while(optPacientes !=0);
             break;
+        case 4:
+            do
+            {
+                system("cls");
+                printf("PRACTICAS\n");
+                mostrarPracticasArch(archivoPracticas);
+                printf("    1.Cargar Practica\n");
+                printf("    2.Modificar Practica\n");
+                printf("    3.Dar de baja Practica\n");
+                printf("    4.Dar de alta Practica\n");
+                printf("    00.Menu Principal\n");
+                printf("--> ");
+
+                fflush(stdin);
+                scanf("%i",&optPracticas);
+                system("cls");
+
+                switch(optPracticas)
+                {
+                case 1:
+                    altaPractica(archivoPracticas);
+                    system("pause");
+                    break;
+                case 2:
+                    modificarPractica(archivoPracticas);
+                    system("pause");
+                    break;
+                case 3:
+
+                    system("pause");
+                    break;
+                case 4:
+
+                    system("pause");
+                    break;
+                case 00:
+                    break;
+                default:
+                    printf("Ingrese una opcion Correcta\n");
+                    system("pause");
+                    break;
+                }
+            }
+            while(optPracticas !=0);
+            break;
+
         case 00:
             printf("Gracias por usar!\n");
             break;

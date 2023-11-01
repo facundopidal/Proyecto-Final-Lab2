@@ -4,12 +4,12 @@
 #define archivoPacientes "pacientes.bin"
 
 typedef struct{
-    char dni[9];
-    char apellido[20];
-    char nombre[20];
+    char dni[DIM_DNI];
+    char apellido[DIM_APELLIDO];
+    char nombre[DIM_NOMBRE];
     int edad;
-    char direccion[30];
-    char telefono[15];
+    char direccion[DIM_DIRECCION];
+    char telefono[DIM_TELEFONO];
     int eliminado;
 }PACIENTE;
 
@@ -21,21 +21,28 @@ typedef struct nodoPaciente{
 }nodoPaciente;
 
 
+///PRINCIPALES
+nodoPaciente* altaPaciente(nodoPaciente* arbol);
+nodoPaciente * modificarPaciente(nodoPaciente * arbol);
+nodoPaciente * bajaPaciente(nodoPaciente * arbol);
 
-nodoPaciente* crearNodoPaciente(PACIENTE x);
-PACIENTE cargarPaciente(char dni[]);
-nodoPaciente * buscarPaciente(nodoPaciente * arbol, char dni[]);
+///MOSTRAR
 void mostrarPaciente(PACIENTE x);
 void mostrarPacientesTodos(char nombreArchivo[]);
 void mostrarPacientesActivos(nodoPaciente* arbol);
+
+///ARCHIVO
 void cargarArchivoPacientes(char nombreArch[],PACIENTE x);
-nodoPaciente* altaPaciente(nodoPaciente* arbol);
 void CambiarEliminadoPaciente(int valor, PACIENTE x, char nombreArch[]);
-PACIENTE buscarPacienteArchivo(char nombreArch[], char dni[]);
-nodoPaciente * agregarPacienteArbol(nodoPaciente * arbol, PACIENTE x);
-nodoPaciente * bajaPaciente(nodoPaciente * arbol);
-nodoPaciente * eliminarNodoPaciente(nodoPaciente * arbol, nodoPaciente * nodo);
 void modificarArchivoPacientes(char nombreArch[], PACIENTE x);
+PACIENTE buscarPacienteArchivo(char nombreArch[], char dni[]);
+
+///AUXILIARES
+nodoPaciente* crearNodoPaciente(PACIENTE x);
+PACIENTE cargarPaciente(char dni[]);
+nodoPaciente * buscarPaciente(nodoPaciente * arbol, char dni[]);
+nodoPaciente * agregarPacienteArbol(nodoPaciente * arbol, PACIENTE x);
+nodoPaciente * eliminarNodoPaciente(nodoPaciente * arbol, nodoPaciente * nodo);
 nodoPaciente * encontrarMenorArbolPaciente(nodoPaciente * arbol);
 
 #endif

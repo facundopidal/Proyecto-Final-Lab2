@@ -115,13 +115,13 @@ PRACTICAxINGRESO cargarPxI(int idIngreso)
 {
     PRACTICAxINGRESO pxi;
     pxi.idIngreso = idIngreso; //cargamos id de ingreso
-    mostrarPracticasActivasArch(archivoPracticas);
+    mostrarPracticasArch(archivoPracticas);
     printf("Ingrese el id de practica que desea: ");
     fflush(stdin);
     scanf("%i", &pxi.nroPractica);
-    while(!validarExistenciaPractica(pxi.nroPractica, archivoPracticas)) //buscamos la practica en el archivo
+    while(!validarExistenciaPracticaActiva(pxi.nroPractica, archivoPracticas)) //buscamos la practica en el archivo
     {
-        mostrarPracticasActivasArch(archivoPracticas);
+        mostrarPracticasArch(archivoPracticas);
         printf("ID NO VALIDO\n Por favor ingrese uno de los mostrados en pantalla: ");
         fflush(stdin);
         scanf("%i", &pxi.nroPractica);
