@@ -10,15 +10,24 @@ typedef struct{
 }PRACTICA;
 
 ///PRINCIPALES
-void altaPractica(char nombreArchivo[]);
+void crearPractica(char nombreArchivo[]);
 void modificarPractica(char nombreArchivo[]);
+void bajaPractica(char nombreArchivo[]);
+void altaPractica(char nombreArchivo[]);
 
-PRACTICA cargarPractica();
-void cargarArchivoPracticas(char nombreArch[],PRACTICA x);
+///MOSTRAR
 void mostrarPractica(PRACTICA x);
 void mostrarPracticasArch(char nombreArchivo[]);
+
+///AUXILIARES
+PRACTICA cargarPractica();
+int obtenerUltimoNro(char nombreArchivo[]);
+int obtenerIdPractica(char nombrePractica[DIM_NPRACTICA], char nombreArchivo[]);
+
+///ARCHIVO
+void cargarArchivoPracticas(char nombreArch[],PRACTICA x);
 PRACTICA buscarPracticaArchivo(char nombreArchivo[],int id);
 void modificarArchivoPracticas(PRACTICA nuevo,char nombreArchivo[]);
-int obtenerUltimoNro(char nombreArchivo[]);
+void cambiarEliminadoPractica(int valor, PRACTICA x, char nombreArchivo[]);
 
 #endif // PRACTICAS_H_INCLUDED

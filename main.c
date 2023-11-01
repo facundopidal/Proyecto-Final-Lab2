@@ -114,7 +114,7 @@ void menuAdmin()
                 switch(optPracticas)
                 {
                 case 1:
-                    altaPractica(archivoPracticas);
+                    crearPractica(archivoPracticas);
                     system("pause");
                     break;
                 case 2:
@@ -122,11 +122,11 @@ void menuAdmin()
                     system("pause");
                     break;
                 case 3:
-
+                    bajaPractica(archivoPracticas);
                     system("pause");
                     break;
                 case 4:
-
+                    altaPractica(archivoPracticas);
                     system("pause");
                     break;
                 case 00:

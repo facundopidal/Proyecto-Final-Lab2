@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1698338466 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\ingresos.c
+1698842013 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\ingresos.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -9,14 +9,14 @@
 	"ingresos.h"
 	"practicas.h"
 
-1698436163 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\validaciones.h
+1698845325 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\validaciones.h
 
-1698436163 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\pacientes.h
+1698846976 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\pacientes.h
 
 1698244392 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\ingresos.h
 	"pacientes.h"
 
-1698443444 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\pacientes.c
+1698847337 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\pacientes.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -26,7 +26,7 @@
 	"ingresos.h"
 	"practicas.h"
 
-1698437667 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\main.c
+1698849366 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -35,17 +35,17 @@
 	"ingresos.h"
 	"practicas.h"
 
-1698244071 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\practicas.h
+1698849366 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\practicas.h
 
-1698437390 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\validaciones.c
+1698849633 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\validaciones.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	<string.h>
-	"validaciones.h"
-	"ingresos.h"
-	"practicas.h"
 	<time.h>
+	"validaciones.h"
+	"ingresos.h"
+	"practicas.h"
 
 1698813563 source:c:\users\julian\desktop\proyecto\ingresos.c
 	<stdio.h>
@@ -105,7 +105,7 @@
 	"ingresos.h"
 	"practicas.h"
 
-1698243780 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\practicas.c
+1698849705 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\practicas.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>

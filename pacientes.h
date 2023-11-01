@@ -33,7 +33,7 @@ void mostrarPacientesActivos(nodoPaciente* arbol);
 
 ///ARCHIVO
 void cargarArchivoPacientes(char nombreArch[],PACIENTE x);
-void CambiarEliminadoPaciente(int valor, PACIENTE x, char nombreArch[]);
+void cambiarEliminadoPaciente(int valor, PACIENTE x, char nombreArch[]);
 void modificarArchivoPacientes(char nombreArch[], PACIENTE x);
 PACIENTE buscarPacienteArchivo(char nombreArch[], char dni[]);
 

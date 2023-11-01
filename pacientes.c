@@ -34,7 +34,7 @@ nodoPaciente* altaPaciente(nodoPaciente* arbol)
             printf("¡El Paciente se encontraba dado de baja, Ahora se encuentra dado de alta!\n");
             mostrarPaciente(aux);
             aux.eliminado=0;
-            CambiarEliminadoPaciente(0,aux,archivoPacientes);
+            cambiarEliminadoPaciente(0,aux,archivoPacientes);
             arbol = agregarPacienteArbol(arbol,aux);
         }
     }
@@ -150,7 +150,7 @@ nodoPaciente * bajaPaciente(nodoPaciente * arbol)
     {
         if(nodo->listaIngresos == NULL)
         {
-            CambiarEliminadoPaciente(1,nodo->paciente,archivoPacientes);
+            cambiarEliminadoPaciente(1,nodo->paciente,archivoPacientes);
             arbol = eliminarNodoPaciente(arbol, nodo);
             printf("El paciente: ");
             mostrarPaciente(nodo->paciente);
@@ -216,7 +216,7 @@ void cargarArchivoPacientes(char nombreArch[],PACIENTE x)
     }
 }
 
-void CambiarEliminadoPaciente(int valor, PACIENTE x, char nombreArch[])
+void cambiarEliminadoPaciente(int valor, PACIENTE x, char nombreArch[])
 {
     FILE * buffer = fopen(nombreArch, "r+b");
     PACIENTE aux;
@@ -328,6 +328,7 @@ PACIENTE cargarPaciente(char dni[])
         fflush(stdin);
         gets(x.telefono);
     }
+    ///EDAD
     printf("\nIngrese edad del paciente: ");
     fflush(stdin);
     while(scanf("%i", &x.edad) != 1 || !validarEdad(x.edad))

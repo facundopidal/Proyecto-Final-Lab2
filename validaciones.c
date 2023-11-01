@@ -250,20 +250,16 @@ bool validarEdad(int edad)
     return true;
 }
 
-int leerEntero()
+
+int leerEnteroPositivo()
 {
     int entero;
-    char buffer[100];
-    while (1)
+    while(true)
     {
-        printf("Ingresa un número entero válido: ");
-        if (fgets(buffer, sizeof(buffer), stdin) != NULL)
-        {
-            if (sscanf(buffer, "%d", &entero) == 1)
-                return entero;
-            else
-                printf("Eso no es un numero valido. Intenta de nuevo.\n");
-        }
+        fflush(stdin);
+        if((scanf("%i", &entero) == 1) && (entero > 0))
+            return entero;
+        else
+            printf("Eso no es un numero valido. Intenta de nuevo.\n");
     }
 }
-
