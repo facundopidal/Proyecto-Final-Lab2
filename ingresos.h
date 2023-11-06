@@ -51,19 +51,19 @@ void mostrarIngresoYPracticas(nodoIngreso * x);
 void cambiarEliminadoIngreso(int valor, INGRESO x, char nombreArch[]);
 void cargarArchivoIngresos(char nombreArch[],INGRESO x);
 void cargarArchivoPxI(char nombreArch[],nodoPxI * lista);
+int obternerIdIngresoArchivo(char nombreArchivo[]);
 
 ///-------------------------------------    AUXILIARES    --------------------------------------------------------------------------------------------------------------------------------
 
 INGRESO cargarIngreso(int id, char dni[]);
 nodoIngreso * crearNodoIngreso(INGRESO ing);
 nodoIngreso * agregarPpioIngreso(nodoIngreso * lista, nodoIngreso * nodo);
-nodoIngreso * altaListaIngreso(nodoIngreso * lista, char dni[]);
+nodoIngreso * altaListaIngreso(nodoIngreso * lista, char dni[],char nombreArchivo[]);
 nodoIngreso * buscarIngreso(nodoIngreso * lista, int id);
 nodoIngreso * eliminarNodoIngreso(nodoIngreso * lista, nodoIngreso * nodo);
-nodoIngreso * crearListaIngresos(nodoPaciente * arbol, char archIngresos[], char archPxI[]);
 PRACTICAxINGRESO cargarPxI(int idIngreso);
 nodoPxI * altaListaPxI(nodoPxI * lista, int idIngreso);
 nodoPxI * crearNodoPxI(PRACTICAxINGRESO pxi);
 nodoPxI * agregarPpioPxI(nodoPxI * lista, nodoPxI * nodo);
-nodoPxI * crearListaPxI(nodoIngreso * ing, char archPxI[]);
+
 #endif // INGRESOS_H_INCLUDED

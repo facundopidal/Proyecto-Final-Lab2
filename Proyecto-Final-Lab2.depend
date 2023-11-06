@@ -47,7 +47,7 @@
 	"ingresos.h"
 	"practicas.h"
 
-1699284111 source:c:\users\julian\desktop\proyecto\ingresos.c
+1699294963 source:c:\users\julian\desktop\proyecto\ingresos.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -59,12 +59,13 @@
 
 1699281024 c:\users\julian\desktop\proyecto\validaciones.h
 
-1699281024 c:\users\julian\desktop\proyecto\pacientes.h
+1699295102 c:\users\julian\desktop\proyecto\pacientes.h
+	"ingresos.h"
 
-1699283855 c:\users\julian\desktop\proyecto\ingresos.h
+1699295050 c:\users\julian\desktop\proyecto\ingresos.h
 	"pacientes.h"
 
-1699283886 source:c:\users\julian\desktop\proyecto\main.c
+1699294110 source:c:\users\julian\desktop\proyecto\main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -85,7 +86,7 @@
 	"ingresos.h"
 	"practicas.h"
 
-1699281024 source:c:\users\julian\desktop\proyecto\pacientes.c
+1699294963 source:c:\users\julian\desktop\proyecto\pacientes.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>

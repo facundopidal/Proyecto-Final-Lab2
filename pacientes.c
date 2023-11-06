@@ -7,8 +7,9 @@
 #include "ingresos.h"
 #include "practicas.h"
 
-///-------------------------------------    PRINCIPALES   -----------------------------------------------------------------------------------------------------------------------------
+///-------------------------------------    CREAR ARBOL   -----------------------------------------------------------------------------------------------------------------------------
 
+///FUNCION PPAL
 nodoPaciente * crearArbolPacientes(nodoPaciente * arbol, char archPacientes[], char archIngresos[], char archPxi[])
 {
     int dim;
@@ -19,6 +20,97 @@ nodoPaciente * crearArbolPacientes(nodoPaciente * arbol, char archPacientes[], c
 
     return arbol;
 }
+
+
+///CARGA DE PACIENTES
+PACIENTE * leerArchivoPacientes(nodoPaciente * arbol, char nombreArch[], int * validos)
+{
+    FILE * buffer = fopen(nombreArch, "rb");
+    PACIENTE aux;
+    int i = 0;
+    PACIENTE * array = (PACIENTE *) malloc( 20 * sizeof(PACIENTE));
+    if(buffer)
+    {
+        while(fread(&aux, sizeof(PACIENTE), 1, buffer) == 1)
+            if(aux.eliminado == 0)///Agrega al arreglo solo los activos, luego van al arbol
+                array[i++] = aux;
+
+        fclose(buffer);
+    }
+    *validos = i;
+    return array;
+}
+
+///Carga en el arbol balanceadamente
+nodoPaciente * cargarArbolBalanceado(PACIENTE pacientes[], int inicio, int fin)
+{
+    if (inicio > fin)
+        return NULL;
+
+    int medio = (inicio + fin) / 2;
+    nodoPaciente * nuevoNodo = (nodoPaciente*)malloc(sizeof(nodoPaciente));
+    nuevoNodo->paciente = pacientes[medio];
+    nuevoNodo->izq = cargarArbolBalanceado(pacientes, inicio, medio - 1);
+    nuevoNodo->der = cargarArbolBalanceado(pacientes, medio + 1, fin);
+
+    return nuevoNodo;
+
+}
+
+///Crea lista de listas
+nodoPaciente * crearListaDeListas(nodoPaciente * arbol, char archIngresos[], char archPxI)
+{
+    if(arbol)
+    {
+        arbol->izq = crearListaDeListas(arbol->izq, archIngresos, archPxI);
+        arbol->listaIngresos = crearListaIngresos(arbol, archIngresos, archPxI);
+        arbol->der = crearListaDeListas(arbol->der, archIngresos, archPxI);
+    }
+    return arbol;
+}
+
+nodoIngreso * crearListaIngresos(nodoPaciente * paciente, char archIngresos[], char archPxI[])
+{
+    FILE * buffer = fopen(archIngresos, "rb");
+    INGRESO aux;
+    if(buffer)
+    {
+        while(fread(&aux, sizeof(INGRESO), 1, buffer) == 1)
+        {
+            if(aux.eliminado == 0)
+            {
+                nodoIngreso * nodo = crearNodoIngreso(aux);
+                nodo->listaPxI = crearListaPxI(nodo, archPxI);
+                paciente->listaIngresos = agregarPpioIngreso(paciente->listaIngresos, nodo);
+            }
+        }
+
+        fclose(buffer);
+    }
+    return paciente->listaIngresos;
+}
+
+///Creamos la lista pxi
+nodoPxI * crearListaPxI(nodoIngreso * ing, char archPxI[])
+{
+    FILE * buffer = fopen(archPxI, "rb");
+    PRACTICAxINGRESO aux;
+    if(buffer)
+    {
+        while(fread(&aux, sizeof(PRACTICAxINGRESO), 1, buffer) == 1)
+        {
+            if(aux.idIngreso == ing->ingreso.ID)
+                ing->listaPxI = agregarPpioPxI(ing->listaPxI, crearNodoPxI(aux));
+        }
+        fclose(buffer);
+    }
+    return ing->listaPxI;
+}
+
+
+
+///-------------------------------------    PRINCIPALES   -----------------------------------------------------------------------------------------------------------------------------
+
 
 nodoPaciente* altaPaciente(nodoPaciente* arbol)
 {
@@ -285,23 +377,7 @@ PACIENTE buscarPacienteArchivo(char nombreArch[], char dni[])
     return aux;
 }
 
-PACIENTE * leerArchivoPacientes(nodoPaciente * arbol, char nombreArch[], int * validos)
-{
-    FILE * buffer = fopen(nombreArch, "rb");
-    PACIENTE aux;
-    int i = 0;
-    PACIENTE * array = (PACIENTE *) malloc( 20 * sizeof(PACIENTE));
-    if(buffer)
-    {
-        while(fread(&aux, sizeof(PACIENTE), 1, buffer) == 1)
-            if(aux.eliminado == 0)///Agrega al arreglo solo los activos, luego van al arbol
-                array[i++] = aux;
 
-        fclose(buffer);
-    }
-    *validos = i;
-    return array;
-}
 
 
 
@@ -439,29 +515,4 @@ nodoPaciente * encontrarMenorArbolPaciente(nodoPaciente * arbol)
     return arbol;
 }
 
-nodoPaciente * cargarArbolBalanceado(PACIENTE pacientes[], int inicio, int fin)
-{
-    if (inicio > fin)
-        return NULL;
-
-    int medio = (inicio + fin) / 2;
-    nodoPaciente * nuevoNodo = (nodoPaciente*)malloc(sizeof(nodoPaciente));
-    nuevoNodo->paciente = pacientes[medio];
-    nuevoNodo->izq = cargarArbolBalanceado(pacientes, inicio, medio - 1);
-    nuevoNodo->der = cargarArbolBalanceado(pacientes, medio + 1, fin);
-
-    return nuevoNodo;
-
-}
-
-nodoPaciente * crearListaDeListas(nodoPaciente * arbol, char archIngresos[], char archPxI)
-{
-    if(arbol)
-    {
-        arbol->izq = crearListaDeListas(arbol->izq, archIngresos, archPxI);
-        arbol->listaIngresos = crearListaIngresos(arbol, archIngresos, archPxI);
-        arbol->der = crearListaDeListas(arbol->der, archIngresos, archPxI);
-    }
-    return arbol;
-}
 

@@ -27,7 +27,7 @@ nodoPaciente * altaIngreso(nodoPaciente * arbol, char nombreArchivoPxI[], char n
     }
     printf("Se encontro el paciente %s %s, cargue el ingreso\n", paciente->paciente.nombre, paciente->paciente.apellido); //Cargamos el ingreso
 
-    paciente->listaIngresos = altaListaIngreso(paciente->listaIngresos, dni); //carga el ingreso completo solo en la lista
+    paciente->listaIngresos = altaListaIngreso(paciente->listaIngresos, dni,nombreArchivoIngresos); //carga el ingreso completo solo en la lista
 
     paciente->listaIngresos->listaPxI = altaListaPxI(paciente->listaIngresos->listaPxI, paciente->listaIngresos->ingreso.ID); //carga pxi(puede ser mas de una) solo en la lista
 
@@ -254,15 +254,28 @@ nodoIngreso * agregarPpioIngreso(nodoIngreso * lista, nodoIngreso * nodo)
 }
 
 
-nodoIngreso * altaListaIngreso(nodoIngreso * lista, char dni[])
+nodoIngreso * altaListaIngreso(nodoIngreso * lista, char dni[],char nombreArchivo[])
 {
-    int idAnt = 0;
-    if(lista != NULL)
-        idAnt = lista->ingreso.ID;  //Se toma el ultimo id como el primero, ya que agregamos al principio
-    INGRESO aux = cargarIngreso(idAnt + 1, dni);
+    int nuevoId = obternerIdIngresoArchivo(nombreArchivo);
+    INGRESO aux = cargarIngreso(nuevoId, dni);
     lista = agregarPpioIngreso(lista, crearNodoIngreso(aux)); //añadimos ingreso a la lista
 
     return lista;
+}
+
+int obternerIdIngresoArchivo(char nombreArchivo[])
+{
+    FILE* buffer=fopen(nombreArchivo,"rb");
+    INGRESO aux;
+    int id = 1;
+    if(buffer)
+    {
+        fseek(buffer,(-1)*sizeof(INGRESO),SEEK_END);
+        if(fread(&aux,sizeof(INGRESO),1,buffer)==1)
+           id=aux.ID+1;
+        fclose(buffer);
+    }
+    return id;
 }
 
 nodoIngreso * buscarIngreso(nodoIngreso * lista, int id)
@@ -294,26 +307,7 @@ nodoIngreso * eliminarNodoIngreso(nodoIngreso * lista, nodoIngreso * nodo)
     return lista;
 }
 
-nodoIngreso * crearListaIngresos(nodoPaciente * paciente, char archIngresos[], char archPxI[])
-{
-    FILE * buffer = fopen(archIngresos, "rb");
-    INGRESO aux;
-    if(buffer)
-    {
-        while(fread(&aux, sizeof(INGRESO), 1, buffer) == 1)
-        {
-            if(aux.eliminado == 0)
-            {
-                nodoIngreso * nodo = crearNodoIngreso(aux);
-                nodo->listaPxI = crearListaPxI(nodo, archPxI);
-                paciente->listaIngresos = agregarPpioIngreso(paciente->listaIngresos, nodo);
-            }
-        }
 
-        fclose(buffer);
-    }
-    return paciente->listaIngresos;
-}
 
 PRACTICAxINGRESO cargarPxI(int idIngreso)
 {
@@ -362,18 +356,4 @@ nodoPxI * agregarPpioPxI(nodoPxI * lista, nodoPxI * nodo)
 }
 
 
-nodoPxI * crearListaPxI(nodoIngreso * ing, char archPxI[])
-{
-    FILE * buffer = fopen(archPxI, "rb");
-    PRACTICAxINGRESO aux;
-    if(buffer)
-    {
-        while(fread(&aux, sizeof(PRACTICAxINGRESO), 1, buffer) == 1)
-        {
-            if(aux.idIngreso == ing->ingreso.ID)
-                ing->listaPxI = agregarPpioPxI(ing->listaPxI, crearNodoPxI(aux));
-        }
-        fclose(buffer);
-    }
-    return ing->listaPxI;
-}
+

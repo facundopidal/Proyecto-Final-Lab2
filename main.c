@@ -10,8 +10,8 @@ nodoPaciente* arbolPacientes = NULL;
 void menuAdmin();
 int main()
 {
-//    arbolPacientes = crearArbolPacientes(arbolPacientes, archivoPacientes,archivoIngresos, archivoPxI);
-//    mostrarPacientesActivos(arbolPacientes);
+    arbolPacientes = crearArbolPacientes(arbolPacientes, archivoPacientes,archivoIngresos, archivoPxI);
+    ///mostrarPacientesActivos(arbolPacientes);
     menuAdmin();
 
     return 0;
