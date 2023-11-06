@@ -22,6 +22,7 @@ typedef struct nodoPaciente{
 
 
 ///PRINCIPALES
+nodoPaciente * crearArbolPacientes(nodoPaciente * arbol, char archPacientes[], char archIngresos[], char archPxi[]);
 nodoPaciente* altaPaciente(nodoPaciente* arbol);
 nodoPaciente * modificarPaciente(nodoPaciente * arbol);
 nodoPaciente * bajaPaciente(nodoPaciente * arbol);
@@ -36,6 +37,7 @@ void cargarArchivoPacientes(char nombreArch[],PACIENTE x);
 void cambiarEliminadoPaciente(int valor, PACIENTE x, char nombreArch[]);
 void modificarArchivoPacientes(char nombreArch[], PACIENTE x);
 PACIENTE buscarPacienteArchivo(char nombreArch[], char dni[]);
+PACIENTE * leerArchivoPacientes(nodoPaciente * arbol, char nombreArch[], int * validos);
 
 ///AUXILIARES
 nodoPaciente* crearNodoPaciente(PACIENTE x);
@@ -44,5 +46,7 @@ nodoPaciente * buscarPaciente(nodoPaciente * arbol, char dni[]);
 nodoPaciente * agregarPacienteArbol(nodoPaciente * arbol, PACIENTE x);
 nodoPaciente * eliminarNodoPaciente(nodoPaciente * arbol, nodoPaciente * nodo);
 nodoPaciente * encontrarMenorArbolPaciente(nodoPaciente * arbol);
+nodoPaciente * cargarArbolBalanceado(PACIENTE pacientes[], int inicio, int fin);
+nodoPaciente * crearListaDeListas(nodoPaciente * arbol, char archIngresos[], char archPxI);
 
 #endif

@@ -38,18 +38,6 @@ nodoPaciente * altaIngreso(nodoPaciente * arbol, char nombreArchivoPxI[], char n
     return arbol;
 }
 
-nodoIngreso * altaListaIngreso(nodoIngreso * lista, char dni[])
-{
-    int idAnt = 0;
-    if(lista != NULL)
-        idAnt = lista->ingreso.ID;  //Se toma el ultimo id como el primero, ya que agregamos al principio
-    INGRESO aux = cargarIngreso(idAnt + 1, dni);
-    lista = agregarPpioIngreso(lista, crearNodoIngreso(aux)); //añadimos ingreso a la lista
-
-    return lista;
-}
-
-
 
 nodoPaciente * bajaIngreso(nodoPaciente * arbol, char nombreArchivo[])
 {
@@ -265,6 +253,18 @@ nodoIngreso * agregarPpioIngreso(nodoIngreso * lista, nodoIngreso * nodo)
     }
 }
 
+
+nodoIngreso * altaListaIngreso(nodoIngreso * lista, char dni[])
+{
+    int idAnt = 0;
+    if(lista != NULL)
+        idAnt = lista->ingreso.ID;  //Se toma el ultimo id como el primero, ya que agregamos al principio
+    INGRESO aux = cargarIngreso(idAnt + 1, dni);
+    lista = agregarPpioIngreso(lista, crearNodoIngreso(aux)); //añadimos ingreso a la lista
+
+    return lista;
+}
+
 nodoIngreso * buscarIngreso(nodoIngreso * lista, int id)
 {
     while(lista)
@@ -292,6 +292,27 @@ nodoIngreso * eliminarNodoIngreso(nodoIngreso * lista, nodoIngreso * nodo)
         aux = aux->sig;
     }
     return lista;
+}
+
+nodoIngreso * crearListaIngresos(nodoPaciente * paciente, char archIngresos[], char archPxI[])
+{
+    FILE * buffer = fopen(archIngresos, "rb");
+    INGRESO aux;
+    if(buffer)
+    {
+        while(fread(&aux, sizeof(INGRESO), 1, buffer) == 1)
+        {
+            if(aux.eliminado == 0)
+            {
+                nodoIngreso * nodo = crearNodoIngreso(aux);
+                nodo->listaPxI = crearListaPxI(nodo, archPxI);
+                paciente->listaIngresos = agregarPpioIngreso(paciente->listaIngresos, nodo);
+            }
+        }
+
+        fclose(buffer);
+    }
+    return paciente->listaIngresos;
 }
 
 PRACTICAxINGRESO cargarPxI(int idIngreso)
@@ -341,3 +362,18 @@ nodoPxI * agregarPpioPxI(nodoPxI * lista, nodoPxI * nodo)
 }
 
 
+nodoPxI * crearListaPxI(nodoIngreso * ing, char archPxI[])
+{
+    FILE * buffer = fopen(archPxI, "rb");
+    PRACTICAxINGRESO aux;
+    if(buffer)
+    {
+        while(fread(&aux, sizeof(PRACTICAxINGRESO), 1, buffer) == 1)
+        {
+            if(aux.idIngreso == ing->ingreso.ID)
+                ing->listaPxI = agregarPpioPxI(ing->listaPxI, crearNodoPxI(aux));
+        }
+        fclose(buffer);
+    }
+    return ing->listaPxI;
+}

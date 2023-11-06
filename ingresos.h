@@ -60,10 +60,10 @@ nodoIngreso * agregarPpioIngreso(nodoIngreso * lista, nodoIngreso * nodo);
 nodoIngreso * altaListaIngreso(nodoIngreso * lista, char dni[]);
 nodoIngreso * buscarIngreso(nodoIngreso * lista, int id);
 nodoIngreso * eliminarNodoIngreso(nodoIngreso * lista, nodoIngreso * nodo);
+nodoIngreso * crearListaIngresos(nodoPaciente * arbol, char archIngresos[], char archPxI[]);
 PRACTICAxINGRESO cargarPxI(int idIngreso);
 nodoPxI * altaListaPxI(nodoPxI * lista, int idIngreso);
 nodoPxI * crearNodoPxI(PRACTICAxINGRESO pxi);
 nodoPxI * agregarPpioPxI(nodoPxI * lista, nodoPxI * nodo);
-
-
+nodoPxI * crearListaPxI(nodoIngreso * ing, char archPxI[]);
 #endif // INGRESOS_H_INCLUDED
