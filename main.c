@@ -105,6 +105,7 @@ void menuAdmin()
                 printf("    2.Modificar Ingreso\n");
                 printf("    3.Dar de baja Ingreso\n");
                 printf("    4.Mostrar ingresos en el arbol\n");
+                printf("    5.Mostrar ingreso y practicas\n");
                 printf("    00.Menu Principal\n");
                 printf("--> ");
 
@@ -130,7 +131,7 @@ void menuAdmin()
                     system("pause");
                     break;
                 case 5:
-
+                    mostrarPxIPaciente(arbolPacientes);
                     system("pause");
                     break;
                 case 00:

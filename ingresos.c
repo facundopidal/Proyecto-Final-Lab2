@@ -7,6 +7,46 @@
 #include "ingresos.h"
 #include "practicas.h"
 
+///-------------------------------------    CARGAR ARBOL   -----------------------------------------------------------------------------------------------------------------------------
+
+
+nodoIngreso * crearListaIngresos(nodoPaciente * paciente, char archIngresos[], char archPxI[])
+{
+    FILE * buffer = fopen(archIngresos, "rb");
+    INGRESO aux;
+    if(buffer)
+    {
+        while(fread(&aux, sizeof(INGRESO), 1, buffer) == 1)
+        {
+            if((aux.eliminado == 0) && (strcmp(aux.dni, paciente->paciente.dni) == 0))
+            {
+                nodoIngreso * nodo = crearNodoIngreso(aux);
+                nodo->listaPxI = crearListaPxI(nodo, archPxI);
+                paciente->listaIngresos = agregarPpioIngreso(paciente->listaIngresos, nodo);
+            }
+        }
+
+        fclose(buffer);
+    }
+    return paciente->listaIngresos;
+}
+
+///Creamos la lista pxi
+nodoPxI * crearListaPxI(nodoIngreso * ing, char archPxI[])
+{
+    FILE * buffer = fopen(archPxI, "rb");
+    PRACTICAxINGRESO aux;
+    if(buffer)
+    {
+        while(fread(&aux, sizeof(PRACTICAxINGRESO), 1, buffer) == 1)
+        {
+            if(aux.idIngreso == ing->ingreso.ID)
+                ing->listaPxI = agregarPpioPxI(ing->listaPxI, crearNodoPxI(aux));
+        }
+        fclose(buffer);
+    }
+    return ing->listaPxI;
+}
 
 ///-------------------------------------    PRINCIPALES   -----------------------------------------------------------------------------------------------------------------------------
 
@@ -21,7 +61,7 @@ nodoPaciente * altaIngreso(nodoPaciente * arbol, char nombreArchivoPxI[], char n
 
     if(!paciente) //Si el dni no es valido se vuelve al menu
     {
-        printf("No se encontro el paciente, debe darlo de alta en el menu principal");
+        printf("No se encontro el paciente, debe darlo de alta en el menu principal\n");
         printf("Seleccione la opcion de CARGAR PACIENTE ");
         return arbol;
     }
@@ -92,9 +132,13 @@ void mostrarIngresosArbol(nodoPaciente* arbol)
 void mostrarIngresosPorDNI(nodoPaciente* arbol)
 {
     char dni[DIM_DNI];
+    printf("Ingrese el dni del paciente: ");
     strcpy(dni,leerDNI());
-    nodoPaciente* paciente=buscarPaciente(arbol,dni);
-    mostrarIngresosPaciente(paciente);
+    nodoPaciente* paciente= buscarPaciente(arbol,dni);
+    if(paciente)
+        mostrarIngresosPaciente(paciente);
+    else
+        printf("ERROR-- No se encontro el paciente\n");
 }
 
 
@@ -113,6 +157,7 @@ void mostrarIngreso(INGRESO x)
 
 void mostrarIngresosPaciente(nodoPaciente * paciente)
 {
+
     while(paciente->listaIngresos)
     {
         mostrarIngreso(paciente->listaIngresos->ingreso);
@@ -138,6 +183,19 @@ void mostrarIngresoYPracticas(nodoIngreso * x)
     }
 }
 
+void mostrarPxIPaciente(nodoPaciente * arbol)
+{
+    char dni[DIM_DNI];
+    printf("Ingrese dni del paciente: ");
+    strcpy(dni, leerDNI());
+    nodoPaciente * aux = buscarPaciente(arbol, dni);
+    printf("Todos los ingresos del paciente %s %s: \n", aux->paciente.nombre, aux->paciente.apellido);
+    while(aux->listaIngresos)
+    {
+        mostrarIngresoYPracticas(aux->listaIngresos);
+        aux->listaIngresos = aux->listaIngresos->sig;
+    }
+}
 ///-------------------------------------    ARCHIVO    --------------------------------------------------------------------------------------------------------------------------------------
 
 

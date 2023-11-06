@@ -1,7 +1,7 @@
 #ifndef PACIENTES_H_INCLUDED
 #define PACIENTES_H_INCLUDED
 #define archivoPacientes "pacientes.bin"
-#include "ingresos.h"
+
 
 typedef struct{
     char dni[DIM_DNI];
@@ -22,12 +22,9 @@ typedef struct nodoPaciente{
 
 ///CargarArbol
 nodoPaciente * crearArbolPacientes(nodoPaciente * arbol, char archPacientes[], char archIngresos[], char archPxi[]);
-PACIENTE * leerArchivoPacientes(nodoPaciente * arbol, char nombreArch[], int * validos);
+nodoPaciente * leerArchivoPacientes(nodoPaciente * arbol, char nombreArch[]);
 nodoPaciente * cargarArbolBalanceado(PACIENTE pacientes[], int inicio, int fin);
-nodoPaciente * crearListaDeListas(nodoPaciente * arbol, char archIngresos[], char archPxI);
-nodoIngreso * crearListaIngresos(nodoPaciente * arbol, char archIngresos[], char archPxI[]);
-nodoPxI * crearListaPxI(nodoIngreso * ing, char archPxI[]);
-
+nodoPaciente * crearListaDeListas(nodoPaciente * arbol, char archIngresos[], char archPxI[]);
 
 ///PRINCIPALES
 nodoPaciente* altaPaciente(nodoPaciente* arbol);

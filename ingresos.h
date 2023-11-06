@@ -32,6 +32,11 @@ typedef struct nodoPxI{
     PRACTICAxINGRESO PxI;
 }nodoPxI;
 
+///-------------------------------------    CARGAR ARBOL   -----------------------------------------------------------------------------------------------------------------------------
+
+nodoIngreso * crearListaIngresos(nodoPaciente * arbol, char archIngresos[], char archPxI[]);
+nodoPxI * crearListaPxI(nodoIngreso * ing, char archPxI[]);
+
 ///-------------------------------------    PRINCIPALES   -----------------------------------------------------------------------------------------------------------------------------
 
 nodoPaciente * altaIngreso(nodoPaciente * arbol, char nombreArchivoPxI[], char nombreArchivoIngresos[]);
@@ -45,6 +50,7 @@ void mostrarIngreso(INGRESO x);
 void mostrarIngresosPaciente(nodoPaciente * paciente);
 void mostrarPxi(PRACTICAxINGRESO pxi);
 void mostrarIngresoYPracticas(nodoIngreso * x);
+void mostrarPxIPaciente(nodoPaciente * arbol);
 
 ///-------------------------------------    ARCHIVO    --------------------------------------------------------------------------------------------------------------------------------------
 
