@@ -38,6 +38,19 @@ nodoPaciente * altaIngreso(nodoPaciente * arbol, char nombreArchivoPxI[], char n
     return arbol;
 }
 
+nodoIngreso * altaListaIngreso(nodoIngreso * lista, char dni[])
+{
+    int idAnt = 0;
+    if(lista != NULL)
+        idAnt = lista->ingreso.ID;  //Se toma el ultimo id como el primero, ya que agregamos al principio
+    INGRESO aux = cargarIngreso(idAnt + 1, dni);
+    lista = agregarPpioIngreso(lista, crearNodoIngreso(aux)); //añadimos ingreso a la lista
+
+    return lista;
+}
+
+
+
 nodoPaciente * bajaIngreso(nodoPaciente * arbol, char nombreArchivo[])
 {
     char dni[DIM_DNI];
@@ -56,7 +69,11 @@ nodoPaciente * bajaIngreso(nodoPaciente * arbol, char nombreArchivo[])
     mostrarIngresosPaciente(paciente);
     int idBaja;
     printf("Ingrese el id de ingreso a dar de baja: ");
-    idBaja = leerEnteroPositivo();
+    scanf("%i",&idBaja);
+
+    printf("-----------------------------\n");
+    mostrarIngresoYPracticas(paciente->listaIngresos);
+    printf("-----------------------------\n");
 
     nodoIngreso * ingresoBaja = buscarIngreso(paciente->listaIngresos, idBaja);
     if(ingresoBaja)
@@ -65,7 +82,7 @@ nodoPaciente * bajaIngreso(nodoPaciente * arbol, char nombreArchivo[])
         cambiarEliminadoIngreso(1, ingresoBaja->ingreso, nombreArchivo);
     }
     else
-        printf("El id de ingreso no es válido, volviendo al menu \n");
+        printf("El id de ingreso no es valido, volviendo al menu \n");
 
     return arbol;
 }
@@ -74,9 +91,31 @@ nodoPaciente * bajaIngreso(nodoPaciente * arbol, char nombreArchivo[])
 
 ///-------------------------------------    MOSTRAR    ----------------------------------------------------------------------------------------------------------------------------------------
 
+void mostrarIngresosArbol(nodoPaciente* arbol)
+{
+    mostrarIngresosArbol(arbol->izq);
+
+    mostrarIngresosPaciente(arbol);
+
+    mostrarIngresosArbol(arbol->der);
+
+}
+
+void mostrarIngresosPorDNI(nodoPaciente* arbol)
+{
+    char dni[DIM_DNI];
+    strcpy(dni,leerDNI());
+    nodoPaciente* paciente=buscarPaciente(arbol,dni);
+    mostrarIngresosPaciente(paciente);
+}
+
+
 void mostrarIngreso(INGRESO x)
 {
     printf("-------------------------------------\n");
+    if(x.eliminado==1)
+    printf("ID de Ingreso: %i |DADO DE BAJA|\n",x.ID);
+    else
     printf("ID de Ingreso: %i\n",x.ID);
     printf("Fecha de Ingreso: %s\n",x.fechaIngreso);
     printf("Fecha de Retiro: %s\n",x.fechaRetiro);
@@ -203,21 +242,10 @@ INGRESO cargarIngreso(int id, char dni[])
 
     return x;
 }
-nodoIngreso * altaListaIngreso(nodoIngreso * lista, char dni[])
-{
-    int idAnt = 0;
-    if(lista != NULL)
-        idAnt = lista->ingreso.ID;  //Se toma el ultimo id como el primero, ya que agregamos al principio
-    INGRESO aux = cargarIngreso(idAnt + 1, dni);
-    lista = agregarPpioIngreso(lista, crearNodoIngreso(aux)); //añadimos ingreso a la lista
-
-    return lista;
-}
-
 
 nodoIngreso * crearNodoIngreso(INGRESO ing)
 {
-    nodoIngreso * nodo = (nodoIngreso *) malloc(sizeof(nodoIngreso));
+    nodoIngreso * nodo = (nodoIngreso*) malloc(sizeof(nodoIngreso));
     nodo->ant = NULL;
     nodo->sig = NULL;
     nodo->ingreso = ing;
@@ -241,7 +269,6 @@ nodoIngreso * buscarIngreso(nodoIngreso * lista, int id)
 {
     while(lista)
     {
-        printf("%s", lista->ingreso.dni);
         if(lista->ingreso.ID == id)
             return lista;
 

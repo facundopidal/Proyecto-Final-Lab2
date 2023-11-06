@@ -1,6 +1,9 @@
 #ifndef INGRESOS_H_INCLUDED
 #define INGRESOS_H_INCLUDED
 #include "pacientes.h"
+#define archivoIngresos "ingresos.bin" //constante de archivoIngresos
+#define archivoPxI "pxi.bin" //constante de archivoPxI
+
 typedef struct{
     int ID;
     char fechaIngreso[10];
@@ -29,9 +32,6 @@ typedef struct nodoPxI{
     PRACTICAxINGRESO PxI;
 }nodoPxI;
 
-#define archivoIngresos "ingresos.bin" //constante de archivoIngresos
-#define archivoPxI "pxi.bin" //constante de archivoPxI
-
 ///-------------------------------------    PRINCIPALES   -----------------------------------------------------------------------------------------------------------------------------
 
 nodoPaciente * altaIngreso(nodoPaciente * arbol, char nombreArchivoPxI[], char nombreArchivoIngresos[]);
@@ -39,6 +39,8 @@ nodoPaciente * bajaIngreso(nodoPaciente * arbol, char nombreArchivo[]);
 
 ///-------------------------------------    MOSTRAR    ----------------------------------------------------------------------------------------------------------------------------------------
 
+void mostrarIngresosPorDNI(nodoPaciente* arbol);
+void mostrarIngresosArbol(nodoPaciente* arbol);
 void mostrarIngreso(INGRESO x);
 void mostrarIngresosPaciente(nodoPaciente * paciente);
 void mostrarPxi(PRACTICAxINGRESO pxi);
