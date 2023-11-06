@@ -131,7 +131,7 @@ bool validarFecha(const char *fecha)
 
 bool validarFechaPosterior(const char *fechaP, const char *fechaA)
 {
-    if (!validarFecha(fechaP) || !validarFecha(fechaA))
+    if (!validarFecha(fechaP))
         return false;  // Al menos una de las fechas no es válida
 
     int dia1, mes1, anio1;
@@ -183,7 +183,7 @@ bool validarPalabras(const char *Palabras,int rango)
 bool validarTelefono(const char *cadena)
 {
     int longitud = strlen(cadena);
-    if (longitud < 8)
+    if (longitud < 8 || longitud > DIM_TELEFONO)
         return false;
     for (int i = 0; i < longitud; i++)
         if (cadena[i] < '0' || cadena[i] > '9')

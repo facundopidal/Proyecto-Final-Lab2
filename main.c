@@ -6,13 +6,12 @@
 #include "ingresos.h"
 #include "practicas.h"
 
-nodoPaciente* arbolPacientes;
+nodoPaciente* arbolPacientes = NULL;
 void menuAdmin();
 int main()
 {
 
     menuAdmin();
-
 
     return 0;
 }
@@ -21,8 +20,10 @@ void menuAdmin()
 {
     int opt;
     int optPacientes;
+    int optIngresos;
     int optPracticas;
-    do{
+    do
+    {
         //system("cls");
         printf("Bienvenido al LABORATORIO \n   ---NOMBRE ACA---\n\n");
         printf("Que desea realizar?\n\n");
@@ -38,8 +39,8 @@ void menuAdmin()
         fflush(stdin);
         scanf("%i",&opt);
         system("cls") ;
-    switch(opt)
-    {
+        switch(opt)
+        {
         case 1:
             do
             {
@@ -94,6 +95,47 @@ void menuAdmin()
             }
             while(optPacientes !=0);
             break;
+        case 2:
+            do
+            {
+                system("cls");
+                printf("INGRESOS\n");
+                printf("    1.Cargar Ingreso\n");
+                printf("    2.Modificar Ingreso\n");
+                printf("    3.Dar de baja Ingreso\n");
+                printf("    4.Dar de alta Ingreso\n");
+                printf("    00.Menu Principal\n");
+                printf("--> ");
+
+                fflush(stdin);
+                scanf("%i",&optIngresos);
+                system("cls");
+
+                switch(optIngresos)
+                {
+                case 1:
+                    arbolPacientes = altaIngreso(arbolPacientes, archivoPxI, archivoIngresos);
+                    system("pause");
+                    break;
+                case 2:
+                    system("pause");
+                    break;
+                case 3:
+                    arbolPacientes = bajaIngreso(arbolPacientes, archivoIngresos);
+                    system("pause");
+                    break;
+                case 4:
+                    system("pause");
+                    break;
+                case 00:
+                    break;
+                default:
+                    printf("Ingrese una opcion Correcta\n");
+                    system("pause");
+                    break;
+                }
+            }
+            while(optIngresos != 0);
         case 4:
             do
             {
@@ -147,7 +189,7 @@ void menuAdmin()
             printf("Ingrese una opcion Correcta\n");
             system("pause");
             break;
-    }
+        }
     }
     while(opt!=0);
 }

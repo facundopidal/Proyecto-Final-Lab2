@@ -72,7 +72,7 @@ void bajaPractica(char nombreArchivo[])
 {
     PRACTICA practicaAModificar;
     printf("Ingrese ID de practica que quiere dar de baja\n");
-    practicaAModificar.nro=leerEnteroPositivo();
+    practicaAModificar.nro = leerEnteroPositivo();
     practicaAModificar = buscarPracticaArchivo(archivoPracticas,practicaAModificar.nro);
     if(practicaAModificar.nro == -1)
         printf("La practica no se encuentra en el sistema\n");

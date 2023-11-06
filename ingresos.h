@@ -5,7 +5,7 @@ typedef struct{
     int ID;
     char fechaIngreso[10];
     char fechaRetiro[10];
-    char dni[9];
+    char dni[DIM_DNI];
     int matricula;
     int eliminado;
 }INGRESO;
@@ -32,23 +32,36 @@ typedef struct nodoPxI{
 #define archivoIngresos "ingresos.bin" //constante de archivoIngresos
 #define archivoPxI "pxi.bin" //constante de archivoPxI
 
-///Funciones Ingreso
+///-------------------------------------    PRINCIPALES   -----------------------------------------------------------------------------------------------------------------------------
+
+nodoPaciente * altaIngreso(nodoPaciente * arbol, char nombreArchivoPxI[], char nombreArchivoIngresos[]);
+nodoPaciente * bajaIngreso(nodoPaciente * arbol, char nombreArchivo[]);
+
+///-------------------------------------    MOSTRAR    ----------------------------------------------------------------------------------------------------------------------------------------
+
+void mostrarIngreso(INGRESO x);
+void mostrarIngresosPaciente(nodoPaciente * paciente);
+void mostrarPxi(PRACTICAxINGRESO pxi);
+void mostrarIngresoYPracticas(nodoIngreso * x);
+
+///-------------------------------------    ARCHIVO    --------------------------------------------------------------------------------------------------------------------------------------
+
+void cambiarEliminadoIngreso(int valor, INGRESO x, char nombreArch[]);
+void cargarArchivoIngresos(char nombreArch[],INGRESO x);
+void cargarArchivoPxI(char nombreArch[],nodoPxI * lista);
+
+///-------------------------------------    AUXILIARES    --------------------------------------------------------------------------------------------------------------------------------
+
 INGRESO cargarIngreso(int id, char dni[]);
-nodoPaciente * altaIngreso(nodoPaciente * arbol);
 nodoIngreso * crearNodoIngreso(INGRESO ing);
 nodoIngreso * agregarPpioIngreso(nodoIngreso * lista, nodoIngreso * nodo);
 nodoIngreso * altaListaIngreso(nodoIngreso * lista, char dni[]);
-void cargarArchivoIngresos(char nombreArch[],INGRESO x);
-
-
-
-///Funciones PxI
+nodoIngreso * buscarIngreso(nodoIngreso * lista, int id);
+nodoIngreso * eliminarNodoIngreso(nodoIngreso * lista, nodoIngreso * nodo);
 PRACTICAxINGRESO cargarPxI(int idIngreso);
 nodoPxI * altaListaPxI(nodoPxI * lista, int idIngreso);
 nodoPxI * crearNodoPxI(PRACTICAxINGRESO pxi);
 nodoPxI * agregarPpioPxI(nodoPxI * lista, nodoPxI * nodo);
-void cargarArchivoPxI(char nombreArch[],nodoPxI * lista);
-
 
 
 #endif // INGRESOS_H_INCLUDED
