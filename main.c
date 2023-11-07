@@ -106,6 +106,8 @@ void menuAdmin()
                 printf("    3.Dar de baja Ingreso\n");
                 printf("    4.Mostrar ingresos en el arbol\n");
                 printf("    5.Mostrar ingreso y practicas\n");
+                printf("    6.Mostrar ingresos archivo\n");
+                printf("    7.Mostrar pxi archivo\n");
                 printf("    00.Menu Principal\n");
                 printf("--> ");
 
@@ -132,6 +134,14 @@ void menuAdmin()
                     break;
                 case 5:
                     mostrarPxIPaciente(arbolPacientes);
+                    system("pause");
+                    break;
+                case 6:
+                    mostrarIngresoArchivo(archivoIngresos);
+                    system("pause");
+                    break;
+                case 7:
+                    mostrarPxIArchivo(archivoPxI);
                     system("pause");
                     break;
                 case 00:

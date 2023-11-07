@@ -131,8 +131,11 @@ bool validarFecha(const char *fecha)
 
 bool validarFechaPosterior(const char *fechaP, const char *fechaA)
 {
+    printf("fechaP: %s\n", fechaP);
+    printf("fechaA: %s\n", fechaA);
+
     if (!validarFecha(fechaP))
-        return false;  // Al menos una de las fechas no es válida
+        return false;  // La fecha no es válida
 
     int dia1, mes1, anio1;
     int dia2, mes2, anio2;

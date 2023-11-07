@@ -6,11 +6,11 @@
 
 typedef struct{
     int ID;
-    char fechaIngreso[10];
-    char fechaRetiro[10];
-    char dni[DIM_DNI];
+    char fechaRetiro[DIM_FECHA];
     int matricula;
+    char fechaIngreso[DIM_FECHA];
     int eliminado;
+    char dni[DIM_DNI];
 }INGRESO;
 
 typedef struct nodoIngreso{
@@ -51,6 +51,8 @@ void mostrarIngresosPaciente(nodoPaciente * paciente);
 void mostrarPxi(PRACTICAxINGRESO pxi);
 void mostrarIngresoYPracticas(nodoIngreso * x);
 void mostrarPxIPaciente(nodoPaciente * arbol);
+void mostrarIngresoArchivo(char nombreArchivo[]);
+void mostrarPxIArchivo(char nombreArchivo[]);
 
 ///-------------------------------------    ARCHIVO    --------------------------------------------------------------------------------------------------------------------------------------
 

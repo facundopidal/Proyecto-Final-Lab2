@@ -7,6 +7,7 @@
 #define DIM_DNI 9
 #define DIM_EDAD 125
 #define DIM_NPRACTICA 30
+#define DIM_FECHA 10
 
 ///DNI
 bool validarDNI(const char *dni);

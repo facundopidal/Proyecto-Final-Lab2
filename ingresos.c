@@ -196,6 +196,38 @@ void mostrarPxIPaciente(nodoPaciente * arbol)
         aux->listaIngresos = aux->listaIngresos->sig;
     }
 }
+
+void mostrarIngresoArchivo(char nombreArchivo[])
+{
+    FILE* buffer = fopen(nombreArchivo, "rb");
+    INGRESO aux;
+    if(buffer)
+    {
+        while(fread(&aux, sizeof(INGRESO), 1, buffer) == 1)
+        {
+            printf("DNI DE PACIENTE: %s\n", aux.dni);
+            mostrarIngreso(aux);
+        }
+        fclose(buffer);
+    }
+}
+
+void mostrarPxIArchivo(char nombreArchivo[])
+{
+    FILE* buffer = fopen(nombreArchivo, "rb");
+    PRACTICAxINGRESO aux;
+    if(buffer)
+    {
+        while(fread(&aux, sizeof(PRACTICAxINGRESO), 1, buffer) == 1)
+        {
+            printf("Id de ingreso: %i\n", aux.idIngreso);
+            mostrarPxi(aux);
+        }
+
+
+        fclose(buffer);
+    }
+}
 ///-------------------------------------    ARCHIVO    --------------------------------------------------------------------------------------------------------------------------------------
 
 
@@ -256,11 +288,10 @@ INGRESO cargarIngreso(int id, char dni[])
 {
     INGRESO x;
 
-    strcpy(x.dni, dni);
-
+    fflush(stdin);
     x.ID = id;
 
-    x.eliminado = 0;
+    fflush(stdin);    x.eliminado = 0;
 
     ///Matricula
     printf("Ingrese matricula del medico:  ");
@@ -271,20 +302,29 @@ INGRESO cargarIngreso(int id, char dni[])
 
     int dia,mes,anio;
     obtenerFechaActual(&dia, &mes, &anio);
+    fflush(stdin);
     sprintf(x.fechaIngreso, "%i/%i/%i", dia, mes, anio);
     printf("La fecha de ingreso se completo con la del dia de hoy: %s\n", x.fechaIngreso);
 
     ///Fecha de retiro
     printf("Ingrese fecha de retiro con formato dd/mm/aaaa:  ");
     fflush(stdin);
-    gets(x.fechaRetiro);
+    fgets(x.fechaRetiro, DIM_FECHA + 1, stdin);
+    x.fechaRetiro[strcspn(x.fechaRetiro, "\n")] = '\0';
     while(!validarFechaPosterior(x.fechaRetiro, x.fechaIngreso)) //Valida que la sea sea posterior, no incluye mismo dia
     {
         printf("\nFECHA NO VALIDA \n-Ingrese una fecha valida con formato dd/mm/aaaa \n-Que sea posterior a hoy: ");
         fflush(stdin);
-        gets(x.fechaRetiro);
+        fgets(x.fechaRetiro, DIM_FECHA + 1, stdin);
+        x.fechaRetiro[strcspn(x.fechaRetiro, "\n")] = '\0';
     }
     printf("\n");
+
+    fflush(stdin);
+    strcpy(x.dni, dni);
+
+    printf("El dni que se cargo(cargarIngreso) es: %s\n", x.dni);
+    printf("La fecha de retiro (cargarIngreso) es: %s\n", x.fechaRetiro);
 
     return x;
 }
@@ -294,7 +334,23 @@ nodoIngreso * crearNodoIngreso(INGRESO ing)
     nodoIngreso * nodo = (nodoIngreso*) malloc(sizeof(nodoIngreso));
     nodo->ant = NULL;
     nodo->sig = NULL;
+    printf("-----------------------------\n");
+    printf("DNI(crearNodo): %s\n", ing.dni);
+    printf("MATRICULA(crearNodo): %i\n", ing.matricula);
+    printf("ELIMINADO(crearNodo): %i\n", ing.eliminado);
+    printf("ID(crearNodo): %i\n", ing.ID);
+    printf("FECHA A(crearNodo): %s\n", ing.fechaIngreso);
+    printf("FECHA R(crearNodo): %s\n", ing.fechaRetiro);
+    printf("-----------------------------\n");
     nodo->ingreso = ing;
+    printf("-----------------------------\n");
+    printf("DNI(crearNodo): %s\n", nodo->ingreso.dni);
+    printf("MATRICULA(crearNodo): %i\n", nodo->ingreso.matricula);
+    printf("ELIMINADO(crearNodo): %i\n", nodo->ingreso.eliminado);
+    printf("ID(crearNodo): %i\n", nodo->ingreso.ID);
+    printf("FECHA A(crearNodo): %s\n", nodo->ingreso.fechaIngreso);
+    printf("FECHA R(crearNodo): %s\n", nodo->ingreso.fechaRetiro);
+    printf("-----------------------------\n");
     nodo->listaPxI = NULL;
     return nodo;
 }
@@ -317,6 +373,8 @@ nodoIngreso * altaListaIngreso(nodoIngreso * lista, char dni[],char nombreArchiv
     int nuevoId = obternerIdIngresoArchivo(nombreArchivo);
     INGRESO aux = cargarIngreso(nuevoId, dni);
     lista = agregarPpioIngreso(lista, crearNodoIngreso(aux)); //añadimos ingreso a la lista
+    printf("DNI(altaListaIngreso) lista: %s\n", lista->ingreso.dni);
+    printf("FECHA R(altaListaIngreso) lista: %s\n", lista->ingreso.fechaRetiro);
 
     return lista;
 }
