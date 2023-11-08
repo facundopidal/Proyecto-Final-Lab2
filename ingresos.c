@@ -303,16 +303,18 @@ INGRESO cargarIngreso(int id, char dni[])
 {
     INGRESO x;
 
-    fflush(stdin);
     x.ID = id;
 
-    fflush(stdin);
     x.eliminado = 0;
 
     ///Matricula
-    printf("Ingrese matricula del medico:  ");
+    printf("Ingrese matricula del medico: ");
     fflush(stdin);
-    scanf("%i",&x.matricula);
+    while(scanf("%i",&x.matricula) != 1)
+    {
+        printf("Matricula NO VALIDA \n Ingrese una matricula valida");
+        fflush(stdin);
+    }
 
     ///Fecha de ingreso
 
@@ -323,16 +325,18 @@ INGRESO cargarIngreso(int id, char dni[])
     printf("La fecha de ingreso se completo con la del dia de hoy: %s\n", x.fechaIngreso);
 
     ///Fecha de retiro
-    printf("Ingrese fecha de retiro con formato dd/mm/aaaa:  ");
+    printf("Ingrese fecha de retiro con formato dd/mm/aaaa: ");
     fflush(stdin);
     fgets(x.fechaRetiro, DIM_FECHA + 1, stdin);
     x.fechaRetiro[strcspn(x.fechaRetiro, "\n")] = '\0';
+    while (getchar() != '\n');
     while(!validarFechaPosterior(x.fechaRetiro, x.fechaIngreso)) //Valida que la sea sea posterior, no incluye mismo dia
     {
-        printf("\nFECHA NO VALIDA \n-Ingrese una fecha valida con formato dd/mm/aaaa \n-Que sea posterior a hoy: ");
+        printf("Fecha NO VALIDA \n-Ingrese una fecha valida con formato dd/mm/aaaa \n-Que sea posterior a hoy: ");
         fflush(stdin);
         fgets(x.fechaRetiro, DIM_FECHA + 1, stdin);
         x.fechaRetiro[strcspn(x.fechaRetiro, "\n")] = '\0';
+        while (getchar() != '\n');
     }
     printf("\n");
 
