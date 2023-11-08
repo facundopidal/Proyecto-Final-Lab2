@@ -453,7 +453,7 @@ nodoPaciente * eliminarNodoPaciente(nodoPaciente * arbol, nodoPaciente * nodo)
 
         /// Caso 2: Nodo con dos hijos
         /// Encontrar el sucesor inmediato (nodo más a la izquierda en el subárbol derecho)
-        nodoPaciente* temp=encontrarMenorArbolPaciente(nodo->der);
+        nodoPaciente* temp= encontrarMenorArbolPaciente(nodo->der);
 
         /// Copiar el valor del sucesor inmediato al nodo actual
         nodo->paciente = temp->paciente;
@@ -467,9 +467,10 @@ nodoPaciente * eliminarNodoPaciente(nodoPaciente * arbol, nodoPaciente * nodo)
 
 nodoPaciente * encontrarMenorArbolPaciente(nodoPaciente * arbol)
 {
-    while(arbol->izq)
-        arbol = arbol->izq;
-    return arbol;
+    nodoPaciente * aux;
+    while(aux->izq)
+        aux = aux->izq;
+    return aux;
 }
 
 

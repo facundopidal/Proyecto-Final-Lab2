@@ -69,7 +69,7 @@ nodoIngreso * agregarPpioIngreso(nodoIngreso * lista, nodoIngreso * nodo);
 nodoIngreso * altaListaIngreso(nodoIngreso * lista, char dni[],char nombreArchivo[]);
 nodoIngreso * buscarIngreso(nodoIngreso * lista, int id);
 nodoIngreso * eliminarNodoIngreso(nodoIngreso * lista, nodoIngreso * nodo);
-nodoPxI* liberarlistaPxI(nodoPxI* lista);
+nodoPxI* liberarListaPxI(nodoPxI* lista);
 PRACTICAxINGRESO cargarPxI(int idIngreso);
 nodoPxI * altaListaPxI(nodoPxI * lista, int idIngreso);
 nodoPxI * crearNodoPxI(PRACTICAxINGRESO pxi);

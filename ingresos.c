@@ -98,7 +98,7 @@ nodoPaciente * bajaIngreso(nodoPaciente * arbol, char nombreArchivo[])
     int idBaja;
     printf("Ingrese el Id de ingreso a dar de baja: ");
     fflush(stdin);
-    while(scanf("%i",&idBaja)!=1)
+    while(scanf("%i",&idBaja) != 1)
     {
         printf("Id NO VALIDO\n Ingrese Nuevamente: ");
         fflush(stdin);
@@ -109,6 +109,7 @@ nodoPaciente * bajaIngreso(nodoPaciente * arbol, char nombreArchivo[])
     {
         cambiarEliminadoIngreso(1, ingresoBaja->ingreso, nombreArchivo);
         paciente->listaIngresos = eliminarNodoIngreso(paciente->listaIngresos, ingresoBaja);
+        ingresoBaja->ingreso.eliminado = 1;
         printf("Ingreso Dado de Baja Exitosamente\n");
         mostrarIngresoYPracticas(ingresoBaja);
     }
@@ -117,7 +118,6 @@ nodoPaciente * bajaIngreso(nodoPaciente * arbol, char nombreArchivo[])
 
     return arbol;
 }
-
 
 
 ///-------------------------------------    MOSTRAR    ----------------------------------------------------------------------------------------------------------------------------------------
@@ -155,12 +155,13 @@ void mostrarIngreso(INGRESO x)
     printf("Fecha de Ingreso: %s\n",x.fechaIngreso);
     printf("Fecha de Retiro: %s\n",x.fechaRetiro);
     printf("Matricula: %i\n",x.matricula);
-    printf("-------------------------------------\n");
 }
 
 void mostrarIngresosPaciente(nodoPaciente * paciente)
 {
     nodoIngreso * aux = paciente->listaIngresos;
+    if(!aux)
+        printf("El paciente no tiene ingresos asignados\n");
     while(aux)
     {
         mostrarIngreso(aux->ingreso);
@@ -170,10 +171,9 @@ void mostrarIngresosPaciente(nodoPaciente * paciente)
 
 void mostrarPxi(PRACTICAxINGRESO pxi)
 {
-    printf("-------------------------------------\n");
-    printf("Nro de practica: %i\n",pxi.nroPractica);
-    printf("Resultado: %s\n",pxi.resultado);
-    printf("-------------------------------------\n");
+    printf("%c  Nro de practica: %i\n", 220,pxi.nroPractica);
+    printf("    Resultado: %s\n",pxi.resultado);
+    printf("  ------------------------\n");
 }
 
 void mostrarIngresoYPracticas(nodoIngreso * x)
@@ -181,6 +181,8 @@ void mostrarIngresoYPracticas(nodoIngreso * x)
     nodoIngreso * aux = x;
     mostrarIngreso(aux->ingreso);
     nodoPxI * seg = aux->listaPxI;
+    printf("Practicas asociadas:\n");
+    printf("  ------------------------\n");
     while(seg)
     {
         mostrarPxi(seg->PxI);
@@ -235,13 +237,12 @@ void mostrarPxIArchivo(char nombreArchivo[])
             mostrarPxi(aux);
         }
 
-
         fclose(buffer);
     }
 }
+
+
 ///-------------------------------------    ARCHIVO    --------------------------------------------------------------------------------------------------------------------------------------
-
-
 
 
 void cambiarEliminadoIngreso(int valor, INGRESO x, char nombreArch[])
@@ -389,12 +390,13 @@ int obternerIdIngresoArchivo(char nombreArchivo[])
 
 nodoIngreso * buscarIngreso(nodoIngreso * lista, int id)
 {
-    while(lista)
+    nodoIngreso * aux = lista;
+    while(aux)
     {
-        if(lista->ingreso.ID == id)
-            return lista;
+        if(aux->ingreso.ID == id)
+            return aux;
 
-        lista = lista->sig;
+        aux = aux->sig;
     }
     return NULL;
 }
@@ -402,31 +404,46 @@ nodoIngreso * buscarIngreso(nodoIngreso * lista, int id)
 nodoIngreso * eliminarNodoIngreso(nodoIngreso * lista, nodoIngreso * nodo)
 {
     nodoIngreso * aux = lista;
+    if(!lista)
+        return NULL;
+    if(lista->ingreso.ID == nodo->ingreso.ID)
+    {
+        lista = lista->sig;
+        if (lista)
+        {
+            lista->ant = NULL;
+            lista->listaPxI = liberarListaPxI(lista->listaPxI);
+        }
+        free(aux);
+        return lista;
+    }
+
     while(aux)
     {
         if(aux->ingreso.ID == nodo->ingreso.ID)
         {
             aux->ant->sig = aux->sig;
             aux->sig->ant = aux->ant;
-            aux->listaPxI = liberarlistaPxI(aux->listaPxI);
+            aux->listaPxI = liberarListaPxI(aux->listaPxI);
             free(aux);
-            return lista;
         }
         aux = aux->sig;
     }
     return lista;
 }
 
-nodoPxI* liberarlistaPxI(nodoPxI* lista)
+nodoPxI* liberarListaPxI(nodoPxI* lista)
 {
-    nodoPxI* aux;
-    while(lista)
+    nodoPxI * proximo;
+    nodoPxI * seg = lista;
+    while(seg != NULL)
     {
-        aux=lista;
-        lista=lista->sig;
-        free(aux);
+        proximo = seg->sig;  //tomo la dir del siguiente.
+        free(seg);                 //borro el actual.
+        seg = proximo;             //actualizo el actual con la dir del
+        //siguiente, para avanzar.
     }
-    return NULL;
+    return seg;
 }
 
 
@@ -435,7 +452,6 @@ PRACTICAxINGRESO cargarPxI(int idIngreso)
     PRACTICAxINGRESO pxi;
     pxi.idIngreso = idIngreso; //cargamos id de ingreso
 
-    mostrarPracticasArch(archivoPracticas);
     printf("Ingrese el id de practica que desea: ");
     fflush(stdin);
     scanf("%i", &pxi.nroPractica);
@@ -452,14 +468,24 @@ PRACTICAxINGRESO cargarPxI(int idIngreso)
 
 nodoPxI * altaListaPxI(nodoPxI * lista, int idIngreso)
 {
-    char seguir = 's';
-    while(seguir == 's' || seguir == 'S')
+    int seguir = 1;
+    mostrarPracticasArch(archivoPracticas);
+    while(seguir == 1)
     {
         PRACTICAxINGRESO aux = cargarPxI(idIngreso);
         lista = agregarPpioPxI(lista, crearNodoPxI(aux));
-        printf("Ingrese s para cargar otra practica y n para dejar de cargar: ");
+        printf("1. Ingresar otra practica\n");
+        printf("00. Confirmar practicas\n");
+        printf("--> ");
         fflush(stdin);
-        scanf("%c", &seguir);
+        scanf("%i", &seguir);
+        while(seguir != 0 && seguir != 1)
+        {
+            printf("Ingrese una opcion valida\n");
+            printf("--> ");
+            fflush(stdin);
+            scanf("%i", &seguir);
+        }
     }
     return lista;
 }

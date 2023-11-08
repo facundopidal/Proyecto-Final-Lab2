@@ -131,9 +131,6 @@ bool validarFecha(const char *fecha)
 
 bool validarFechaPosterior(const char *fechaP, const char *fechaA)
 {
-    printf("fechaP: %s\n", fechaP);
-    printf("fechaA: %s\n", fechaA);
-
     if (!validarFecha(fechaP))
         return false;  // La fecha no es válida
 
@@ -143,21 +140,16 @@ bool validarFechaPosterior(const char *fechaP, const char *fechaA)
     sscanf(fechaA, "%d/%d/%d", &dia2, &mes2, &anio2);
 
     if (anio1 > anio2)
-    {
         return true;
-    }
+
     else if (anio1 == anio2)
     {
         if (mes1 > mes2)
-        {
             return true;
-        }
         else if (mes1 == mes2)
         {
             if (dia1 > dia2)
-            {
                 return true;
-            }
         }
     }
 
@@ -248,7 +240,7 @@ bool validarPracticaRepetida(char nombre[DIM_NPRACTICA], char nombreArchivo[])//
 
 bool validarEdad(int edad)
 {
-    if(edad < 0 || edad > DIM_EDAD)
+    if(edad < 0 || edad > MAX_EDAD)
         return false;
     return true;
 }

@@ -5,7 +5,7 @@
 #define DIM_NOMBRE 20
 #define DIM_DIRECCION 30
 #define DIM_DNI 9
-#define DIM_EDAD 125
+#define MAX_EDAD 125
 #define DIM_NPRACTICA 30
 #define DIM_FECHA 10
 
