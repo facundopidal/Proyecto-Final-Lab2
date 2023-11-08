@@ -96,21 +96,24 @@ nodoPaciente * bajaIngreso(nodoPaciente * arbol, char nombreArchivo[])
     printf("Se encontro el paciente, estos son sus ingresos: \n");
     mostrarIngresosPaciente(paciente);
     int idBaja;
-    printf("Ingrese el id de ingreso a dar de baja: ");
-    scanf("%i",&idBaja);
-
-    printf("-----------------------------\n");
-    mostrarIngresoYPracticas(paciente->listaIngresos);
-    printf("-----------------------------\n");
+    printf("Ingrese el Id de ingreso a dar de baja: ");
+    fflush(stdin);
+    while(scanf("%i",&idBaja)!=1)
+    {
+        printf("Id NO VALIDO\n Ingrese Nuevamente: ");
+        fflush(stdin);
+    }
 
     nodoIngreso * ingresoBaja = buscarIngreso(paciente->listaIngresos, idBaja);
     if(ingresoBaja)
     {
-        paciente->listaIngresos = eliminarNodoIngreso(paciente->listaIngresos, ingresoBaja);
         cambiarEliminadoIngreso(1, ingresoBaja->ingreso, nombreArchivo);
+        paciente->listaIngresos = eliminarNodoIngreso(paciente->listaIngresos, ingresoBaja);
+        printf("Ingreso Dado de Baja Exitosamente\n");
+        mostrarIngresoYPracticas(ingresoBaja);
     }
     else
-        printf("El id de ingreso no es valido, volviendo al menu \n");
+        printf("El Id no se encontro en los ingresos, volviendo al menu \n");
 
     return arbol;
 }
@@ -405,6 +408,7 @@ nodoIngreso * eliminarNodoIngreso(nodoIngreso * lista, nodoIngreso * nodo)
         {
             aux->ant->sig = aux->sig;
             aux->sig->ant = aux->ant;
+            aux->listaPxI = liberarlistaPxI(aux->listaPxI);
             free(aux);
             return lista;
         }
@@ -413,6 +417,17 @@ nodoIngreso * eliminarNodoIngreso(nodoIngreso * lista, nodoIngreso * nodo)
     return lista;
 }
 
+nodoPxI* liberarlistaPxI(nodoPxI* lista)
+{
+    nodoPxI* aux;
+    while(lista)
+    {
+        aux=lista;
+        lista=lista->sig;
+        free(aux);
+    }
+    return NULL;
+}
 
 
 PRACTICAxINGRESO cargarPxI(int idIngreso)
