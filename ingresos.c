@@ -146,9 +146,9 @@ void mostrarIngreso(INGRESO x)
 {
     printf("-------------------------------------\n");
     if(x.eliminado==1)
-    printf("ID de Ingreso: %i |DADO DE BAJA|\n",x.ID);
+        printf("ID de Ingreso: %i |DADO DE BAJA|\n",x.ID);
     else
-    printf("ID de Ingreso: %i\n",x.ID);
+        printf("ID de Ingreso: %i\n",x.ID);
     printf("Fecha de Ingreso: %s\n",x.fechaIngreso);
     printf("Fecha de Retiro: %s\n",x.fechaRetiro);
     printf("Matricula: %i\n",x.matricula);
@@ -157,11 +157,11 @@ void mostrarIngreso(INGRESO x)
 
 void mostrarIngresosPaciente(nodoPaciente * paciente)
 {
-
-    while(paciente->listaIngresos)
+    nodoIngreso * aux = paciente->listaIngresos;
+    while(aux)
     {
-        mostrarIngreso(paciente->listaIngresos->ingreso);
-        paciente->listaIngresos = paciente->listaIngresos->sig;
+        mostrarIngreso(aux->ingreso);
+        aux = aux->sig;
     }
 }
 
@@ -175,11 +175,13 @@ void mostrarPxi(PRACTICAxINGRESO pxi)
 
 void mostrarIngresoYPracticas(nodoIngreso * x)
 {
-    mostrarIngreso(x->ingreso);
-    while(x->listaPxI)
+    nodoIngreso * aux = x;
+    mostrarIngreso(aux->ingreso);
+    nodoPxI * seg = aux->listaPxI;
+    while(seg)
     {
-        mostrarPxi(x->listaPxI->PxI);
-        x->listaPxI = x->listaPxI->sig;
+        mostrarPxi(seg->PxI);
+        seg = seg->sig;
     }
 }
 
@@ -189,12 +191,18 @@ void mostrarPxIPaciente(nodoPaciente * arbol)
     printf("Ingrese dni del paciente: ");
     strcpy(dni, leerDNI());
     nodoPaciente * aux = buscarPaciente(arbol, dni);
-    printf("Todos los ingresos del paciente %s %s: \n", aux->paciente.nombre, aux->paciente.apellido);
-    while(aux->listaIngresos)
+    nodoIngreso * seg = aux->listaIngresos;
+    if(aux)
     {
-        mostrarIngresoYPracticas(aux->listaIngresos);
-        aux->listaIngresos = aux->listaIngresos->sig;
+        printf("Todos los ingresos del paciente %s %s: \n", aux->paciente.nombre, aux->paciente.apellido);
+        while(seg)
+        {
+            mostrarIngresoYPracticas(seg);
+            seg = seg->sig;
+        }
     }
+    else
+        printf("El paciente no se encontro\n");
 }
 
 void mostrarIngresoArchivo(char nombreArchivo[])
@@ -268,12 +276,15 @@ void cargarArchivoIngresos(char nombreArch[],INGRESO x)
 void cargarArchivoPxI(char nombreArch[],nodoPxI * lista)
 {
     FILE *buffer = fopen(nombreArch, "ab");
+    PRACTICAxINGRESO aux;
+    nodoPxI * seg = lista;
     if(buffer)
     {
-        while(lista)
+        while(seg)
         {
-            fwrite(&lista->PxI, sizeof(PRACTICAxINGRESO), 1, buffer);
-            lista = lista->sig;
+            aux = seg->PxI;
+            fwrite(&aux, sizeof(PRACTICAxINGRESO), 1, buffer);
+            seg = seg->sig;
         }
         fclose(buffer);
     }
@@ -291,7 +302,8 @@ INGRESO cargarIngreso(int id, char dni[])
     fflush(stdin);
     x.ID = id;
 
-    fflush(stdin);    x.eliminado = 0;
+    fflush(stdin);
+    x.eliminado = 0;
 
     ///Matricula
     printf("Ingrese matricula del medico:  ");
@@ -323,9 +335,6 @@ INGRESO cargarIngreso(int id, char dni[])
     fflush(stdin);
     strcpy(x.dni, dni);
 
-    printf("El dni que se cargo(cargarIngreso) es: %s\n", x.dni);
-    printf("La fecha de retiro (cargarIngreso) es: %s\n", x.fechaRetiro);
-
     return x;
 }
 
@@ -334,23 +343,7 @@ nodoIngreso * crearNodoIngreso(INGRESO ing)
     nodoIngreso * nodo = (nodoIngreso*) malloc(sizeof(nodoIngreso));
     nodo->ant = NULL;
     nodo->sig = NULL;
-    printf("-----------------------------\n");
-    printf("DNI(crearNodo): %s\n", ing.dni);
-    printf("MATRICULA(crearNodo): %i\n", ing.matricula);
-    printf("ELIMINADO(crearNodo): %i\n", ing.eliminado);
-    printf("ID(crearNodo): %i\n", ing.ID);
-    printf("FECHA A(crearNodo): %s\n", ing.fechaIngreso);
-    printf("FECHA R(crearNodo): %s\n", ing.fechaRetiro);
-    printf("-----------------------------\n");
     nodo->ingreso = ing;
-    printf("-----------------------------\n");
-    printf("DNI(crearNodo): %s\n", nodo->ingreso.dni);
-    printf("MATRICULA(crearNodo): %i\n", nodo->ingreso.matricula);
-    printf("ELIMINADO(crearNodo): %i\n", nodo->ingreso.eliminado);
-    printf("ID(crearNodo): %i\n", nodo->ingreso.ID);
-    printf("FECHA A(crearNodo): %s\n", nodo->ingreso.fechaIngreso);
-    printf("FECHA R(crearNodo): %s\n", nodo->ingreso.fechaRetiro);
-    printf("-----------------------------\n");
     nodo->listaPxI = NULL;
     return nodo;
 }
@@ -373,9 +366,6 @@ nodoIngreso * altaListaIngreso(nodoIngreso * lista, char dni[],char nombreArchiv
     int nuevoId = obternerIdIngresoArchivo(nombreArchivo);
     INGRESO aux = cargarIngreso(nuevoId, dni);
     lista = agregarPpioIngreso(lista, crearNodoIngreso(aux)); //añadimos ingreso a la lista
-    printf("DNI(altaListaIngreso) lista: %s\n", lista->ingreso.dni);
-    printf("FECHA R(altaListaIngreso) lista: %s\n", lista->ingreso.fechaRetiro);
-
     return lista;
 }
 
@@ -388,7 +378,7 @@ int obternerIdIngresoArchivo(char nombreArchivo[])
     {
         fseek(buffer,(-1)*sizeof(INGRESO),SEEK_END);
         if(fread(&aux,sizeof(INGRESO),1,buffer)==1)
-           id=aux.ID+1;
+            id=aux.ID+1;
         fclose(buffer);
     }
     return id;
@@ -429,6 +419,7 @@ PRACTICAxINGRESO cargarPxI(int idIngreso)
 {
     PRACTICAxINGRESO pxi;
     pxi.idIngreso = idIngreso; //cargamos id de ingreso
+
     mostrarPracticasArch(archivoPracticas);
     printf("Ingrese el id de practica que desea: ");
     fflush(stdin);
@@ -449,8 +440,9 @@ nodoPxI * altaListaPxI(nodoPxI * lista, int idIngreso)
     char seguir = 's';
     while(seguir == 's' || seguir == 'S')
     {
-        lista = agregarPpioPxI(lista, crearNodoPxI(cargarPxI(idIngreso)));
-        printf("Ingrese s para cargar otra practica: ");
+        PRACTICAxINGRESO aux = cargarPxI(idIngreso);
+        lista = agregarPpioPxI(lista, crearNodoPxI(aux));
+        printf("Ingrese s para cargar otra practica y n para dejar de cargar: ");
         fflush(stdin);
         scanf("%c", &seguir);
     }
@@ -467,7 +459,8 @@ nodoPxI * crearNodoPxI(PRACTICAxINGRESO pxi)
 
 nodoPxI * agregarPpioPxI(nodoPxI * lista, nodoPxI * nodo)
 {
-    nodo->sig = lista;
+    if(lista)
+        nodo->sig = lista;
     return nodo;
 }
 

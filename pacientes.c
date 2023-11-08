@@ -357,7 +357,7 @@ PACIENTE cargarPaciente(char dni[])
     strcpy(x.dni, dni);
     x.eliminado = 0;
     ///APELLIDO
-    printf("\nIngrese Apellido: ");
+    printf("Ingrese Apellido: ");
     fflush(stdin);
     gets(x.apellido);
     while(!validarPalabras(x.apellido,DIM_APELLIDO))
@@ -372,7 +372,7 @@ PACIENTE cargarPaciente(char dni[])
     gets(x.nombre);
     while(!validarPalabras(x.nombre,DIM_NPRACTICA))
     {
-        printf("\nNOMBRE NO VALIDO\n Ingrese nuevamente:  ");
+        printf("Nombre NO VALIDO\n Ingrese nuevamente:  ");
         fflush(stdin);
         gets(x.nombre);
     }
@@ -386,16 +386,16 @@ PACIENTE cargarPaciente(char dni[])
     gets(x.telefono);
     while(!validarTelefono(x.telefono))
     {
-        printf("\nTelefono NO VALIDO\n Ingrese nuevamente:  ");
+        printf("Telefono NO VALIDO\n Ingrese nuevamente:  ");
         fflush(stdin);
         gets(x.telefono);
     }
     ///EDAD
-    printf("\nIngrese edad del paciente: ");
+    printf("Ingrese edad del paciente: ");
     fflush(stdin);
     while(scanf("%i", &x.edad) != 1 || !validarEdad(x.edad))
     {
-        printf("\nEdad no valida - Ingrese nuevamente edad del paciente: ");
+        printf("Edad NO VALIDA\n Ingrese nuevamente edad del paciente: ");
         fflush(stdin);
     }
 
