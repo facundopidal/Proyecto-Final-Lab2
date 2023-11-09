@@ -259,6 +259,24 @@ int obtenerIdPractica(char nombrePractica[DIM_NPRACTICA], char nombreArchivo[])
     return -1;
 }
 
-
-
+char * obtenerNombrePractica(int nroPractica, char nombreArchivo[])
+{
+    char * nombre = (char *) malloc(DIM_NPRACTICA * (sizeof(char)));
+    FILE * buffer = fopen(nombreArchivo, "rb");
+    PRACTICA aux;
+    if(buffer)
+    {
+        while(fread(&aux, sizeof(PRACTICA), 1, buffer) > 0)
+        {
+            if(aux.nro == nroPractica)
+            {
+                strcpy(nombre, aux.nombrePractica);
+                fclose(buffer);
+                return nombre;
+            }
+        }
+        fclose(buffer);
+    }
+    return "ERROR";
+}
 

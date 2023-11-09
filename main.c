@@ -12,6 +12,7 @@ int main()
 {
     arbolPacientes = crearArbolPacientes(arbolPacientes, archivoPacientes,archivoIngresos, archivoPxI);
     ///mostrarPacientesActivos(arbolPacientes);
+
     menuAdmin();
 
     return 0;
@@ -50,7 +51,7 @@ void menuAdmin()
                 printf("    1.Cargar Paciente\n");
                 printf("    2.Modificar Paciente\n");
                 printf("    3.Dar de baja Paciente\n");
-                printf("    4.Dar de alta Paciente\n");
+                printf("    4.Buscar y mostrar\n");
                 printf("    5.Ver Pacientes Activos\n");
                 printf("    6.Ver todos los pacientes\n");
                 printf("    00.Menu Principal\n");
@@ -75,8 +76,6 @@ void menuAdmin()
                     system("pause");
                     break;
                 case 4:
-
-                    system("pause");
                     break;
                 case 5:
                     mostrarPacientesActivos(arbolPacientes);
@@ -122,6 +121,7 @@ void menuAdmin()
                     system("pause");
                     break;
                 case 2:
+                    arbolPacientes = modificarIngreso(arbolPacientes, archivoIngresos);
                     system("pause");
                     break;
                 case 3:

@@ -46,6 +46,17 @@ char* leerDNI()
     return dniValido;
 }
 
+int dnicmp(char * dni1, char * dni2)
+{
+    int len1 = strlen(dni1);
+    int len2 = strlen(dni2);
+    if(len1 > len2) //Compara las longitudes antes de hacer strcmp
+        return 1;
+    else if(len1 < len2)
+        return -1;
+    else
+        return strcmp(dni1, dni2);
+}
 
 ///--------------------------------------------     FECHA    ---------------------------------------------------------------------------------------------------
 
@@ -257,4 +268,11 @@ int leerEnteroPositivo()
         else
             printf("Eso no es un numero valido. Intenta de nuevo.\n");
     }
+}
+
+int generarMatricula()
+{
+    srand(time(NULL));
+    int n = rand()% 90000 + 10000;
+    return n;
 }

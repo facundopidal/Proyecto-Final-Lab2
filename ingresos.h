@@ -41,6 +41,7 @@ nodoPxI * crearListaPxI(nodoIngreso * ing, char archPxI[]);
 
 nodoPaciente * altaIngreso(nodoPaciente * arbol, char nombreArchivoPxI[], char nombreArchivoIngresos[]);
 nodoPaciente * bajaIngreso(nodoPaciente * arbol, char nombreArchivo[]);
+nodoPaciente * modificarIngreso(nodoPaciente * arbol, char nombreArch[]);
 
 ///-------------------------------------    MOSTRAR    ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -53,6 +54,7 @@ void mostrarIngresoYPracticas(nodoIngreso * x);
 void mostrarPxIPaciente(nodoPaciente * arbol);
 void mostrarIngresoArchivo(char nombreArchivo[]);
 void mostrarPxIArchivo(char nombreArchivo[]);
+void mostrarPracticasAsociadas(nodoIngreso * ing);
 
 ///-------------------------------------    ARCHIVO    --------------------------------------------------------------------------------------------------------------------------------------
 
@@ -60,6 +62,7 @@ void cambiarEliminadoIngreso(int valor, INGRESO x, char nombreArch[]);
 void cargarArchivoIngresos(char nombreArch[],INGRESO x);
 void cargarArchivoPxI(char nombreArch[],nodoPxI * lista);
 int obternerIdIngresoArchivo(char nombreArchivo[]);
+void modificarArchivoIngresos(char nombreArch[], INGRESO x);
 
 ///-------------------------------------    AUXILIARES    --------------------------------------------------------------------------------------------------------------------------------
 

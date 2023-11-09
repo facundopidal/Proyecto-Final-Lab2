@@ -18,7 +18,7 @@ nodoIngreso * crearListaIngresos(nodoPaciente * paciente, char archIngresos[], c
     {
         while(fread(&aux, sizeof(INGRESO), 1, buffer) == 1)
         {
-            if((aux.eliminado == 0) && (strcmp(aux.dni, paciente->paciente.dni) == 0))
+            if((aux.eliminado == 0) && (dnicmp(aux.dni, paciente->paciente.dni) == 0))
             {
                 nodoIngreso * nodo = crearNodoIngreso(aux);
                 nodo->listaPxI = crearListaPxI(nodo, archPxI);
@@ -119,6 +119,137 @@ nodoPaciente * bajaIngreso(nodoPaciente * arbol, char nombreArchivo[])
     return arbol;
 }
 
+nodoPaciente * modificarIngreso(nodoPaciente * arbol, char nombreArch[])
+{
+    printf("Ingrese dni del paciente a modificar: ");
+    char * dni = leerDNI();
+    nodoPaciente * pacienteAModificar = buscarPaciente(arbol, dni);
+    if(pacienteAModificar)
+    {
+        printf("Se encontro el paciente, estos son sus ingresos: \n");
+        mostrarIngresosPaciente(pacienteAModificar);
+        printf("\n");
+        if(!pacienteAModificar->listaIngresos)
+            return arbol;
+
+        int idAModificar;
+        printf("Ingrese el Id de ingreso a modificar: ");
+        fflush(stdin);
+        while(scanf("%i",&idAModificar) != 1)
+        {
+            printf("Id NO VALIDO\n Ingrese Nuevamente: ");
+            fflush(stdin);
+        }
+        nodoIngreso * ingresoAMod = buscarIngreso(pacienteAModificar->listaIngresos, idAModificar);
+        if(ingresoAMod)
+        {
+            int opcion;
+
+            do
+            {
+                system("cls");
+                mostrarIngreso(ingresoAMod->ingreso);
+                printf("-------------------------------------\n");
+                printf("Ingrese:\n(1) Editar Matricula\n(2) Editar Fecha de retiro\n(00) Salir\n");
+                printf("--> ");
+                scanf("%i", &opcion);
+                switch(opcion)
+                {
+                case 1:
+                    printf("Ingrese la nueva matricula del medico: ");
+                    fflush(stdin);
+                    while(scanf("%i",&ingresoAMod->ingreso.matricula) != 1 || ingresoAMod->ingreso.matricula > MAX_MATRICULA || ingresoAMod->ingreso.matricula < 10000)
+                    {
+                        printf("Matricula NO VALIDA\n Ingrese una matricula valida: ");
+                        fflush(stdin);
+                    }
+                    break;
+                case 2:
+                    printf("Ingrese fecha de retiro con formato dd/mm/aaaa: ");
+                    fflush(stdin);
+                    fgets(ingresoAMod->ingreso.fechaRetiro, DIM_FECHA + 1, stdin);
+                    ingresoAMod->ingreso.fechaRetiro[strcspn(ingresoAMod->ingreso.fechaRetiro, "\n")] = '\0';
+                    while(getchar() != '\n');
+                    while(!validarFechaPosterior(ingresoAMod->ingreso.fechaRetiro, ingresoAMod->ingreso.fechaIngreso)) //Valida que la sea sea posterior, no incluye mismo dia
+                    {
+                        printf("Fecha NO VALIDA \n-Ingrese una fecha valida con formato dd/mm/aaaa \n-Que sea posterior a hoy: ");
+                        fflush(stdin);
+                        fgets(ingresoAMod->ingreso.fechaRetiro, DIM_FECHA + 1, stdin);
+                        ingresoAMod->ingreso.fechaRetiro[strcspn(ingresoAMod->ingreso.fechaRetiro, "\n")] = '\0';
+                        while(getchar() != '\n');
+                    }
+                    break;
+                case 00:
+                    modificarArchivoIngresos(nombreArch, ingresoAMod->ingreso);
+                    printf("Saliendo...\n");
+                    break;
+                default:
+                    printf("Ingrese una opcion valida\n");
+                }
+            }
+            while(opcion != 0);
+            printf("Ingreso Modificado Exitosamente\n");
+        }
+        else
+            printf("El Id no se encontro en los ingresos, volviendo al menu \n");
+    }
+    else
+        printf("\nEl paciente no se encuentra en la base de datos o esta dado de baja\n\n");
+
+    return arbol;
+}
+
+nodoPaciente * modificarPxI(nodoPaciente * arbol, char nombreArch[])
+{
+    printf("Ingrese dni del paciente a modificar: ");
+    char * dni = leerDNI();
+    nodoPaciente * pacienteAModificar = buscarPaciente(arbol, dni);
+
+    if(pacienteAModificar)
+    {
+        printf("Se encontro el paciente, estos son sus ingresos: \n");
+        mostrarIngresosPaciente(pacienteAModificar);
+        printf("\n");
+        if(!pacienteAModificar->listaIngresos)
+            return arbol;
+
+        int idAModificar;
+        printf("Ingrese el Id de ingreso a modificar: ");
+        fflush(stdin);
+        while(scanf("%i",&idAModificar) != 1)
+        {
+            printf("Id NO VALIDO\n Ingrese Nuevamente: ");
+            fflush(stdin);
+        }
+        nodoIngreso * ingresoAMod = buscarIngreso(pacienteAModificar->listaIngresos, idAModificar);
+        if(ingresoAMod)
+        {
+            printf("Se encontro el ingreso, estas son sus praticas: \n");
+            mostrarPracticasAsociadas(ingresoAMod);///No funciona correctamente
+            int nroPract;
+            printf("Ingrese el Nro de Practica a Modificar: ");
+            fflush(stdin);
+            while(scanf("%i", &nroPract) != 1)
+            {
+                printf("Nro de Practica NO VALIDO\n Ingrese nuevamente el nro de practica: ");
+                fflush(stdin);
+            }
+            nodoPxI * pxiAMod = buscarPxI(ingresoAMod->listaPxI, nroPract);
+            if(pxiAMod)
+            {
+                ///switch
+            }
+            else
+                printf("La Practica que se quiere modificar no existe\n");
+        }
+        else
+            printf("El Id no se encontro en los ingresos, volviendo al menu \n");
+    }
+    else
+        printf("\nEl paciente no se encuentra en la base de datos o esta dado de baja\n\n");
+
+    return arbol;
+}
 
 ///-------------------------------------    MOSTRAR    ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -161,7 +292,7 @@ void mostrarIngresosPaciente(nodoPaciente * paciente)
 {
     nodoIngreso * aux = paciente->listaIngresos;
     if(!aux)
-        printf("El paciente no tiene ingresos asignados\n");
+        printf("\nEl paciente %s %s no tiene ingresos asignados\n\n", paciente->paciente.nombre, paciente->paciente.apellido);
     while(aux)
     {
         mostrarIngreso(aux->ingreso);
@@ -172,6 +303,7 @@ void mostrarIngresosPaciente(nodoPaciente * paciente)
 void mostrarPxi(PRACTICAxINGRESO pxi)
 {
     printf("%c  Nro de practica: %i\n", 220,pxi.nroPractica);
+    puts(obtenerNombrePractica(pxi.nroPractica, archivoPxI));
     printf("    Resultado: %s\n",pxi.resultado);
     printf("  ------------------------\n");
 }
@@ -199,7 +331,10 @@ void mostrarPxIPaciente(nodoPaciente * arbol)
     nodoIngreso * seg = aux->listaIngresos;
     if(aux)
     {
-        printf("Todos los ingresos del paciente %s %s: \n", aux->paciente.nombre, aux->paciente.apellido);
+        if(seg)
+            printf("Todos los ingresos del paciente %s %s: \n", aux->paciente.nombre, aux->paciente.apellido);
+        else
+            printf("\nEl paciente %s %s no tiene ingresos asignados\n\n", aux->paciente.nombre, aux->paciente.apellido);
         while(seg)
         {
             mostrarIngresoYPracticas(seg);
@@ -241,6 +376,18 @@ void mostrarPxIArchivo(char nombreArchivo[])
     }
 }
 
+void mostrarPracticasAsociadas(nodoIngreso * ing)
+{
+    nodoPxI * aux = ing->listaPxI;
+    int i = 1;
+    while(aux)
+    {
+        printf("Practica %i: \n", i);
+        mostrarPxi(aux->PxI);
+        aux = aux->sig;
+        i++;
+    }
+}
 
 ///-------------------------------------    ARCHIVO    --------------------------------------------------------------------------------------------------------------------------------------
 
@@ -295,6 +442,25 @@ void cargarArchivoPxI(char nombreArch[],nodoPxI * lista)
 }
 
 
+void modificarArchivoIngresos(char nombreArch[], INGRESO x)
+{
+    FILE * buffer = fopen(nombreArch, "r+b");
+    INGRESO aux;
+    int flag = 0;
+    if(buffer)
+    {
+        while(flag == 0 &&fread(&aux, sizeof(INGRESO), 1, buffer) == 1)
+        {
+            if(aux.ID == x.ID)
+            {
+                fseek(buffer, (-1) * sizeof(INGRESO), 1);
+                fwrite(&x, sizeof(INGRESO), 1, buffer);
+                flag = 1;
+            }
+        }
+        fclose(buffer);
+    }
+}
 
 ///-------------------------------------    AUXILIARES    --------------------------------------------------------------------------------------------------------------------------------
 
@@ -308,13 +474,8 @@ INGRESO cargarIngreso(int id, char dni[])
     x.eliminado = 0;
 
     ///Matricula
-    printf("Ingrese matricula del medico: ");
-    fflush(stdin);
-    while(scanf("%i",&x.matricula) != 1)
-    {
-        printf("Matricula NO VALIDA \n Ingrese una matricula valida");
-        fflush(stdin);
-    }
+    x.matricula = generarMatricula();
+    printf("La matricula se completo con %i\n", x.matricula);
 
     ///Fecha de ingreso
 
@@ -329,14 +490,14 @@ INGRESO cargarIngreso(int id, char dni[])
     fflush(stdin);
     fgets(x.fechaRetiro, DIM_FECHA + 1, stdin);
     x.fechaRetiro[strcspn(x.fechaRetiro, "\n")] = '\0';
-    while (getchar() != '\n');
+    while(getchar() != '\n');
     while(!validarFechaPosterior(x.fechaRetiro, x.fechaIngreso)) //Valida que la sea sea posterior, no incluye mismo dia
     {
         printf("Fecha NO VALIDA \n-Ingrese una fecha valida con formato dd/mm/aaaa \n-Que sea posterior a hoy: ");
         fflush(stdin);
         fgets(x.fechaRetiro, DIM_FECHA + 1, stdin);
         x.fechaRetiro[strcspn(x.fechaRetiro, "\n")] = '\0';
-        while (getchar() != '\n');
+        while(getchar() != '\n');
     }
     printf("\n");
 

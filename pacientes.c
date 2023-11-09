@@ -92,8 +92,8 @@ nodoPaciente* altaPaciente(nodoPaciente* arbol)
         else
         {
             printf("¡El Paciente se encontraba dado de baja, Ahora se encuentra dado de alta!\n");
-            mostrarPaciente(aux);
             aux.eliminado=0;
+            mostrarPaciente(aux);
             cambiarEliminadoPaciente(0,aux,archivoPacientes);
             arbol = agregarPacienteArbol(arbol,aux);
         }
@@ -212,6 +212,7 @@ nodoPaciente * bajaPaciente(nodoPaciente * arbol)
         {
             cambiarEliminadoPaciente(1,nodo->paciente,archivoPacientes);
             arbol = eliminarNodoPaciente(arbol, nodo);
+            nodo->paciente.eliminado = 1;
             printf("El paciente: ");
             mostrarPaciente(nodo->paciente);
             printf("\nFue dado de baja exitosamente\n");
@@ -234,7 +235,9 @@ nodoPaciente * bajaPaciente(nodoPaciente * arbol)
 
 void mostrarPaciente(PACIENTE x)
 {
-    printf("\nDNI: %s",x.dni);
+    printf("\nDNI: %s  ",x.dni);
+    if(x.eliminado == 1)
+        printf("|DADO DE BAJA|");
     printf("\nApellido y Nombre: %s %s",x.apellido,x.nombre);
     printf("\nDireccion: %s",x.direccion);
     printf("\nTelefono: %s",x.telefono);
@@ -285,7 +288,7 @@ void cambiarEliminadoPaciente(int valor, PACIENTE x, char nombreArch[])
     {
         while(flag == 0 && fread(&aux, sizeof(PACIENTE), 1, buffer) > 0)
         {
-            if(strcmp(aux.dni, x.dni) == 0)
+            if(dnicmp(aux.dni, x.dni) == 0)
             {
                 x.eliminado = valor;
                 fseek(buffer, (-1) * sizeof(PACIENTE),1);
@@ -306,7 +309,7 @@ void modificarArchivoPacientes(char nombreArch[], PACIENTE x)
     {
         while(flag == 0 &&fread(&aux, sizeof(PACIENTE), 1, buffer) == 1)
         {
-            if(strcmp(aux.dni, x.dni) == 0)
+            if(dnicmp(aux.dni, x.dni) == 0)
             {
                 fseek(buffer, (-1) * sizeof(PACIENTE), 1);
                 fwrite(&x, sizeof(PACIENTE), 1, buffer);
@@ -325,7 +328,7 @@ PACIENTE buscarPacienteArchivo(char nombreArch[], char dni[])
     {
         while(fread(&aux, sizeof(PACIENTE), 1, buffer) > 0)
         {
-            if(strcmp(aux.dni, dni) == 0)
+            if(dnicmp(aux.dni, dni) == 0)
                 return aux;
         }
         fclose(buffer);
@@ -406,9 +409,9 @@ nodoPaciente * buscarPaciente(nodoPaciente * arbol, char dni[])
 {
     if(arbol)
     {
-        if(strcmp(arbol->paciente.dni, dni) == 0)
+        if(dnicmp(arbol->paciente.dni, dni) == 0)
             return arbol;
-        else if(strcmp(arbol->paciente.dni, dni) > 0)
+        else if(dnicmp(arbol->paciente.dni, dni) > 0)
             return buscarPaciente(arbol->izq, dni);
         else
             return buscarPaciente(arbol->der, dni);
@@ -421,9 +424,9 @@ nodoPaciente * agregarPacienteArbol(nodoPaciente * arbol, PACIENTE x)
     if (!arbol)
         return crearNodoPaciente(x);
 
-    if (strcmp(arbol->paciente.dni, x.dni) > 0)
+    if (dnicmp(arbol->paciente.dni, x.dni) > 0)
         arbol->izq = agregarPacienteArbol(arbol->izq, x);
-    else if (strcmp(arbol->paciente.dni, x.dni) < 0)
+    else if (dnicmp(arbol->paciente.dni, x.dni) < 0)
         arbol->der = agregarPacienteArbol(arbol->der, x);
 
     return arbol;
@@ -467,7 +470,7 @@ nodoPaciente * eliminarNodoPaciente(nodoPaciente * arbol, nodoPaciente * nodo)
 
 nodoPaciente * encontrarMenorArbolPaciente(nodoPaciente * arbol)
 {
-    nodoPaciente * aux;
+    nodoPaciente * aux = arbol;
     while(aux->izq)
         aux = aux->izq;
     return aux;

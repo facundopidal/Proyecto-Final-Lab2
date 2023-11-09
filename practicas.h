@@ -29,5 +29,6 @@ void cargarArchivoPracticas(char nombreArch[],PRACTICA x);
 PRACTICA buscarPracticaArchivo(char nombreArchivo[],int id);
 void modificarArchivoPracticas(PRACTICA nuevo,char nombreArchivo[]);
 void cambiarEliminadoPractica(int valor, PRACTICA x, char nombreArchivo[]);
+char * obtenerNombrePractica(int nroPractica, char nombreArchivo[]);
 
 #endif // PRACTICAS_H_INCLUDED

@@ -5,13 +5,15 @@
 #define DIM_NOMBRE 20
 #define DIM_DIRECCION 30
 #define DIM_DNI 9
-#define MAX_EDAD 125
-#define DIM_NPRACTICA 30
+#define DIM_NPRACTICA 50
 #define DIM_FECHA 10
+#define MAX_EDAD 125
+#define MAX_MATRICULA 99999
 
 ///DNI
 bool validarDNI(const char *dni);
 char * leerDNI();
+int dnicmp(char * dni1, char * dni2);
 bool validarPalabras(const char *Palabras,int rango);
 bool validarTelefono(const char *cadena);
 bool validarFecha(const char *fecha);
@@ -22,6 +24,6 @@ bool validarExistenciaPractica(int id, char nombreArchivo[]);
 bool validarEdad(int edad);
 int leerEnteroPositivo();
 bool validarPracticaRepetida(char nombre[DIM_NPRACTICA], char nombreArchivo[]);/// TRUE si esta repetida
-
+int generarMatricula();
 
 #endif // VALIDACIONES_H_INCLUDED
