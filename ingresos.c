@@ -119,7 +119,7 @@ nodoPaciente * bajaIngreso(nodoPaciente * arbol, char nombreArchivo[])
     return arbol;
 }
 
-nodoPaciente * modificarIngreso(nodoPaciente * arbol, char nombreArch[])
+nodoPaciente * modificarIngreso(nodoPaciente * arbol, char archIngresos[], char archPxI[])
 {
     printf("Ingrese dni del paciente a modificar: ");
     char * dni = leerDNI();
@@ -148,9 +148,9 @@ nodoPaciente * modificarIngreso(nodoPaciente * arbol, char nombreArch[])
             do
             {
                 system("cls");
-                mostrarIngreso(ingresoAMod->ingreso);
+                mostrarIngresoYPracticas(ingresoAMod);
                 printf("-------------------------------------\n");
-                printf("Ingrese:\n(1) Editar Matricula\n(2) Editar Fecha de retiro\n(00) Salir\n");
+                printf("Ingrese:\n(1) Editar Matricula\n(2) Editar Fecha de retiro\n(3) Editar Practicas asociadas\n(00) Salir\n");
                 printf("--> ");
                 scanf("%i", &opcion);
                 switch(opcion)
@@ -178,9 +178,11 @@ nodoPaciente * modificarIngreso(nodoPaciente * arbol, char nombreArch[])
                         ingresoAMod->ingreso.fechaRetiro[strcspn(ingresoAMod->ingreso.fechaRetiro, "\n")] = '\0';
                         while(getchar() != '\n');
                     }
+                case 3:
+                    ingresoAMod = modificarPxI(ingresoAMod,archPxI);
                     break;
                 case 00:
-                    modificarArchivoIngresos(nombreArch, ingresoAMod->ingreso);
+                    modificarArchivoIngresos(archIngresos, ingresoAMod->ingreso);
                     printf("Saliendo...\n");
                     break;
                 default:
@@ -199,57 +201,8 @@ nodoPaciente * modificarIngreso(nodoPaciente * arbol, char nombreArch[])
     return arbol;
 }
 
-nodoPaciente * modificarPxI(nodoPaciente * arbol, char nombreArch[])
-{
-    printf("Ingrese dni del paciente a modificar: ");
-    char * dni = leerDNI();
-    nodoPaciente * pacienteAModificar = buscarPaciente(arbol, dni);
 
-    if(pacienteAModificar)
-    {
-        printf("Se encontro el paciente, estos son sus ingresos: \n");
-        mostrarIngresosPaciente(pacienteAModificar);
-        printf("\n");
-        if(!pacienteAModificar->listaIngresos)
-            return arbol;
 
-        int idAModificar;
-        printf("Ingrese el Id de ingreso a modificar: ");
-        fflush(stdin);
-        while(scanf("%i",&idAModificar) != 1)
-        {
-            printf("Id NO VALIDO\n Ingrese Nuevamente: ");
-            fflush(stdin);
-        }
-        nodoIngreso * ingresoAMod = buscarIngreso(pacienteAModificar->listaIngresos, idAModificar);
-        if(ingresoAMod)
-        {
-            printf("Se encontro el ingreso, estas son sus praticas: \n");
-            mostrarPracticasAsociadas(ingresoAMod);///No funciona correctamente
-            int nroPract;
-            printf("Ingrese el Nro de Practica a Modificar: ");
-            fflush(stdin);
-            while(scanf("%i", &nroPract) != 1)
-            {
-                printf("Nro de Practica NO VALIDO\n Ingrese nuevamente el nro de practica: ");
-                fflush(stdin);
-            }
-            nodoPxI * pxiAMod = buscarPxI(ingresoAMod->listaPxI, nroPract);
-            if(pxiAMod)
-            {
-                ///switch
-            }
-            else
-                printf("La Practica que se quiere modificar no existe\n");
-        }
-        else
-            printf("El Id no se encontro en los ingresos, volviendo al menu \n");
-    }
-    else
-        printf("\nEl paciente no se encuentra en la base de datos o esta dado de baja\n\n");
-
-    return arbol;
-}
 
 ///-------------------------------------    MOSTRAR    ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -278,7 +231,7 @@ void mostrarIngresosPorDNI(nodoPaciente* arbol)
 
 void mostrarIngreso(INGRESO x)
 {
-    printf("-------------------------------------\n");
+    printf("\n");
     if(x.eliminado==1)
         printf("ID de Ingreso: %i |DADO DE BAJA|\n",x.ID);
     else
@@ -286,6 +239,7 @@ void mostrarIngreso(INGRESO x)
     printf("Fecha de Ingreso: %s\n",x.fechaIngreso);
     printf("Fecha de Retiro: %s\n",x.fechaRetiro);
     printf("Matricula: %i\n",x.matricula);
+    printf("-------------------------------------\n");
 }
 
 void mostrarIngresosPaciente(nodoPaciente * paciente)
@@ -302,8 +256,8 @@ void mostrarIngresosPaciente(nodoPaciente * paciente)
 
 void mostrarPxi(PRACTICAxINGRESO pxi)
 {
-    printf("%c  Nro de practica: %i\n", 220,pxi.nroPractica);
-    puts(obtenerNombrePractica(pxi.nroPractica, archivoPxI));
+    printf("%c   Nro de practica: %i\n", 220,pxi.nroPractica);
+    printf("    Nombre de practica: %s\n", obtenerNombrePractica(pxi.nroPractica, archivoPracticas));
     printf("    Resultado: %s\n",pxi.resultado);
     printf("  ------------------------\n");
 }
@@ -379,13 +333,10 @@ void mostrarPxIArchivo(char nombreArchivo[])
 void mostrarPracticasAsociadas(nodoIngreso * ing)
 {
     nodoPxI * aux = ing->listaPxI;
-    int i = 1;
     while(aux)
     {
-        printf("Practica %i: \n", i);
         mostrarPxi(aux->PxI);
         aux = aux->sig;
-        i++;
     }
 }
 
@@ -455,6 +406,26 @@ void modificarArchivoIngresos(char nombreArch[], INGRESO x)
             {
                 fseek(buffer, (-1) * sizeof(INGRESO), 1);
                 fwrite(&x, sizeof(INGRESO), 1, buffer);
+                flag = 1;
+            }
+        }
+        fclose(buffer);
+    }
+}
+
+void modificarArchivoPxI(char nombreArch[], PRACTICAxINGRESO pxi, int nroPract)
+{
+    FILE * buffer = fopen(nombreArch, "r+b");
+    PRACTICAxINGRESO aux;
+    int flag = 0;
+    if(buffer)
+    {
+        while(flag == 0 && fread(&aux, sizeof(PRACTICAxINGRESO), 1, buffer) == 1)
+        {
+            if(aux.idIngreso == pxi.idIngreso && aux.nroPractica == nroPract)
+            {
+                fseek(buffer, (-1) * sizeof(PRACTICAxINGRESO), SEEK_CUR);
+                fwrite(&pxi, sizeof(PRACTICAxINGRESO), 1, buffer);
                 flag = 1;
             }
         }
@@ -619,13 +590,12 @@ PRACTICAxINGRESO cargarPxI(int idIngreso)
 
     printf("Ingrese el id de practica que desea: ");
     fflush(stdin);
-    scanf("%i", &pxi.nroPractica);
+    scanf(" %i", &pxi.nroPractica);
     while(!validarExistenciaPracticaActiva(pxi.nroPractica, archivoPracticas)) //buscamos la practica en el archivo
     {
-        mostrarPracticasArch(archivoPracticas);
-        printf("ID NO VALIDO\n Por favor ingrese uno de los mostrados en pantalla: ");
+        printf("ID NO VALIDO\n Por favor ingrese nuevamente: ");
         fflush(stdin);
-        scanf("%i", &pxi.nroPractica);
+        scanf(" %i", &pxi.nroPractica);
     }
     strcpy(pxi.resultado, "Pendiente"); //Ponemos resultado en pendiente por defecto para luego completar
     return pxi;
@@ -670,5 +640,132 @@ nodoPxI * agregarPpioPxI(nodoPxI * lista, nodoPxI * nodo)
     return nodo;
 }
 
+nodoPxI * buscarPxI(nodoPxI * lista, int nroPract)
+{
+    nodoPxI * aux = lista;
+    while(aux)
+    {
+        if(aux->PxI.nroPractica == nroPract)
+            return aux;
+        aux = aux->sig;
+    }
+    return NULL;
+}
+
+nodoPxI * eliminarNodoPxI(nodoPxI * lista, nodoPxI * nodo)
+{
+    if(!lista)
+        return NULL;
+
+    nodoPxI * aux = lista;
+    nodoPxI * ante;
+    if(lista->PxI.nroPractica == nodo->PxI.nroPractica)
+    {
+        lista = lista->sig;
+        free(aux);
+    }
+    else
+    {
+        while(aux && aux->PxI.nroPractica != nodo->PxI.nroPractica)
+        {
+            ante = aux;
+            aux = aux->sig;
+        }
+        if(aux)
+        {
+            ante->sig = aux->sig;
+            free(aux);
+        }
+    }
+    return lista;
+}
 
 
+nodoIngreso * modificarPxI(nodoIngreso * ingresoAMod, char nombreArch[])
+{
+    if(ingresoAMod)
+    {
+        mostrarPracticasAsociadas(ingresoAMod);
+        int nroPract;
+        printf("Ingrese el Nro de Practica a Modificar: ");
+        fflush(stdin);
+        while(scanf("%i", &nroPract) != 1)
+        {
+            printf("Nro de Practica NO VALIDO\n Ingrese nuevamente el nro de practica: ");
+            fflush(stdin);
+        }
+        nodoPxI * pxiAMod = buscarPxI(ingresoAMod->listaPxI, nroPract);
+        if(pxiAMod)
+        {
+            int opcion;
+            char eliminar;
+            do
+            {
+                system("cls");
+                mostrarPxi(pxiAMod->PxI);
+                printf("-------------------------------------\n");
+                printf("Ingrese:\n(1) Editar Nro de Practica\n(2) Editar Resultado\n(3)Eliminar Practica\n(00) Salir\n");
+                printf("--> ");
+                scanf("%i", &opcion);
+                switch(opcion)
+                {
+                case 1:
+                    printf("Ingrese el nuevo numero de practica: ");
+                    fflush(stdin);
+                    while(scanf("%i", &pxiAMod->PxI.nroPractica) != 1 || !validarExistenciaPracticaActiva(pxiAMod->PxI.nroPractica, archivoPracticas))
+                    {
+                        printf("Numero NO VALIDO\n Ingrese nuevamente: ");
+                        fflush(stdin);
+                    }
+                    break;
+                case 2:
+                    printf("Ingrese el resultado nuevo(Hasta 40 caracteres): ");
+                    fflush(stdin);
+                    fgets(pxiAMod->PxI.resultado, DIM_RESULTADO + 1, stdin);
+                    pxiAMod->PxI.resultado[strcspn(pxiAMod->PxI.resultado, "\n")] = '\0';
+                    while(getchar() != '\n');
+                    break;
+                case 3:
+                    mostrarPxi(pxiAMod->PxI);
+                    printf("Esta seguro que desea eliminar la practica? Ingrese S para si");
+                    fflush(stdin);
+                    scanf("%c", &eliminar);
+                    if(eliminar == 'S')
+                        bajaPxI(ingresoAMod, pxiAMod, nombreArch);
+                    else
+                        printf("La practica NO ha sido eliminada\n");
+
+                case 00:
+                    modificarArchivoPxI(nombreArch, pxiAMod->PxI, nroPract);
+                    printf("Saliendo...\n");
+                    break;
+                default:
+                    printf("Ingrese una opcion valida");
+                }
+            }
+            while(opcion != 00);
+            printf("Practica Modificada Exitosamente\n");
+        }
+        else
+        {
+            printf("La Practica que se quiere modificar no existe\n");
+            system("pause");
+        }
+    }
+
+    return ingresoAMod;
+}
+
+nodoIngreso * bajaPxI(nodoIngreso * ingresoAMod, nodoPxI * pxiAEliminar, char archPxI[])
+{
+    ///Elimina el nodoPxI, borra el pxi del archivo y si es el unico pxi da de baja el ingreso
+    ingresoAMod->listaPxI = eliminarNodoPxI(ingresoAMod->listaPxI, pxiAEliminar);///Para esto no se debe poder cargar dos veces la misma practica
+    eliminarPxIArchivo(archPxI, pxiAEliminar);
+    if(!ingresoAMod->listaPxI->sig)
+    {
+        cambiarEliminadoIngreso(1, ingresoAMod->ingreso, archivoIngresos);
+        paciente->listaIngresos = eliminarNodoIngreso(paciente->listaIngresos, ingresoAMod);
+        ingresoAMod->ingreso.eliminado = 1;
+        printf("Ingreso Dado de Baja Exitosamente\n");
+    }
+}

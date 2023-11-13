@@ -23,7 +23,7 @@ typedef struct nodoIngreso{
 typedef struct{
     int idIngreso;
     int nroPractica;
-    char resultado[40];
+    char resultado[DIM_RESULTADO];
 }PRACTICAxINGRESO;
 
 
@@ -41,7 +41,7 @@ nodoPxI * crearListaPxI(nodoIngreso * ing, char archPxI[]);
 
 nodoPaciente * altaIngreso(nodoPaciente * arbol, char nombreArchivoPxI[], char nombreArchivoIngresos[]);
 nodoPaciente * bajaIngreso(nodoPaciente * arbol, char nombreArchivo[]);
-nodoPaciente * modificarIngreso(nodoPaciente * arbol, char nombreArch[]);
+nodoPaciente * modificarIngreso(nodoPaciente * arbol, char archIngresos[], char archPxI[]);
 
 ///-------------------------------------    MOSTRAR    ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -63,6 +63,7 @@ void cargarArchivoIngresos(char nombreArch[],INGRESO x);
 void cargarArchivoPxI(char nombreArch[],nodoPxI * lista);
 int obternerIdIngresoArchivo(char nombreArchivo[]);
 void modificarArchivoIngresos(char nombreArch[], INGRESO x);
+void modificarArchivoPxI(char nombreArch[], PRACTICAxINGRESO pxi, int nroPract);
 
 ///-------------------------------------    AUXILIARES    --------------------------------------------------------------------------------------------------------------------------------
 
@@ -72,10 +73,12 @@ nodoIngreso * agregarPpioIngreso(nodoIngreso * lista, nodoIngreso * nodo);
 nodoIngreso * altaListaIngreso(nodoIngreso * lista, char dni[],char nombreArchivo[]);
 nodoIngreso * buscarIngreso(nodoIngreso * lista, int id);
 nodoIngreso * eliminarNodoIngreso(nodoIngreso * lista, nodoIngreso * nodo);
-nodoPxI* liberarListaPxI(nodoPxI* lista);
 PRACTICAxINGRESO cargarPxI(int idIngreso);
+nodoPxI* liberarListaPxI(nodoPxI* lista);
 nodoPxI * altaListaPxI(nodoPxI * lista, int idIngreso);
 nodoPxI * crearNodoPxI(PRACTICAxINGRESO pxi);
 nodoPxI * agregarPpioPxI(nodoPxI * lista, nodoPxI * nodo);
-
+nodoPxI * buscarPxI(nodoPxI * lista, int nroPract);
+nodoIngreso * modificarPxI(nodoIngreso * ingresoAMod, char nombreArch[]);
+nodoIngreso * bajaPxI(nodoIngreso * ingresoAMod, nodoPxI * pxiAEliminar, char archPxI[]);
 #endif // INGRESOS_H_INCLUDED

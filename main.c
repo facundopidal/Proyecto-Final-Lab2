@@ -121,7 +121,7 @@ void menuAdmin()
                     system("pause");
                     break;
                 case 2:
-                    arbolPacientes = modificarIngreso(arbolPacientes, archivoIngresos);
+                    arbolPacientes = modificarIngreso(arbolPacientes, archivoIngresos, archivoPxI);
                     system("pause");
                     break;
                 case 3:

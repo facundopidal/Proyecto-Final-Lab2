@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1699550314 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\ingresos.c
+1699895000 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\ingresos.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -9,11 +9,11 @@
 	"ingresos.h"
 	"practicas.h"
 
-1699552286 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\validaciones.h
+1699889327 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\validaciones.h
 
 1699298773 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\pacientes.h
 
-1699549540 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\ingresos.h
+1699909338 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\ingresos.h
 	"pacientes.h"
 
 1699547663 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\pacientes.c
@@ -26,7 +26,7 @@
 	"ingresos.h"
 	"practicas.h"
 
-1699547887 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\main.c
+1699888302 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -105,7 +105,7 @@
 	"ingresos.h"
 	"practicas.h"
 
-1699550254 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\practicas.c
+1699892616 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\practicas.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>

@@ -217,12 +217,16 @@ PRACTICA cargarPractica()
     x.eliminado = 0;
     printf("\nIngrese Nombre de la Practica:  ");
     fflush(stdin);
-    gets(x.nombrePractica);
+    fgets(x.nombrePractica, DIM_NPRACTICA + 1, stdin);
+    x.nombrePractica[strcspn(x.nombrePractica, "\n")] = '\0';
+    while(getchar() != '\n');
     while(!validarPalabras(x.nombrePractica,DIM_NPRACTICA))
     {
-        printf("\nPractica INVALIDA\nIngrese nuevamente:  ");
+        printf("Practica INVALIDA\n Ingrese nuevamente:  ");
         fflush(stdin);
-        gets(x.nombrePractica);
+        fgets(x.nombrePractica, DIM_NPRACTICA + 1, stdin);
+        x.nombrePractica[strcspn(x.nombrePractica, "\n")] = '\0';
+        while(getchar() != '\n');
     }
     return x;
 }
@@ -231,11 +235,10 @@ int obtenerUltimoNro(char nombreArchivo[])
 {
     FILE * buffer = fopen(nombreArchivo, "rb");
     PRACTICA aux;
-    int id;
+    int id = 0;
     if(buffer)
     {
         while(fread(&aux,sizeof(PRACTICA),1,buffer)>0)
-
             id = aux.nro;
 
         fclose(buffer);

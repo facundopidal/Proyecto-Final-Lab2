@@ -7,6 +7,7 @@
 #define DIM_DNI 9
 #define DIM_NPRACTICA 50
 #define DIM_FECHA 10
+#define DIM_RESULTADO 40
 #define MAX_EDAD 125
 #define MAX_MATRICULA 99999
 
