@@ -73,6 +73,7 @@ nodoPaciente * altaIngreso(nodoPaciente * arbol, char nombreArchivoPxI[], char n
 
     cargarArchivoPxI(nombreArchivoPxI, paciente->listaIngresos->listaPxI); //Se pasa la lista para ser recorrida en la funcion
     cargarArchivoIngresos(nombreArchivoIngresos, paciente->listaIngresos->ingreso); //Guardamos los datos en el archivo
+    system("cls");
     printf("Ingreso cargado satisfactoriamente\n");
     mostrarIngresoYPracticas(paciente->listaIngresos);
     return arbol;
@@ -150,7 +151,7 @@ nodoPaciente * modificarIngreso(nodoPaciente * arbol, char archIngresos[], char 
                 system("cls");
                 mostrarIngresoYPracticas(ingresoAMod);
                 printf("-------------------------------------\n");
-                printf("Ingrese:\n(1) Editar Matricula\n(2) Editar Fecha de retiro\n(3) Editar Practicas asociadas\n(00) Salir\n");
+                printf("Ingrese:\n(1) Editar Matricula\n(2) Editar Fecha de retiro\n(3) Eliminar Practica \n(4) Editar Practicas asociadas\n(00) Salir\n");
                 printf("--> ");
                 scanf("%i", &opcion);
                 switch(opcion)
@@ -179,6 +180,9 @@ nodoPaciente * modificarIngreso(nodoPaciente * arbol, char archIngresos[], char 
                         while(getchar() != '\n');
                     }
                 case 3:
+                    pacienteAModificar->listaIngresos = bajaPxI(pacienteAModificar->listaIngresos,ingresoAMod,archPxI);
+                    break;
+                case 4:
                     ingresoAMod = modificarPxI(ingresoAMod,archPxI);
                     break;
                 case 00:
@@ -430,6 +434,27 @@ void modificarArchivoPxI(char nombreArch[], PRACTICAxINGRESO pxi, int nroPract)
             }
         }
         fclose(buffer);
+    }
+}
+
+void cambiarEliminadoPxI(PRACTICAxINGRESO pxi,char nombreArchivo[])
+{
+    FILE * buffer=fopen(nombreArchivo,"r+b");
+    PRACTICAxINGRESO aux;
+    int flag = 0;
+    if(buffer)
+    {
+        while(flag ==0 && fread(&aux,sizeof(PRACTICAxINGRESO),1,buffer)>0)
+        {
+            if(aux.idIngreso == pxi.idIngreso && aux.nroPractica == pxi.nroPractica)
+            {
+                aux.idIngreso = aux.idIngreso *(-1);
+                fseek(buffer, (-1) * sizeof(PRACTICAxINGRESO),1);
+                fwrite(&aux, sizeof(PRACTICAxINGRESO), 1, buffer);
+                flag = 1;
+            }
+        }
+    fclose(buffer);
     }
 }
 
@@ -698,13 +723,12 @@ nodoIngreso * modificarPxI(nodoIngreso * ingresoAMod, char nombreArch[])
         if(pxiAMod)
         {
             int opcion;
-            char eliminar;
             do
             {
                 system("cls");
                 mostrarPxi(pxiAMod->PxI);
                 printf("-------------------------------------\n");
-                printf("Ingrese:\n(1) Editar Nro de Practica\n(2) Editar Resultado\n(3)Eliminar Practica\n(00) Salir\n");
+                printf("Ingrese:\n(1) Editar Nro de Practica\n(2) Editar Resultado\n(00) Salir\n");
                 printf("--> ");
                 scanf("%i", &opcion);
                 switch(opcion)
@@ -725,16 +749,6 @@ nodoIngreso * modificarPxI(nodoIngreso * ingresoAMod, char nombreArch[])
                     pxiAMod->PxI.resultado[strcspn(pxiAMod->PxI.resultado, "\n")] = '\0';
                     while(getchar() != '\n');
                     break;
-                case 3:
-                    mostrarPxi(pxiAMod->PxI);
-                    printf("Esta seguro que desea eliminar la practica? Ingrese S para si");
-                    fflush(stdin);
-                    scanf("%c", &eliminar);
-                    if(eliminar == 'S')
-                        bajaPxI(ingresoAMod, pxiAMod, nombreArch);
-                    else
-                        printf("La practica NO ha sido eliminada\n");
-
                 case 00:
                     modificarArchivoPxI(nombreArch, pxiAMod->PxI, nroPract);
                     printf("Saliendo...\n");
@@ -756,16 +770,39 @@ nodoIngreso * modificarPxI(nodoIngreso * ingresoAMod, char nombreArch[])
     return ingresoAMod;
 }
 
-nodoIngreso * bajaPxI(nodoIngreso * ingresoAMod, nodoPxI * pxiAEliminar, char archPxI[])
+nodoIngreso * bajaPxI(nodoIngreso * listaIngresos,nodoIngreso * ingresoAMod, char archPxI[])
 {
     ///Elimina el nodoPxI, borra el pxi del archivo y si es el unico pxi da de baja el ingreso
-    ingresoAMod->listaPxI = eliminarNodoPxI(ingresoAMod->listaPxI, pxiAEliminar);///Para esto no se debe poder cargar dos veces la misma practica
-    eliminarPxIArchivo(archPxI, pxiAEliminar);
-    if(!ingresoAMod->listaPxI->sig)
+    mostrarPracticasAsociadas(ingresoAMod);
+    int nroPract;
+    printf("Ingrese el Nro de Practica a Eliminar: ");
+    fflush(stdin);
+    while(scanf("%i", &nroPract) != 1)
     {
-        cambiarEliminadoIngreso(1, ingresoAMod->ingreso, archivoIngresos);
-        paciente->listaIngresos = eliminarNodoIngreso(paciente->listaIngresos, ingresoAMod);
-        ingresoAMod->ingreso.eliminado = 1;
-        printf("Ingreso Dado de Baja Exitosamente\n");
+        printf("Nro de Practica NO VALIDO\n Ingrese nuevamente el nro de practica: ");
+        fflush(stdin);
     }
+    nodoPxI * pxiAEliminar = buscarPxI(ingresoAMod->listaPxI, nroPract);
+    if(pxiAEliminar)
+    {
+        ingresoAMod->listaPxI = eliminarNodoPxI(ingresoAMod->listaPxI, pxiAEliminar);///Para esto no se debe poder cargar dos veces la misma practica
+        cambiarEliminadoPxI(pxiAEliminar->PxI,archPxI);
+        if(!ingresoAMod->listaPxI)
+        {
+            cambiarEliminadoIngreso(1, ingresoAMod->ingreso, archivoIngresos);
+            listaIngresos = eliminarNodoIngreso(listaIngresos, ingresoAMod);
+            ingresoAMod->ingreso.eliminado = 1;
+            printf("Se elimino la unica practica que tenia el ingreso.\n El ingreso se dio de baja");
+            mostrarIngreso(ingresoAMod->ingreso);
+        }
+        else
+        {
+            printf("Se dio de baja correctamente.\n Asi quedo el ingreso:");
+            mostrarIngresoYPracticas(ingresoAMod);
+        }
+    }
+return listaIngresos;
 }
+
+
+
