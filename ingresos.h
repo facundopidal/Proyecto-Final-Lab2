@@ -74,6 +74,7 @@ nodoIngreso * agregarPpioIngreso(nodoIngreso * lista, nodoIngreso * nodo);
 nodoIngreso * altaListaIngreso(nodoIngreso * lista, char dni[],char nombreArchivo[]);
 nodoIngreso * buscarIngreso(nodoIngreso * lista, int id);
 nodoIngreso * eliminarNodoIngreso(nodoIngreso * lista, nodoIngreso * nodo);
+nodoPxI * eliminarNodoPxI(nodoPxI * lista, nodoPxI * nodo);
 PRACTICAxINGRESO cargarPxI(int idIngreso);
 nodoPxI* liberarListaPxI(nodoPxI* lista);
 nodoPxI * altaListaPxI(nodoPxI * lista, int idIngreso);
@@ -81,5 +82,5 @@ nodoPxI * crearNodoPxI(PRACTICAxINGRESO pxi);
 nodoPxI * agregarPpioPxI(nodoPxI * lista, nodoPxI * nodo);
 nodoPxI * buscarPxI(nodoPxI * lista, int nroPract);
 nodoIngreso * modificarPxI(nodoIngreso * ingresoAMod, char nombreArch[]);
-nodoIngreso * bajaPxI(nodoIngreso * listaIngresos,nodoIngreso * ingresoAMod, char archPxI[]);
+nodoPxI * bajaPxI(nodoIngreso * listaIngresos,nodoIngreso * ingresoAMod, char archPxI[]);
 #endif // INGRESOS_H_INCLUDED

@@ -180,11 +180,13 @@ nodoPaciente * modificarIngreso(nodoPaciente * arbol, char archIngresos[], char 
                         while(getchar() != '\n');
                     }
                 case 3:
-                    pacienteAModificar->listaIngresos = bajaPxI(pacienteAModificar->listaIngresos,ingresoAMod,archPxI);
+                    pacienteAModificar->listaIngresos->listaPxI = bajaPxI(pacienteAModificar->listaIngresos,ingresoAMod,archPxI);
                     if(!ingresoAMod->listaPxI)
                     {
-                        ///PLANTEAR CODIGO
-
+                        printf("Se dio de baja el ingreso ya que se eliminaron todas sus practicas\n");
+                        cambiarEliminadoIngreso(1, ingresoAMod->ingreso, archivoIngresos);
+                        pacienteAModificar->listaIngresos = eliminarNodoIngreso(pacienteAModificar->listaIngresos, ingresoAMod);
+                        modificarArchivoIngresos(archIngresos, ingresoAMod->ingreso);
                         return arbol;
                     }
                     break;
@@ -211,7 +213,40 @@ nodoPaciente * modificarIngreso(nodoPaciente * arbol, char archIngresos[], char 
     return arbol;
 }
 
+nodoPxI * bajaPxI(nodoIngreso * listaIngresos,nodoIngreso * ingresoAMod, char archPxI[])
+{
+    ///Elimina el nodoPxI, borra el pxi del archivo y si es el unico pxi da de baja el ingreso
+    mostrarPracticasAsociadas(ingresoAMod);
+    int nroPract;
+    printf("Ingrese el Nro de Practica a Eliminar: ");
+    fflush(stdin);
+    while(scanf("%i", &nroPract) != 1)
+    {
+        printf("Nro de Practica NO VALIDO\n Ingrese nuevamente el nro de practica: ");
+        fflush(stdin);
+    }
+    nodoPxI * pxiAEliminar = buscarPxI(ingresoAMod->listaPxI, nroPract);
+    if(pxiAEliminar)
+    {
+        cambiarEliminadoPxI(pxiAEliminar->PxI,archPxI);
+        ingresoAMod->listaPxI = eliminarNodoPxI(ingresoAMod->listaPxI, pxiAEliminar);///Para esto no se debe poder cargar dos veces la misma practica
+        if(!ingresoAMod->listaPxI)
+        {
+            ingresoAMod->ingreso.eliminado = 1;
+            printf("Se elimino la unica practica que tenia el ingreso.\n El ingreso se dio de baja");
+            mostrarIngreso(ingresoAMod->ingreso);
+        }
+        else
+        {
+            printf("Se dio de baja correctamente.\n Asi quedo el ingreso:");
+            mostrarIngresoYPracticas(ingresoAMod);
+        }
+    }
+        printf("Aca termina BAJA PXI\n");
+        system("pause");
 
+return ingresoAMod->listaPxI;
+}
 
 
 ///-------------------------------------    MOSTRAR    ----------------------------------------------------------------------------------------------------------------------------------------
@@ -778,41 +813,7 @@ nodoIngreso * modificarPxI(nodoIngreso * ingresoAMod, char nombreArch[])
     return ingresoAMod;
 }
 
-nodoIngreso * bajaPxI(nodoIngreso * listaIngresos,nodoIngreso * ingresoAMod, char archPxI[])
-{
-    ///Elimina el nodoPxI, borra el pxi del archivo y si es el unico pxi da de baja el ingreso
-    mostrarPracticasAsociadas(ingresoAMod);
-    int nroPract;
-    printf("Ingrese el Nro de Practica a Eliminar: ");
-    fflush(stdin);
-    while(scanf("%i", &nroPract) != 1)
-    {
-        printf("Nro de Practica NO VALIDO\n Ingrese nuevamente el nro de practica: ");
-        fflush(stdin);
-    }
-    nodoPxI * pxiAEliminar = buscarPxI(ingresoAMod->listaPxI, nroPract);
-    if(pxiAEliminar)
-    {
-        cambiarEliminadoPxI(pxiAEliminar->PxI,archPxI);
-        ingresoAMod->listaPxI = eliminarNodoPxI(ingresoAMod->listaPxI, pxiAEliminar);///Para esto no se debe poder cargar dos veces la misma practica
-        if(!ingresoAMod->listaPxI)
-        {
-            cambiarEliminadoIngreso(1, ingresoAMod->ingreso, archivoIngresos);
-            listaIngresos = eliminarNodoIngreso(listaIngresos, ingresoAMod);
-            ingresoAMod->ingreso.eliminado = 1;
-            printf("Se elimino la unica practica que tenia el ingreso.\n El ingreso se dio de baja");
-            mostrarIngreso(ingresoAMod->ingreso);
-        }
-        else
-        {
-            printf("Se dio de baja correctamente.\n Asi quedo el ingreso:");
-            mostrarIngresoYPracticas(ingresoAMod);
-        }
-    }
-        printf("Aca termina BAJA PXI\n");
-        system("pause");
-return listaIngresos;
-}
+
 
 
 
