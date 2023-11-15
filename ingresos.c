@@ -181,6 +181,12 @@ nodoPaciente * modificarIngreso(nodoPaciente * arbol, char archIngresos[], char 
                     }
                 case 3:
                     pacienteAModificar->listaIngresos = bajaPxI(pacienteAModificar->listaIngresos,ingresoAMod,archPxI);
+                    if(!ingresoAMod->listaPxI)
+                    {
+                        ///PLANTEAR CODIGO
+
+                        return arbol;
+                    }
                     break;
                 case 4:
                     ingresoAMod = modificarPxI(ingresoAMod,archPxI);
@@ -213,9 +219,7 @@ nodoPaciente * modificarIngreso(nodoPaciente * arbol, char archIngresos[], char 
 void mostrarIngresosArbol(nodoPaciente* arbol)
 {
     mostrarIngresosArbol(arbol->izq);
-
     mostrarIngresosPaciente(arbol);
-
     mostrarIngresosArbol(arbol->der);
 
 }
@@ -446,13 +450,17 @@ void cambiarEliminadoPxI(PRACTICAxINGRESO pxi,char nombreArchivo[])
     {
         while(flag ==0 && fread(&aux,sizeof(PRACTICAxINGRESO),1,buffer)>0)
         {
-            if(aux.idIngreso == pxi.idIngreso && aux.nroPractica == pxi.nroPractica)
+            if((aux.idIngreso == pxi.idIngreso) && (aux.nroPractica == pxi.nroPractica))
             {
-                aux.idIngreso = aux.idIngreso *(-1);
+                pxi.idIngreso = pxi.idIngreso *(-1);
                 fseek(buffer, (-1) * sizeof(PRACTICAxINGRESO),1);
-                fwrite(&aux, sizeof(PRACTICAxINGRESO), 1, buffer);
+                fwrite(&pxi, sizeof(PRACTICAxINGRESO), 1, buffer);
                 flag = 1;
+                printf("IF\n");
+
             }
+            else
+                printf("ELSE\n");
         }
     fclose(buffer);
     }
@@ -785,8 +793,8 @@ nodoIngreso * bajaPxI(nodoIngreso * listaIngresos,nodoIngreso * ingresoAMod, cha
     nodoPxI * pxiAEliminar = buscarPxI(ingresoAMod->listaPxI, nroPract);
     if(pxiAEliminar)
     {
-        ingresoAMod->listaPxI = eliminarNodoPxI(ingresoAMod->listaPxI, pxiAEliminar);///Para esto no se debe poder cargar dos veces la misma practica
         cambiarEliminadoPxI(pxiAEliminar->PxI,archPxI);
+        ingresoAMod->listaPxI = eliminarNodoPxI(ingresoAMod->listaPxI, pxiAEliminar);///Para esto no se debe poder cargar dos veces la misma practica
         if(!ingresoAMod->listaPxI)
         {
             cambiarEliminadoIngreso(1, ingresoAMod->ingreso, archivoIngresos);
@@ -801,6 +809,8 @@ nodoIngreso * bajaPxI(nodoIngreso * listaIngresos,nodoIngreso * ingresoAMod, cha
             mostrarIngresoYPracticas(ingresoAMod);
         }
     }
+        printf("Aca termina BAJA PXI\n");
+        system("pause");
 return listaIngresos;
 }
 
