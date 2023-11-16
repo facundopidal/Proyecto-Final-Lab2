@@ -83,4 +83,5 @@ nodoPxI * agregarPpioPxI(nodoPxI * lista, nodoPxI * nodo);
 nodoPxI * buscarPxI(nodoPxI * lista, int nroPract);
 nodoIngreso * modificarPxI(nodoIngreso * ingresoAMod, char nombreArch[]);
 nodoPxI * bajaPxI(nodoIngreso * listaIngresos,nodoIngreso * ingresoAMod, char archPxI[]);
+bool pxiRepetida (nodoPxI* lista, int giorgio);
 #endif // INGRESOS_H_INCLUDED

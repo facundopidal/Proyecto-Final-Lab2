@@ -183,7 +183,6 @@ nodoPaciente * modificarIngreso(nodoPaciente * arbol, char archIngresos[], char 
                     pacienteAModificar->listaIngresos->listaPxI = bajaPxI(pacienteAModificar->listaIngresos,ingresoAMod,archPxI);
                     if(!ingresoAMod->listaPxI)
                     {
-                        printf("Se dio de baja el ingreso ya que se eliminaron todas sus practicas\n");
                         cambiarEliminadoIngreso(1, ingresoAMod->ingreso, archivoIngresos);
                         pacienteAModificar->listaIngresos = eliminarNodoIngreso(pacienteAModificar->listaIngresos, ingresoAMod);
                         modificarArchivoIngresos(archIngresos, ingresoAMod->ingreso);
@@ -216,7 +215,6 @@ nodoPaciente * modificarIngreso(nodoPaciente * arbol, char archIngresos[], char 
 nodoPxI * bajaPxI(nodoIngreso * listaIngresos,nodoIngreso * ingresoAMod, char archPxI[])
 {
     ///Elimina el nodoPxI, borra el pxi del archivo y si es el unico pxi da de baja el ingreso
-    mostrarPracticasAsociadas(ingresoAMod);
     int nroPract;
     printf("Ingrese el Nro de Practica a Eliminar: ");
     fflush(stdin);
@@ -238,12 +236,12 @@ nodoPxI * bajaPxI(nodoIngreso * listaIngresos,nodoIngreso * ingresoAMod, char ar
         }
         else
         {
-            printf("Se dio de baja correctamente.\n Asi quedo el ingreso:");
+            printf("Se dio de baja correctamente.\n Asi quedo el ingreso\n:");
             mostrarIngresoYPracticas(ingresoAMod);
         }
     }
-        printf("Aca termina BAJA PXI\n");
-        system("pause");
+    else
+        printf("Practica No encontrada volviendo al menu\n");
 
 return ingresoAMod->listaPxI;
 }
@@ -491,11 +489,7 @@ void cambiarEliminadoPxI(PRACTICAxINGRESO pxi,char nombreArchivo[])
                 fseek(buffer, (-1) * sizeof(PRACTICAxINGRESO),1);
                 fwrite(&pxi, sizeof(PRACTICAxINGRESO), 1, buffer);
                 flag = 1;
-                printf("IF\n");
-
             }
-            else
-                printf("ELSE\n");
         }
     fclose(buffer);
     }
@@ -676,7 +670,11 @@ nodoPxI * altaListaPxI(nodoPxI * lista, int idIngreso)
     while(seguir == 1)
     {
         PRACTICAxINGRESO aux = cargarPxI(idIngreso);
-        lista = agregarPpioPxI(lista, crearNodoPxI(aux));
+        if(!pxiRepetida(lista,aux.nroPractica))
+            lista = agregarPpioPxI(lista, crearNodoPxI(aux));
+        else
+            printf("\nERORR Se ingreso una practica repetida\n\n");
+
         printf("1. Ingresar otra practica\n");
         printf("00. Confirmar practicas\n");
         printf("--> ");
@@ -753,7 +751,7 @@ nodoIngreso * modificarPxI(nodoIngreso * ingresoAMod, char nombreArch[])
 {
     if(ingresoAMod)
     {
-        mostrarPracticasAsociadas(ingresoAMod);
+        //mostrarPracticasAsociadas(ingresoAMod);
         int nroPract;
         printf("Ingrese el Nro de Practica a Modificar: ");
         fflush(stdin);
@@ -766,6 +764,7 @@ nodoIngreso * modificarPxI(nodoIngreso * ingresoAMod, char nombreArch[])
         if(pxiAMod)
         {
             int opcion;
+            int matiaux=0;
             do
             {
                 system("cls");
@@ -779,11 +778,12 @@ nodoIngreso * modificarPxI(nodoIngreso * ingresoAMod, char nombreArch[])
                 case 1:
                     printf("Ingrese el nuevo numero de practica: ");
                     fflush(stdin);
-                    while(scanf("%i", &pxiAMod->PxI.nroPractica) != 1 || !validarExistenciaPracticaActiva(pxiAMod->PxI.nroPractica, archivoPracticas))
+                    while((scanf("%i", &matiaux) != 1) || (pxiRepetida(ingresoAMod->listaPxI,pxiAMod->PxI.nroPractica)) || (!validarExistenciaPracticaActiva(matiaux, archivoPracticas)))
                     {
-                        printf("Numero NO VALIDO\n Ingrese nuevamente: ");
+                        printf("Numero NO VALIDO o Practica Repetida\n Ingrese nuevamente: ");
                         fflush(stdin);
                     }
+                    pxiAMod->PxI.nroPractica = matiaux;
                     break;
                 case 2:
                     printf("Ingrese el resultado nuevo(Hasta 40 caracteres): ");
@@ -813,7 +813,18 @@ nodoIngreso * modificarPxI(nodoIngreso * ingresoAMod, char nombreArch[])
     return ingresoAMod;
 }
 
-
-
+bool pxiRepetida (nodoPxI* lista, int giorgio)
+{
+    nodoPxI* aux = lista;
+    while(aux)
+    {
+        printf("%i\n",aux->PxI.nroPractica);
+        if(aux->PxI.nroPractica ==  giorgio)
+            return true;
+        aux=aux->sig;
+    }
+    printf("NO REPETIDAaaaaaa\n");
+    return false;
+}
 
 

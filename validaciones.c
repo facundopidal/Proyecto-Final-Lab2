@@ -228,6 +228,7 @@ bool validarExistenciaPractica(int id, char nombreArchivo[])
                 return true;
         }
         fclose(buffer);
+        printf("NO LA ENCONTRROOOOR\n");
     }
     return false;
 }
@@ -247,6 +248,10 @@ bool validarPracticaRepetida(char nombre[DIM_NPRACTICA], char nombreArchivo[])//
     }
     return false;
 }
+
+
+
+
 ///----------------------------------------------    NUMEROS     -----------------------------------------------------------------------------------------------------------
 
 bool validarEdad(int edad)
