@@ -118,6 +118,7 @@ void modificarEmpleado(char nombreArch[])
     else
         printf("No se encontro el usuario\n");
 }
+
 EMPLEADO cargarEmpleado(char dni[])
 {
     EMPLEADO x;
@@ -241,4 +242,44 @@ void eliminarUsuario(char dni[], char nombreArchivo[])
 
     rename("temporal.bin", nombreArchivo);
 }
+
+int buscarUsuario(char nombreArchivo[],char dni[DIM_DNI],char password[DIM_PASSWORD])
+{
+    FILE * buffer = fopen(nombreArchivo,"rb");
+    EMPLEADO aux;
+    if(buffer)
+    {
+        while(fread(&aux,sizeof(EMPLEADO),1,buffer) > 0)
+        {
+            if(dnicmp(aux.dni,dni) == 0 && strcmp(aux.password,password) == 0)
+            {
+                fclose(buffer);
+                return aux.tipoPerfil;
+            }
+        }
+      fclose(buffer);
+    }
+    return -1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

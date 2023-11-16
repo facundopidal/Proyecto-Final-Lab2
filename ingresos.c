@@ -778,11 +778,8 @@ nodoIngreso * modificarPxI(nodoIngreso * ingresoAMod, char nombreArch[])
                 case 1:
                     printf("Ingrese el nuevo numero de practica: ");
                     fflush(stdin);
-<<<<<<< HEAD
+
                     while((scanf("%i", &matiaux) != 1) || (pxiRepetida(ingresoAMod->listaPxI,matiaux)) || (!validarExistenciaPracticaActiva(matiaux, archivoPracticas)))
-=======
-                    while((scanf("%i", &matiaux) != 1) || (pxiRepetida(ingresoAMod->listaPxI,pxiAMod->PxI.nroPractica)) || (!validarExistenciaPracticaActiva(matiaux, archivoPracticas)))
->>>>>>> refs/remotes/origin/main
                     {
                         printf("Numero NO VALIDO o Practica Repetida\n Ingrese nuevamente: ");
                         fflush(stdin);
@@ -822,19 +819,10 @@ bool pxiRepetida (nodoPxI* lista, int giorgio)
     nodoPxI* aux = lista;
     while(aux)
     {
-        printf("%i\n",aux->PxI.nroPractica);
-<<<<<<< HEAD
-        if(aux->PxI.nroPractica == giorgio)
-            return true;
-        aux=aux->sig;
-    }
-=======
         if(aux->PxI.nroPractica ==  giorgio)
             return true;
         aux=aux->sig;
     }
-    printf("NO REPETIDAaaaaaa\n");
->>>>>>> refs/remotes/origin/main
     return false;
 }
 
