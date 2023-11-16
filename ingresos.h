@@ -64,6 +64,7 @@ void cargarArchivoPxI(char nombreArch[],nodoPxI * lista);
 int obternerIdIngresoArchivo(char nombreArchivo[]);
 void modificarArchivoIngresos(char nombreArch[], INGRESO x);
 void modificarArchivoPxI(char nombreArch[], PRACTICAxINGRESO pxi, int nroPract);
+void cambiarEliminadoPxI(PRACTICAxINGRESO pxi,char nombreArchivo[]);
 
 ///-------------------------------------    AUXILIARES    --------------------------------------------------------------------------------------------------------------------------------
 
@@ -73,6 +74,7 @@ nodoIngreso * agregarPpioIngreso(nodoIngreso * lista, nodoIngreso * nodo);
 nodoIngreso * altaListaIngreso(nodoIngreso * lista, char dni[],char nombreArchivo[]);
 nodoIngreso * buscarIngreso(nodoIngreso * lista, int id);
 nodoIngreso * eliminarNodoIngreso(nodoIngreso * lista, nodoIngreso * nodo);
+nodoPxI * eliminarNodoPxI(nodoPxI * lista, nodoPxI * nodo);
 PRACTICAxINGRESO cargarPxI(int idIngreso);
 nodoPxI* liberarListaPxI(nodoPxI* lista);
 nodoPxI * altaListaPxI(nodoPxI * lista, int idIngreso);
@@ -80,5 +82,6 @@ nodoPxI * crearNodoPxI(PRACTICAxINGRESO pxi);
 nodoPxI * agregarPpioPxI(nodoPxI * lista, nodoPxI * nodo);
 nodoPxI * buscarPxI(nodoPxI * lista, int nroPract);
 nodoIngreso * modificarPxI(nodoIngreso * ingresoAMod, char nombreArch[]);
-nodoIngreso * bajaPxI(nodoIngreso * ingresoAMod, nodoPxI * pxiAEliminar, char archPxI[]);
+nodoPxI * bajaPxI(nodoIngreso * listaIngresos,nodoIngreso * ingresoAMod, char archPxI[]);
+bool pxiRepetida (nodoPxI* lista, int giorgio);
 #endif // INGRESOS_H_INCLUDED

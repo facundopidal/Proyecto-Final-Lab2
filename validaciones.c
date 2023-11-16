@@ -228,6 +228,7 @@ bool validarExistenciaPractica(int id, char nombreArchivo[])
                 return true;
         }
         fclose(buffer);
+        printf("NO LA ENCONTRROOOOR\n");
     }
     return false;
 }
@@ -247,6 +248,10 @@ bool validarPracticaRepetida(char nombre[DIM_NPRACTICA], char nombreArchivo[])//
     }
     return false;
 }
+
+
+
+
 ///----------------------------------------------    NUMEROS     -----------------------------------------------------------------------------------------------------------
 
 bool validarEdad(int edad)
@@ -275,4 +280,22 @@ int generarMatricula()
     srand(time(NULL));
     int n = rand()% 90000 + 10000;
     return n;
+}
+
+char * generarPassword()
+{
+    srand(time(NULL));
+    char caracteres[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+    int longitud = 5;
+    char* resultado = (char*)malloc((longitud + 1) * sizeof(char));
+
+    for (int i = 0; i < longitud; ++i)
+    {
+        int indice = rand() % (sizeof(caracteres) - 1);
+        resultado[i] = caracteres[indice];
+    }
+
+    resultado[longitud] = '\0';
+
+    return resultado;
 }

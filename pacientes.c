@@ -373,7 +373,7 @@ PACIENTE cargarPaciente(char dni[])
     printf("Ingrese Nombre: ");
     fflush(stdin);
     gets(x.nombre);
-    while(!validarPalabras(x.nombre,DIM_NPRACTICA))
+    while(!validarPalabras(x.nombre,DIM_NOMBRE))
     {
         printf("Nombre NO VALIDO\n Ingrese nuevamente:  ");
         fflush(stdin);

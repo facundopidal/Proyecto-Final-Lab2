@@ -5,6 +5,7 @@
 #include "validaciones.h"
 #include "ingresos.h"
 #include "practicas.h"
+#include "empleados.h"
 
 nodoPaciente* arbolPacientes = NULL;
 void menuAdmin();
@@ -31,7 +32,7 @@ void menuAdmin()
         printf("Que desea realizar?\n\n");
         printf("1.PACIENTES\n");
         printf("2.INGRESOS\n");
-        printf("3.\n");
+        printf("3.EMPLEADOS\n");
         printf("4.PRACTICAS\n");
         printf("5.\n");
         printf("6.\n");
@@ -153,6 +154,12 @@ void menuAdmin()
                 }
             }
             while(optIngresos != 0);
+            break;
+        case 3:
+            altaEmpleado(archivoEmpleados);
+            system("pause");
+            system("cls");
+            break;
         case 4:
             do
             {

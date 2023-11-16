@@ -8,6 +8,7 @@
 #define DIM_NPRACTICA 50
 #define DIM_FECHA 10
 #define DIM_RESULTADO 40
+#define DIM_PASSWORD 20
 #define MAX_EDAD 125
 #define MAX_MATRICULA 99999
 
@@ -26,5 +27,6 @@ bool validarEdad(int edad);
 int leerEnteroPositivo();
 bool validarPracticaRepetida(char nombre[DIM_NPRACTICA], char nombreArchivo[]);/// TRUE si esta repetida
 int generarMatricula();
+char * generarPassword();
 
 #endif // VALIDACIONES_H_INCLUDED
