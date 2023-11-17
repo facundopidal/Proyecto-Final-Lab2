@@ -51,7 +51,7 @@ nodoPxI * crearListaPxI(nodoIngreso * ing, char archPxI[])
 ///-------------------------------------    PRINCIPALES   -----------------------------------------------------------------------------------------------------------------------------
 
 
-nodoPaciente * altaIngreso(nodoPaciente * arbol, char nombreArchivoPxI[], char nombreArchivoIngresos[])
+nodoPaciente * altaIngreso(nodoPaciente * arbol, char nombreArchivoIngresos[], char nombreArchivoPxI[])
 {
     char dni[DIM_DNI];
     printf("Ingrese dni del paciente: ");
@@ -246,140 +246,6 @@ nodoPxI * bajaPxI(nodoIngreso * listaIngresos,nodoIngreso * ingresoAMod, char ar
 return ingresoAMod->listaPxI;
 }
 
-
-///-------------------------------------    MOSTRAR    ----------------------------------------------------------------------------------------------------------------------------------------
-
-void mostrarIngresosArbol(nodoPaciente* arbol)
-{
-    mostrarIngresosArbol(arbol->izq);
-    mostrarIngresosPaciente(arbol);
-    mostrarIngresosArbol(arbol->der);
-
-}
-
-void mostrarIngresosPorDNI(nodoPaciente* arbol)
-{
-    char dni[DIM_DNI];
-    printf("Ingrese el dni del paciente: ");
-    strcpy(dni,leerDNI());
-    nodoPaciente* paciente= buscarPaciente(arbol,dni);
-    if(paciente)
-        mostrarIngresosPaciente(paciente);
-    else
-        printf("ERROR-- No se encontro el paciente\n");
-}
-
-
-void mostrarIngreso(INGRESO x)
-{
-    printf("\n");
-    if(x.eliminado==1)
-        printf("ID de Ingreso: %i |DADO DE BAJA|\n",x.ID);
-    else
-        printf("ID de Ingreso: %i\n",x.ID);
-    printf("Fecha de Ingreso: %s\n",x.fechaIngreso);
-    printf("Fecha de Retiro: %s\n",x.fechaRetiro);
-    printf("Matricula: %i\n",x.matricula);
-    printf("-------------------------------------\n");
-}
-
-void mostrarIngresosPaciente(nodoPaciente * paciente)
-{
-    nodoIngreso * aux = paciente->listaIngresos;
-    if(!aux)
-        printf("\nEl paciente %s %s no tiene ingresos asignados\n\n", paciente->paciente.nombre, paciente->paciente.apellido);
-    while(aux)
-    {
-        mostrarIngreso(aux->ingreso);
-        aux = aux->sig;
-    }
-}
-
-void mostrarPxi(PRACTICAxINGRESO pxi)
-{
-    printf("%c   Nro de practica: %i\n", 220,pxi.nroPractica);
-    printf("    Nombre de practica: %s\n", obtenerNombrePractica(pxi.nroPractica, archivoPracticas));
-    printf("    Resultado: %s\n",pxi.resultado);
-    printf("  ------------------------\n");
-}
-
-void mostrarIngresoYPracticas(nodoIngreso * x)
-{
-    nodoIngreso * aux = x;
-    mostrarIngreso(aux->ingreso);
-    nodoPxI * seg = aux->listaPxI;
-    printf("Practicas asociadas:\n");
-    printf("  ------------------------\n");
-    while(seg)
-    {
-        mostrarPxi(seg->PxI);
-        seg = seg->sig;
-    }
-}
-
-void mostrarPxIPaciente(nodoPaciente * arbol)
-{
-    char dni[DIM_DNI];
-    printf("Ingrese dni del paciente: ");
-    strcpy(dni, leerDNI());
-    nodoPaciente * aux = buscarPaciente(arbol, dni);
-    nodoIngreso * seg = aux->listaIngresos;
-    if(aux)
-    {
-        if(seg)
-            printf("Todos los ingresos del paciente %s %s: \n", aux->paciente.nombre, aux->paciente.apellido);
-        else
-            printf("\nEl paciente %s %s no tiene ingresos asignados\n\n", aux->paciente.nombre, aux->paciente.apellido);
-        while(seg)
-        {
-            mostrarIngresoYPracticas(seg);
-            seg = seg->sig;
-        }
-    }
-    else
-        printf("El paciente no se encontro\n");
-}
-
-void mostrarIngresoArchivo(char nombreArchivo[])
-{
-    FILE* buffer = fopen(nombreArchivo, "rb");
-    INGRESO aux;
-    if(buffer)
-    {
-        while(fread(&aux, sizeof(INGRESO), 1, buffer) == 1)
-        {
-            printf("DNI DE PACIENTE: %s\n", aux.dni);
-            mostrarIngreso(aux);
-        }
-        fclose(buffer);
-    }
-}
-
-void mostrarPxIArchivo(char nombreArchivo[])
-{
-    FILE* buffer = fopen(nombreArchivo, "rb");
-    PRACTICAxINGRESO aux;
-    if(buffer)
-    {
-        while(fread(&aux, sizeof(PRACTICAxINGRESO), 1, buffer) == 1)
-        {
-            printf("Id de ingreso: %i\n", aux.idIngreso);
-            mostrarPxi(aux);
-        }
-
-        fclose(buffer);
-    }
-}
-
-void mostrarPracticasAsociadas(nodoIngreso * ing)
-{
-    nodoPxI * aux = ing->listaPxI;
-    while(aux)
-    {
-        mostrarPxi(aux->PxI);
-        aux = aux->sig;
-    }
-}
 
 ///-------------------------------------    ARCHIVO    --------------------------------------------------------------------------------------------------------------------------------------
 
@@ -770,7 +636,7 @@ nodoIngreso * modificarPxI(nodoIngreso * ingresoAMod, char nombreArch[])
                 system("cls");
                 mostrarPxi(pxiAMod->PxI);
                 printf("-------------------------------------\n");
-                printf("Ingrese:\n(1) Editar Nro de Practica\n(2) Editar Resultado\n(00) Salir\n");
+                printf("Ingrese:\n(1) Editar Nro de Practica\n(00) Salir\n");
                 printf("--> ");
                 scanf("%i", &opcion);
                 switch(opcion)
@@ -785,13 +651,6 @@ nodoIngreso * modificarPxI(nodoIngreso * ingresoAMod, char nombreArch[])
                         fflush(stdin);
                     }
                     pxiAMod->PxI.nroPractica = matiaux;
-                    break;
-                case 2:
-                    printf("Ingrese el resultado nuevo(Hasta 40 caracteres): ");
-                    fflush(stdin);
-                    fgets(pxiAMod->PxI.resultado, DIM_RESULTADO + 1, stdin);
-                    pxiAMod->PxI.resultado[strcspn(pxiAMod->PxI.resultado, "\n")] = '\0';
-                    while(getchar() != '\n');
                     break;
                 case 00:
                     modificarArchivoPxI(nombreArch, pxiAMod->PxI, nroPract);

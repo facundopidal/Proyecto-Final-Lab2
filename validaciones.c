@@ -167,7 +167,50 @@ bool validarFechaPosterior(const char *fechaP, const char *fechaA)
     return false;
 }
 
+char * leerFecha()
+{
+    char fecha[DIM_FECHA];
+    fflush(stdin);
+    fgets(fecha, DIM_FECHA + 1, stdin);
+    fecha[strcspn(fecha, "\n")] = '\0';
+    while(getchar() != '\n');
+    while(!validarFecha(fecha))
+    {
+        printf("Fecha NO VALIDA \n-Ingrese una fecha valida con formato dd/mm/aaaa \n-Que sea posterior a hoy: ");
+        fflush(stdin);
+        fgets(fecha, DIM_FECHA + 1, stdin);
+        fecha[strcspn(fecha, "\n")] = '\0';
+        while(getchar() != '\n');
+    }
+    return fecha;
+}
 
+int fchcmp(char * fecha1, char * fecha2)
+{
+    int dia1, mes1, anio1;
+    int dia2, mes2, anio2;
+    sscanf(fecha1, "%d/%d/%d", &dia1, &mes1, &anio1);
+    sscanf(fecha2, "%d/%d/%d", &dia2, &mes2, &anio2);
+
+    if (anio1 > anio2)
+        return 1;
+
+    else if (anio1 == anio2)
+    {
+        if (mes1 > mes2)
+            return 1;
+        else if (mes1 == mes2)
+        {
+            if (dia1 > dia2)
+                return 1;
+
+            else if(dia1 == dia2)
+                return 0;
+        }
+    }
+
+    return -1;
+}
 
 ///----------------------------------------------------    PALABRAS     --------------------------------------------------------------------------------------------------
 

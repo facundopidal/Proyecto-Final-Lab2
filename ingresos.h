@@ -39,22 +39,9 @@ nodoPxI * crearListaPxI(nodoIngreso * ing, char archPxI[]);
 
 ///-------------------------------------    PRINCIPALES   -----------------------------------------------------------------------------------------------------------------------------
 
-nodoPaciente * altaIngreso(nodoPaciente * arbol, char nombreArchivoPxI[], char nombreArchivoIngresos[]);
+nodoPaciente * altaIngreso(nodoPaciente * arbol, char nombreArchivoIngresos[], char nombreArchivoPxI[]);
 nodoPaciente * bajaIngreso(nodoPaciente * arbol, char nombreArchivo[]);
 nodoPaciente * modificarIngreso(nodoPaciente * arbol, char archIngresos[], char archPxI[]);
-
-///-------------------------------------    MOSTRAR    ----------------------------------------------------------------------------------------------------------------------------------------
-
-void mostrarIngresosPorDNI(nodoPaciente* arbol);
-void mostrarIngresosArbol(nodoPaciente* arbol);
-void mostrarIngreso(INGRESO x);
-void mostrarIngresosPaciente(nodoPaciente * paciente);
-void mostrarPxi(PRACTICAxINGRESO pxi);
-void mostrarIngresoYPracticas(nodoIngreso * x);
-void mostrarPxIPaciente(nodoPaciente * arbol);
-void mostrarIngresoArchivo(char nombreArchivo[]);
-void mostrarPxIArchivo(char nombreArchivo[]);
-void mostrarPracticasAsociadas(nodoIngreso * ing);
 
 ///-------------------------------------    ARCHIVO    --------------------------------------------------------------------------------------------------------------------------------------
 

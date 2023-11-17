@@ -21,7 +21,7 @@ typedef struct nodoPaciente{
 }nodoPaciente;
 
 typedef struct nodoListaP{
-    struct nodoPaciente* sig;
+    struct nodoListaP* sig;
     PACIENTE paciente;
 }nodoListaP;
 
@@ -39,11 +39,6 @@ nodoPaciente * bajaPaciente(nodoPaciente * arbol);
 
 ///ADICIONALES
 nodoListaP* listaPacientesAlfabetica(nodoPaciente* arbol);
-
-///MOSTRAR
-void mostrarPaciente(PACIENTE x);
-void mostrarPacientesTodos(char nombreArchivo[]);
-void mostrarPacientesActivos(nodoPaciente* arbol);
 
 ///ARCHIVO
 void cargarArchivoPacientes(char nombreArch[],PACIENTE x);

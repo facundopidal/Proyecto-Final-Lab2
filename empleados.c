@@ -196,17 +196,6 @@ void cargarArchivoEmpleados(EMPLEADO x, char nombreArch[])
     }
 }
 
-void mostrarEmpleado(EMPLEADO x)
-{
-    printf("------------------------\n");
-    printf("DNI: %s\n", x.dni);
-    printf("Nombre: %s\n", x.nombre);
-    printf("Apellido: %s\n", x.apellido);
-    printf("Contrase%ca: %s\n", 164, x.password);
-    printf("Tipo de empleado: %s\n", tipoEmpleado(x.tipoPerfil));
-    printf("------------------------\n");
-}
-
 char * tipoEmpleado(int tipo)
 {
     if(tipo == 0)

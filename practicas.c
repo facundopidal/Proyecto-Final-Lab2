@@ -108,36 +108,6 @@ void altaPractica(char nombreArchivo[])
 }
 
 
-
-///------------------------------------------    MOSTRAR     ---------------------------------------------------------------
-
-void mostrarPractica(PRACTICA x)
-{
-    printf("-----------------------------------\n");
-    printf("ID:%i ",x.nro);
-    printf("%s",x.nombrePractica);
-    if(x.eliminado==1)
-        printf(" |DADA DE BAJA| \n");
-    else
-        printf("\n");
-    printf("-----------------------------------\n");
-}
-
-void mostrarPracticasArch(char nombreArchivo[])
-{
-    FILE *buffer = fopen(nombreArchivo, "rb");
-    if(buffer)
-    {
-        PRACTICA aux;
-        printf("PRACTICAS CARGADAS EN EL SISTEMA\n");
-        while(fread(&aux, sizeof(PRACTICA), 1, buffer) > 0)
-        {
-            mostrarPractica(aux);
-        }
-        fclose(buffer);
-    }
-}
-
 ///------------------------------------------    ARCHIVO     ---------------------------------------------------------------
 
 

@@ -15,10 +15,6 @@ void modificarPractica(char nombreArchivo[]);
 void bajaPractica(char nombreArchivo[]);
 void altaPractica(char nombreArchivo[]);
 
-///MOSTRAR
-void mostrarPractica(PRACTICA x);
-void mostrarPracticasArch(char nombreArchivo[]);
-
 ///AUXILIARES
 PRACTICA cargarPractica();
 int obtenerUltimoNro(char nombreArchivo[]);

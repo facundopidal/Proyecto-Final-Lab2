@@ -6,6 +6,7 @@
 #include "pacientes.h"
 #include "ingresos.h"
 #include "practicas.h"
+#include "mostrar.h"
 
 ///-------------------------------------    CREAR ARBOL   -----------------------------------------------------------------------------------------------------------------------------
 
@@ -229,43 +230,6 @@ nodoPaciente * bajaPaciente(nodoPaciente * arbol)
     return arbol;
 }
 
-
-
-///-------------------------------------    MOSTRAR    ----------------------------------------------------------------------------------------------------------------------------------------
-
-void mostrarPaciente(PACIENTE x)
-{
-    printf("\nDNI: %s  ",x.dni);
-    if(x.eliminado == 1)
-        printf("|DADO DE BAJA|");
-    printf("\nApellido y Nombre: %s %s",x.apellido,x.nombre);
-    printf("\nDireccion: %s",x.direccion);
-    printf("\nTelefono: %s",x.telefono);
-    printf("\nEdad: %i\n",x.edad);
-}
-
-void mostrarPacientesTodos(char nombreArchivo[])
-{
-    FILE *buffer= fopen(nombreArchivo,"rb");
-    PACIENTE aux;
-    if(buffer)
-    {
-        while(fread(&aux,sizeof(PACIENTE),1,buffer) == 1)
-            mostrarPaciente(aux);
-        fclose(buffer);
-    }
-}
-
-void mostrarPacientesActivos(nodoPaciente* arbol)
-{
-    if(arbol)
-    {
-        mostrarPacientesActivos(arbol->izq);
-        if(arbol->paciente.eliminado == 0)
-            mostrarPaciente(arbol->paciente);
-        mostrarPacientesActivos(arbol->der);
-    }
-}
 
 ///-------------------------------------    ARCHIVO    --------------------------------------------------------------------------------------------------------------------------------------
 
@@ -523,4 +487,5 @@ nodoListaP* crearNodoListaPaciente(PACIENTE x)
     nn->paciente=x;
 return nn;
 }
+
 

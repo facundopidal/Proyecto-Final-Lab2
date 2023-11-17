@@ -19,7 +19,6 @@ void altaEmpleado(char nombreArch[]);
 EMPLEADO buscarEmpleado(char dni[], char nombreArch[]);
 EMPLEADO cargarEmpleado(char dni[]);
 void cargarArchivoEmpleados(EMPLEADO x, char nombreArch[]);
-void mostrarEmpleado(EMPLEADO x);
 char * tipoEmpleado(int tipo);
 void eliminarUsuario(char dni[], char nombreArchivo[]);
 int buscarUsuario(char nombreArchivo[],char dni[DIM_DNI],char password[DIM_PASSWORD]);

@@ -5,6 +5,10 @@
 
 void menuDeMenus();
 void menuAdmin();
-
+void menuAdministrativo();
+void menuPacientesAdministrativos();
+void menuMostrarPacientes();
+void menuIngresosAdministrativos();
+void menuMostrarIngresos();
 
 #endif // MENUS_H_INCLUDED
