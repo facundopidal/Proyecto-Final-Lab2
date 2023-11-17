@@ -186,3 +186,105 @@
 1700246930 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\mostrar.h
 	"empleados.h"
 
+1700251402 source:c:\users\tikic\onedrive\escritorio\proyecto-final-lab2\empleados.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	"empleados.h"
+
+1700251402 c:\users\tikic\onedrive\escritorio\proyecto-final-lab2\empleados.h
+	"validaciones.h"
+
+1700248895 c:\users\tikic\onedrive\escritorio\proyecto-final-lab2\validaciones.h
+
+1700248895 source:c:\users\tikic\onedrive\escritorio\proyecto-final-lab2\ingresos.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	"validaciones.h"
+	"pacientes.h"
+	"ingresos.h"
+	"practicas.h"
+
+1700248895 c:\users\tikic\onedrive\escritorio\proyecto-final-lab2\pacientes.h
+
+1700248895 c:\users\tikic\onedrive\escritorio\proyecto-final-lab2\ingresos.h
+	"pacientes.h"
+
+1700248895 c:\users\tikic\onedrive\escritorio\proyecto-final-lab2\practicas.h
+
+1700248895 source:c:\users\tikic\onedrive\escritorio\proyecto-final-lab2\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	"validaciones.h"
+	"ingresos.h"
+	"practicas.h"
+	"empleados.h"
+	"pacientes.h"
+	"menus.h"
+
+1700249677 c:\users\tikic\onedrive\escritorio\proyecto-final-lab2\menus.h
+
+1700250145 source:c:\users\tikic\onedrive\escritorio\proyecto-final-lab2\menus.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	"validaciones.h"
+	"pacientes.h"
+	"ingresos.h"
+	"empleados.h"
+	"practicas.h"
+	"mostrar.h"
+	"menus.h"
+
+1700249677 c:\users\tikic\onedrive\escritorio\proyecto-final-lab2\mostrar.h
+	"empleados.h"
+
+1700249653 source:c:\users\tikic\onedrive\escritorio\proyecto-final-lab2\mostrar.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	"validaciones.h"
+	"pacientes.h"
+	"ingresos.h"
+	"empleados.h"
+	"practicas.h"
+	"mostrar.h"
+
+1700248895 source:c:\users\tikic\onedrive\escritorio\proyecto-final-lab2\pacientes.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	"validaciones.h"
+	"pacientes.h"
+	"ingresos.h"
+	"practicas.h"
+	"mostrar.h"
+
+1700248895 source:c:\users\tikic\onedrive\escritorio\proyecto-final-lab2\practicas.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	"validaciones.h"
+	"pacientes.h"
+	"ingresos.h"
+	"practicas.h"
+
+1700248895 source:c:\users\tikic\onedrive\escritorio\proyecto-final-lab2\validaciones.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	<time.h>
+	"validaciones.h"
+	"ingresos.h"
+	"practicas.h"
+

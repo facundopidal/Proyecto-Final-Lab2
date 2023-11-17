@@ -46,6 +46,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="menus.h" />
+		<Unit filename="mostrar.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="mostrar.h" />
 		<Unit filename="pacientes.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -58,10 +62,6 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="validaciones.h" />
-		<Extensions>
-			<code_completion />
-			<envvars />
-			<debugger />
-		</Extensions>
+		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

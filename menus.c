@@ -298,6 +298,7 @@ void menuAdministrativo()
             menuIngresosAdministrativos();
             break;
         case 3:
+            menuAjustes();
             break;
         default:
             break;
@@ -461,10 +462,9 @@ void menuMostrarIngresos()
     int opcion;
     do
     {
-        printf("%c CONSULTAR PACIENTES\n", 284);
+        printf("%c MOSTRAR INGRESOS\n", 284);
         printf("    1.Mostrar Ingresos Por DNI\n");
         printf("    2.Mostrar un Ingreso Y sus Practicas\n");
-        printf("    3.Mostrar \n");
         printf("    00.Atras\n");
         printf("--> ");
         fflush(stdin);
@@ -477,11 +477,7 @@ void menuMostrarIngresos()
             system("pause");
             break;
         case 2:
-            mostrarIngresoYPracticas();
-            system("pause");
-            break;
-        case 3:
-
+            mostrarIngresoyPracticasPorDNI(arbolPacientes);
             system("pause");
             break;
         case 00:
@@ -496,3 +492,31 @@ void menuMostrarIngresos()
     }
     while(opcion != 00);
 }
+ void  menuAjustes()
+ {
+     int opcion;
+     do
+     {
+         printf("MENU AJUSTES\n");
+         printf("    1.Cambiar nombre y apellido\n");
+         printf("    2.Cambiar contrase%ca\n",164);
+         printf("    00.Salir del menu\n");
+         printf("--> ");
+         scanf("%i",opcion);
+         switch(opcion)
+         {
+         case 1 :
+            break;
+         case 2 :
+            cambiarPassword(archivoEmpleados);
+            break;
+         case 00 :
+            printf("Saliendo ...");
+            break;
+         default :
+            printf("Ingrese una opcion valida\n");
+            break;
+         }
+     }while(opcion!=0);
+
+ }

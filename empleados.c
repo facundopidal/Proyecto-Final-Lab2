@@ -246,12 +246,42 @@ int buscarUsuario(char nombreArchivo[],char dni[DIM_DNI],char password[DIM_PASSW
                 return aux.tipoPerfil;
             }
         }
-      fclose(buffer);
+        fclose(buffer);
     }
     return -1;
 }
-
-
+void cambiarPassword (char nombreArchivo[])
+{
+    int flag = 0;
+    printf("Ingrese su dni: ");
+    char * dni = leerDNI();
+    char Password[DIM_PASSWORD];
+    printf("Ingrse su  contrase%ca actual: ",164);
+    fflush(stdin);
+    gets(Password);
+    FILE * buffer = fopen(nombreArchivo,'r+b');
+    if(buffer)
+    {
+    EMPLEADO aux;
+     while (flag == 0 && fread(&aux,sizeof(EMPLEADO),1,buffer))
+     {
+         if (strcmp(aux.password,Password)==0&& strcmp(aux.dni,dni)==0)
+         {
+            printf("Ingrese una nueva contrase%ca: ",164);
+            fflush(stdin);
+            gets(aux.password);
+            fseek(buffer,(-1)*sizeof(EMPLEADO),SEEK_CUR);
+            fwrite(&aux,sizeof(EMPLEADO),1,buffer);
+            flag =  1;
+         }
+     }
+     fclose(buffer);
+    }
+    if(flag==0)
+    {
+        printf("Dni o contraseña incorrecta\n");
+    }
+}
 
 
 

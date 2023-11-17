@@ -20,6 +20,7 @@ void mostrarPxIPaciente(nodoPaciente * arbol);
 void mostrarIngresoArchivo(char nombreArchivo[]);
 void mostrarPxIArchivo(char nombreArchivo[]);
 void mostrarPracticasAsociadas(nodoIngreso * ing);
+void mostrarIngresoyPracticasPorDNI(nodoPaciente* arbol);
 ///   CONSULTAR
 void consultarIngreso(nodoPaciente * arbol);
 void mostrarIngresoPorID(nodoPaciente * arbol);

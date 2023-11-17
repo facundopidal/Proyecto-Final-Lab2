@@ -22,6 +22,6 @@ void cargarArchivoEmpleados(EMPLEADO x, char nombreArch[]);
 char * tipoEmpleado(int tipo);
 void eliminarUsuario(char dni[], char nombreArchivo[]);
 int buscarUsuario(char nombreArchivo[],char dni[DIM_DNI],char password[DIM_PASSWORD]);
-
+void cambiarPassword (char nombreArchivo[]);
 
 #endif // EMPLEADOS_H_INCLUDED

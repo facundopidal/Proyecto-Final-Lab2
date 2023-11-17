@@ -94,7 +94,26 @@ void mostrarIngresosPorDNI(nodoPaciente* arbol)
     else
         printf("ERROR-- No se encontro el paciente\n");
 }
-
+void mostrarIngresoyPracticasPorDNI(nodoPaciente* arbol)
+{
+    char dni[DIM_DNI];
+    printf("Ingrese el dni del paciente: ");
+    strcpy(dni,leerDNI());
+    nodoPaciente* paciente= buscarPaciente(arbol,dni);
+    if(paciente)
+    {
+        mostrarIngresosPaciente(paciente);
+        printf("Ingrese un id de ingreso deseado:");
+        int id  =  leerEnteroPositivo();
+        nodoIngreso * aux = buscarIngreso(paciente->listaIngresos,id);
+        if(aux)
+            mostrarIngresoYPracticas(aux);
+        else
+            printf("ERROR-- El id de ingreso no existe en el historial del  paciente\n");
+    }
+    else
+        printf("ERROR-- No se encontro el paciente\n");
+}
 
 void mostrarIngreso(INGRESO x)
 {
