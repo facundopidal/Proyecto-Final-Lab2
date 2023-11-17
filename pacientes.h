@@ -20,6 +20,11 @@ typedef struct nodoPaciente{
     PACIENTE paciente;
 }nodoPaciente;
 
+typedef struct nodoListaP{
+    struct nodoPaciente* sig;
+    PACIENTE paciente;
+}nodoListaP;
+
 ///CargarArbol
 nodoPaciente * crearArbolPacientes(nodoPaciente * arbol, char archPacientes[], char archIngresos[], char archPxi[]);
 nodoPaciente * leerArchivoPacientes(nodoPaciente * arbol, char nombreArch[]);
@@ -30,6 +35,10 @@ nodoPaciente * crearListaDeListas(nodoPaciente * arbol, char archIngresos[], cha
 nodoPaciente* altaPaciente(nodoPaciente* arbol);
 nodoPaciente * modificarPaciente(nodoPaciente * arbol);
 nodoPaciente * bajaPaciente(nodoPaciente * arbol);
+
+
+///ADICIONALES
+nodoListaP* listaPacientesAlfabetica(nodoPaciente* arbol);
 
 ///MOSTRAR
 void mostrarPaciente(PACIENTE x);
@@ -49,6 +58,8 @@ nodoPaciente * buscarPaciente(nodoPaciente * arbol, char dni[]);
 nodoPaciente * agregarPacienteArbol(nodoPaciente * arbol, PACIENTE x);
 nodoPaciente * eliminarNodoPaciente(nodoPaciente * arbol, nodoPaciente * nodo);
 nodoPaciente * encontrarMenorArbolPaciente(nodoPaciente * arbol);
+nodoListaP* crearNodoListaPaciente(PACIENTE x);
+nodoListaP* NodoEnOrden(nodoListaP* lista,PACIENTE x);
 
 
 #endif

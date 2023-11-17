@@ -476,4 +476,51 @@ nodoPaciente * encontrarMenorArbolPaciente(nodoPaciente * arbol)
     return aux;
 }
 
+nodoListaP* listaPacientesAlfabetica(nodoPaciente* arbol)
+{
+
+    nodoListaP * listaAlfabetica = NULL;
+    if(arbol)
+    {
+        listaAlfabetica = NodoEnOrden(listaAlfabetica,arbol->paciente);
+        listaAlfabetica = listaPacientesAlfabetica(arbol->izq);
+        listaAlfabetica = listaPacientesAlfabetica(arbol->der);
+
+    }
+    return listaAlfabetica;
+}
+
+nodoListaP* NodoEnOrden(nodoListaP* lista,PACIENTE x)
+{
+    nodoListaP* nn = crearNodoListaPaciente(x);
+
+    if(!lista)
+        return nn;
+    if(strcmp(nn->paciente.apellido,lista->paciente.apellido)== -1 )
+    {
+        nn->sig = lista;
+        return nn;
+    }
+    nodoListaP* aux=lista;
+    nodoListaP* ante;
+
+    while(aux && strcmp(nn->paciente.apellido,lista->paciente.apellido)== 1)
+    {
+        ante=aux;
+        aux=aux->sig;
+    }
+    nn->sig = aux;
+    ante->sig = nn;
+
+    return lista;
+}
+
+
+nodoListaP* crearNodoListaPaciente(PACIENTE x)
+{
+    nodoListaP * nn = (nodoListaP*)malloc(sizeof(nodoListaP));
+    nn->sig= NULL;
+    nn->paciente=x;
+return nn;
+}
 

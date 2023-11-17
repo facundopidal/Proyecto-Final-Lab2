@@ -6,7 +6,7 @@
 	<string.h>
 	"empleados.h"
 
-1700158299 c:\users\julian\desktop\proyecto-final-lab2\empleados.h
+1700234026 c:\users\julian\desktop\proyecto-final-lab2\empleados.h
 	"validaciones.h"
 
 1700154417 c:\users\julian\desktop\proyecto-final-lab2\validaciones.h
@@ -26,11 +26,11 @@
 1700154417 c:\users\julian\desktop\proyecto-final-lab2\ingresos.h
 	"pacientes.h"
 
-1700157407 c:\users\julian\desktop\proyecto-final-lab2\pacientes.h
+1700235093 c:\users\julian\desktop\proyecto-final-lab2\pacientes.h
 
 1700154417 c:\users\julian\desktop\proyecto-final-lab2\practicas.h
 
-1700154417 source:c:\users\julian\desktop\proyecto-final-lab2\pacientes.c
+1700235059 source:c:\users\julian\desktop\proyecto-final-lab2\pacientes.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
