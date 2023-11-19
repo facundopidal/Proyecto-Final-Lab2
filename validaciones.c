@@ -4,8 +4,9 @@
 #include <string.h>
 #include <time.h>
 #include "validaciones.h"
-#include "ingresos.h"
 #include "practicas.h"
+#include "menus.h"
+
 
 
 ///--------------------------------------------     DNI    ---------------------------------------------------------------------------------------------------
@@ -169,7 +170,7 @@ bool validarFechaPosterior(const char *fechaP, const char *fechaA)
 
 char * leerFecha()
 {
-    char fecha[DIM_FECHA];
+    char * fecha = (char *) malloc(DIM_FECHA * sizeof(char));
     fflush(stdin);
     fgets(fecha, DIM_FECHA + 1, stdin);
     fecha[strcspn(fecha, "\n")] = '\0';
@@ -341,4 +342,22 @@ char * generarPassword()
     resultado[longitud] = '\0';
 
     return resultado;
+}
+
+bool validarPassword(char * password)
+{
+    int len = strlen(password);
+    if(len > DIM_PASSWORD)
+        return false;
+    if (password == NULL)
+        return false;
+
+    for (int i = 0; password[i] != '\0'; ++i) {
+        if (!((password[i] >= '0' && password[i] <= '9') ||
+              (password[i] >= 'a' && password[i] <= 'z') ||
+              (password[i] >= 'A' && password[i] <= 'Z')))
+            return false;
+    }
+
+    return true;
 }

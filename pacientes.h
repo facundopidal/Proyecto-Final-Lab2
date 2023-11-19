@@ -2,6 +2,7 @@
 #define PACIENTES_H_INCLUDED
 #define archivoPacientes "pacientes.bin"
 
+#include "menus.h"
 
 typedef struct{
     char dni[DIM_DNI];

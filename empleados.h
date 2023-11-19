@@ -4,7 +4,8 @@
 #define T_PROFESIONAL 1
 #define T_ADMINISTRATIVO 2
 #define archivoEmpleados "empleados.bin"
-#include "validaciones.h"
+
+
 
 typedef struct
 {
@@ -23,5 +24,5 @@ char * tipoEmpleado(int tipo);
 void eliminarUsuario(char dni[], char nombreArchivo[]);
 int buscarUsuario(char nombreArchivo[],char dni[DIM_DNI],char password[DIM_PASSWORD]);
 void cambiarPassword (char nombreArchivo[]);
-
+void cambiarNombreYApellido(char nombreArchivo[]);
 #endif // EMPLEADOS_H_INCLUDED

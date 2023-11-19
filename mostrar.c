@@ -8,6 +8,7 @@
 #include "empleados.h"
 #include "practicas.h"
 #include "mostrar.h"
+#include "menus.h"
 
 
 ///-------------------------------------    PACIENTES    ----------------------------------------------------------------------------------------------------------------------------------------
@@ -316,7 +317,7 @@ void mostrarIngresosPorFechaArbol(nodoPaciente * arbol, char * fecha)
         while(aux)
         {
             if(strcmp(aux->ingreso.fechaIngreso, fecha) == 0)///Falta mejorar obtenerFechaActual
-                mostrarIngreso(aux->ingreso);
+                mostrarIngresoYPracticas(aux);
             aux = aux->sig;
         }
         mostrarIngresosPorFechaArbol(arbol->der, fecha);
@@ -330,7 +331,7 @@ void filtrarIngresosPorFecha(nodoPaciente * arbol)
     char * fechaD = leerFecha();
     printf("Fecha hasta (formato dd/mm/aaaa): ");
     char * fechaH = leerFecha();
-    while(!validarFechaPosterior(fechaD, fechaH))
+    while(!validarFechaPosterior(fechaH, fechaD))
     {
         printf("Fecha Hasta NO VALIDA\n Ingrese una fecha que sea posterior a la primera: ");
         fechaH = leerFecha();
@@ -350,7 +351,7 @@ void filtrarIngresosPorFechaArbol(nodoPaciente * arbol, char * fechaD, char * fe
             if(fchcmp(aux->ingreso.fechaIngreso, fechaD) >= 0 && fchcmp(aux->ingreso.fechaIngreso, fechaH) <= 0)
             {
                 mostrarPaciente(arbol->paciente);
-                mostrarIngreso(aux->ingreso);
+                mostrarIngresoYPracticas(aux);
             }
             aux = aux->sig;
         }

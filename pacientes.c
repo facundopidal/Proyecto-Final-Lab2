@@ -5,8 +5,10 @@
 #include "validaciones.h"
 #include "pacientes.h"
 #include "ingresos.h"
+#include "empleados.h"
 #include "practicas.h"
 #include "mostrar.h"
+#include "menus.h"
 
 ///-------------------------------------    CREAR ARBOL   -----------------------------------------------------------------------------------------------------------------------------
 

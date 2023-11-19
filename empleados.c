@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include "menus.h"
 #include "empleados.h"
 
 void altaEmpleado(char nombreArch[])
@@ -253,37 +254,89 @@ int buscarUsuario(char nombreArchivo[],char dni[DIM_DNI],char password[DIM_PASSW
 void cambiarPassword (char nombreArchivo[])
 {
     int flag = 0;
-    printf("Ingrese su dni: ");
+    printf("Ingrese su DNI: ");
     char * dni = leerDNI();
     char Password[DIM_PASSWORD];
     printf("Ingrse su  contrase%ca actual: ",164);
     fflush(stdin);
     gets(Password);
-    FILE * buffer = fopen(nombreArchivo,'r+b');
+    FILE * buffer = fopen(nombreArchivo,"r+b");
     if(buffer)
     {
-    EMPLEADO aux;
-     while (flag == 0 && fread(&aux,sizeof(EMPLEADO),1,buffer))
-     {
-         if (strcmp(aux.password,Password)==0&& strcmp(aux.dni,dni)==0)
-         {
-            printf("Ingrese una nueva contrase%ca: ",164);
-            fflush(stdin);
-            gets(aux.password);
-            fseek(buffer,(-1)*sizeof(EMPLEADO),SEEK_CUR);
-            fwrite(&aux,sizeof(EMPLEADO),1,buffer);
-            flag =  1;
-         }
-     }
-     fclose(buffer);
+        EMPLEADO aux;
+        while (flag == 0 && fread(&aux,sizeof(EMPLEADO),1,buffer))
+        {
+            if (strcmp(aux.password,Password) == 0 && strcmp(aux.dni,dni) == 0)
+            {
+                printf("Ingrese una nueva contrase%ca\n -Hasta 20 caracteres\n -Solo puede contener letras y numeros\n--> ",164);
+                fflush(stdin);
+                gets(Password);
+                while(!validarPassword(Password))
+                {
+                    printf("Contrase%ca NO VALIDA\n -La contrase%ca debe contener MAXIMO 20 caracteres\n", 164, 164);
+                    printf(" -Solo puede contener letras y numeros\n--> ");
+                    fflush(stdin);
+                    gets(Password);
+                }
+                fseek(buffer,(-1)*sizeof(EMPLEADO),SEEK_CUR);
+                fwrite(&aux,sizeof(EMPLEADO),1,buffer);
+                printf("Contrase%ca modificada correctamente\n", 164);
+                flag =  1;
+            }
+        }
+        fclose(buffer);
     }
     if(flag==0)
-    {
-        printf("Dni o contraseña incorrecta\n");
-    }
+        printf("Dni o contraseña incorrectos\n");
 }
 
+void cambiarNombreYApellido(char nombreArchivo[])
+{
+    printf("Ingrese su DNI: ");
+    char * dni = leerDNI();
+    char pass[DIM_PASSWORD];
+    printf("Ingrese su contrase%ca: ", 164);
+    fflush(stdin);
+    gets(pass);
+    FILE * buffer = fopen(nombreArchivo, "r+b");
+    EMPLEADO aux;
+    int flag = 0;
+    if(buffer)
+    {
+        while(fread(&aux, sizeof(EMPLEADO), 1, buffer) > 0)
+        {
+            if (strcmp(aux.password,pass) == 0 && strcmp(aux.dni,dni) == 0)
+            {
+                printf("Ingrese Apellido: ");
+                fflush(stdin);
+                gets(aux.apellido);
+                while(!validarPalabras(aux.apellido,DIM_APELLIDO))
+                {
+                    printf("Apellido NO VALIDO\n Ingrese nuevamente:  ");
+                    fflush(stdin);
+                    gets(aux.apellido);
+                }
+                printf("Ingrese Nombre: ");
+                fflush(stdin);
+                gets(aux.nombre);
+                while(!validarPalabras(aux.nombre,DIM_NOMBRE))
+                {
+                    printf("Nombre NO VALIDO\n Ingrese nuevamente:  ");
+                    fflush(stdin);
+                    gets(aux.nombre);
+                }
 
+                fseek(buffer,(-1)*sizeof(EMPLEADO),SEEK_CUR);
+                fwrite(&aux,sizeof(EMPLEADO),1,buffer);
+                printf("Nombre y apellido modificados correctamente\n");
+                flag =  1;
+            }
+        }
+        fclose(buffer);
+    }
+    if(flag == 0)
+        printf("Dni o contraseña incorrectos\n");
+}
 
 
 

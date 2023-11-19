@@ -1,6 +1,6 @@
 #ifndef INGRESOS_H_INCLUDED
 #define INGRESOS_H_INCLUDED
-#include "pacientes.h"
+
 #define archivoIngresos "ingresos.bin" //constante de archivoIngresos
 #define archivoPxI "pxi.bin" //constante de archivoPxI
 

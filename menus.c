@@ -26,9 +26,8 @@ void menuDeMenus()
         printf(" (1)Iniciar Sesion\n");
         printf(" (00)Salir al Escritorio\n");
         printf("--> ");
-        int opcion;
         fflush(stdin);
-        scanf("%i",&opcion);
+        scanf("%i", &opcion);
 
         switch(opcion)
         {
@@ -61,11 +60,7 @@ void menuDeMenus()
             printf("Ingrese una opcion valida\n");
             system("pause");
             break;
-
         }
-
-
-
     }
     while(opcion != 00);
 
@@ -79,7 +74,7 @@ void menuAdmin()
     int optPracticas;
     do
     {
-        //system("cls");
+        system("cls");
         printf("Bienvenido al LABORATORIO \n   ---NOMBRE ACA---\n\n");
         printf("Que desea realizar?\n\n");
         printf("1.PACIENTES\n");
@@ -93,7 +88,7 @@ void menuAdmin()
 
         fflush(stdin);
         scanf("%i",&opt);
-        system("cls") ;
+        system("cls");
         switch(opt)
         {
         case 1:
@@ -273,8 +268,6 @@ void menuAdmin()
 void menuAdministrativo()
 {
     int opt;
-    int optIngresos;
-    int optAjustes;
     do
     {
         system("cls");
@@ -412,11 +405,11 @@ void menuIngresosAdministrativos()
     {
         system("cls");
         printf("INGRESOS\n");
-        printf("    1.Consultar Ingreso\n");
+        printf("    1.Consultar Ingreso Por ID O Fecha\n");
         printf("    2.Dar de alta Ingreso\n");
         printf("    3.Dar de baja Ingreso\n");
         printf("    4.Modificar Ingreso\n");
-        printf("    5.Mostrar Ingresos\n");
+        printf("    5.Mostrar Ingresos Por DNI\n");
         printf("    00.Menu Principal\n");
         printf("--> ");
 
@@ -480,6 +473,9 @@ void menuMostrarIngresos()
             mostrarIngresoyPracticasPorDNI(arbolPacientes);
             system("pause");
             break;
+        case 3:
+            mostrarPxIPaciente(arbolPacientes);
+            break;
         case 00:
             printf("Saliendo...");
             system("pause");
@@ -492,31 +488,44 @@ void menuMostrarIngresos()
     }
     while(opcion != 00);
 }
- void  menuAjustes()
- {
-     int opcion;
-     do
-     {
-         printf("MENU AJUSTES\n");
-         printf("    1.Cambiar nombre y apellido\n");
-         printf("    2.Cambiar contrase%ca\n",164);
-         printf("    00.Salir del menu\n");
-         printf("--> ");
-         scanf("%i",opcion);
-         switch(opcion)
-         {
-         case 1 :
+void menuAjustes()
+{
+    int opcion;
+    do
+    {
+        system("cls");
+        printf("MENU AJUSTES\n");
+        printf("    1.Cambiar nombre y apellido\n");
+        printf("    2.Cambiar contrase%ca\n",164);
+        printf("    00.Salir del menu\n");
+        printf("--> ");
+        scanf("%i", &opcion);
+        system("cls");
+        switch(opcion)
+        {
+        case 1 :
+            cambiarNombreYApellido(archivoEmpleados);
+            system("pause");
             break;
-         case 2 :
+        case 2 :
             cambiarPassword(archivoEmpleados);
+            system("pause");
             break;
-         case 00 :
+        case 00 :
             printf("Saliendo ...");
+            system("pause");
             break;
-         default :
+        default :
             printf("Ingrese una opcion valida\n");
+            system("pause");
             break;
-         }
-     }while(opcion!=0);
+        }
+    }
+    while(opcion != 00);
+}
 
- }
+void menuProfesional()
+{
+    printf("Posta te juro que soy un menu");
+}
+

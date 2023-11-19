@@ -1,16 +1,7 @@
 #ifndef VALIDACIONES_H_INCLUDED
 #define VALIDACIONES_H_INCLUDED
-#define DIM_TELEFONO  15
-#define DIM_APELLIDO 20
-#define DIM_NOMBRE 20
-#define DIM_DIRECCION 30
-#define DIM_DNI 9
-#define DIM_NPRACTICA 50
-#define DIM_FECHA 10
-#define DIM_RESULTADO 40
-#define DIM_PASSWORD 20
-#define MAX_EDAD 125
-#define MAX_MATRICULA 99999
+
+#include "menus.h"
 
 ///DNI
 bool validarDNI(const char *dni);
@@ -34,5 +25,6 @@ int leerEnteroPositivo();
 bool validarPracticaRepetida(char nombre[DIM_NPRACTICA], char nombreArchivo[]);/// TRUE si esta repetida
 int generarMatricula();
 char * generarPassword();
+bool validarPassword(char * password);
 
 #endif // VALIDACIONES_H_INCLUDED

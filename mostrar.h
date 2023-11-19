@@ -1,6 +1,6 @@
 #ifndef MOSTRAR_H_INCLUDED
 #define MOSTRAR_H_INCLUDED
-#include "empleados.h"
+
 ///-------------------------------------    PACIENTES    ----------------------------------------------------------------------------------------------------------------------------------------
 
 void mostrarPaciente(PACIENTE x);
