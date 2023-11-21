@@ -48,6 +48,8 @@ void mostrarPractica(PRACTICA x);
 void mostrarPracticasArch(char nombreArchivo[]);
 void mostrarPracticasActivas(char nombreArchivo[]);
 void mostrarListaPracticas(char nombreArchivo[]);
+void mostrarListaPracticasActivas(char nombreArchivo[]);
+void mostrarListaPracticasInActivas(char nombreArchivo[]);
 void filtrarPracticasPorCaracteres(char nombreArchivo[]);
 
 #endif // MOSTRAR_H_INCLUDED

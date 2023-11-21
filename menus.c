@@ -49,9 +49,11 @@ void menuDeMenus()
                 else if(perfil == 2)
                     menuAdministrativo();
                 else
+                {
                     printf("Usuario No Encontrado\n Intente nuevamente\n");
+                    system("pause");
+                }
             }
-            system("pause");
             break;
         case 00:
             printf("Cerrando Aplicacion...\n");
@@ -285,7 +287,7 @@ void menuABMPracticas()
         system("cls");
         printf("PRACTICAS\n");
         mostrarPracticasArch(archivoPracticas);
-        printf("    1.Alta Practica\n");
+        printf("    1.Cargar Practica\n");
         printf("    2.Modificar Practica\n");
         printf("    3.Baja Practica\n");
         printf("    4.Dar de alta Practica por Nro\n");
@@ -615,7 +617,8 @@ void menuAdministrativo()
         printf("Usted ha iniciado sesion como Administrativo. A que desea acceder?\n\n");
         printf("1.PACIENTES\n");
         printf("2.INGRESOS\n");
-        printf("3.AJUSTES\n");
+        printf("3.Ver practicas\n");
+        printf("4.AJUSTES\n");
         printf("\n00. Salir\n");
         printf("--> ");
         fflush(stdin);
@@ -630,6 +633,10 @@ void menuAdministrativo()
             menuIngresosAdministrativos();
             break;
         case 3:
+            mostrarListaPracticas(archivoPracticas);
+            system("pause");
+            break;
+        case 4:
             menuAjustes();
             break;
         case 00:
@@ -686,7 +693,6 @@ void menuPacientesAdministrativos()
 
     }
     while(optPacientes != 00);
-    system("pause");
 }
 
 void menuMostrarPacientes()
@@ -710,30 +716,28 @@ void menuMostrarPacientes()
         switch(opcion)
         {
         case 1:
-            printf("%c Pacientes Activos: \n", 78);
+            printf("%c Pacientes Activos: \n", 284);
             mostrarPacientesActivos(arbolPacientes);
             system("pause");
             break;
         case 2:
-            printf("%c Pacientes Activos Por Apellido: \n", 122);
+            printf("%c Pacientes Activos Por Apellido: \n", 284);
             lista = listaPacientesAlfabetica(arbolPacientes, lista);
             mostrarListaP(lista);
             system("pause");
             break;
         case 3:
-            printf("%c Todos los Pacientes: \n", 78);
+            printf("%c Todos los Pacientes: \n", 284);
             mostrarPacientesTodos(archivoPacientes);
             system("pause");
             break;
         case 4:
-            printf("%c Consultar Paciente: \n", 69);
+            printf("%c Consultar Paciente: \n", 284);
             consultarPaciente(arbolPacientes);
-            system("pause");
             break;
         case 5:
-            printf("%c Consultar Paciente e Ingresos: \n", 69);
+            printf("%c Consultar Paciente e Ingresos: \n", 284);
             consultarPacienteEIngresos(arbolPacientes);
-            system("pause");
             break;
         case 00:
             break;
@@ -768,10 +772,9 @@ void menuIngresosAdministrativos()
         {
         case 1:
             consultarIngreso(arbolPacientes);
-            system("pause");
             break;
         case 2:
-            arbolPacientes = altaIngreso(arbolPacientes, archivoPxI, archivoIngresos);
+            arbolPacientes = altaIngreso(arbolPacientes,archivoIngresos,archivoPxI);
             system("pause");
             break;
         case 3:
@@ -784,7 +787,6 @@ void menuIngresosAdministrativos()
             break;
         case 5:
             menuMostrarIngresos();
-            system("pause");
             break;
         case 00:
             break;
@@ -806,7 +808,7 @@ void menuMostrarIngresos()
         printf("%c MOSTRAR INGRESOS\n", 284);
         printf("    1.Mostrar Ingresos Por DNI\n");
         printf("    2.Mostrar un Ingreso Y sus Practicas\n");
-        printf("    3.Mostrar Todos los Ingresos Y sus Practicas");
+        printf("    3.Mostrar Todos los Ingresos Y sus Practicas\n");
         printf("    00.Atras\n");
         printf("--> ");
         fflush(stdin);
@@ -862,6 +864,7 @@ void menuAjustes()
             break;
         case 3:
             mostrarListaEmpleados(archivoEmpleados);
+            system("pause");
         case 00:
             break;
         default :
@@ -939,23 +942,23 @@ void menuPacientesProfesional()
         switch(opcion)
         {
         case 1:
-            printf("%c Pacientes Activos: \n", 78);
+            printf("%c Pacientes Activos: \n", 284);
             mostrarPacientesActivos(arbolPacientes);
             system("pause");
             break;
         case 2:
-            printf("%c Pacientes Activos Por Apellido: \n", 122);
+            printf("%c Pacientes Activos Por Apellido: \n", 284);
             lista = listaPacientesAlfabetica(arbolPacientes, lista);
             mostrarListaP(lista);
             system("pause");
             break;
         case 3:
-            printf("%c Consultar Paciente: \n", 69);
+            printf("%c Consultar Paciente: \n", 284);
             consultarPaciente(arbolPacientes);
             system("pause");
             break;
         case 4:
-            printf("%c Consultar Paciente e Ingresos: \n", 69);
+            printf("%c Consultar Paciente e Ingresos: \n", 284);
             consultarPacienteEIngresos(arbolPacientes);
             system("pause");
             break;
@@ -1007,7 +1010,7 @@ void menuIngresosProfesional()
         case 00:
             break;
         default:
-            printf("Por favor Ingrese una opcion valida");
+            printf("Por favor Ingrese una opcion valida\n");
             system("pause");
             break;
         }
@@ -1022,11 +1025,12 @@ void menuPracticasProfesional()
     {
         system("cls");
         printf("%c PRACTICAS\n", 284);
-        printf("    1.Dar de Alta Practica\n");
+        printf("    1.Cargar Practica\n");
         printf("    2.Modificar Practica\n");
         printf("    3.Dar de Baja Practica\n");
-        printf("    4.Ver Practicas Activas\n");
-        printf("    5.Ver Todas las Practicas\n");
+        printf("    4.Dar de Alta por ID Practica\n");
+        printf("    5.Ver Practicas Activas\n");
+        printf("    6.Ver Todas las Practicas\n");
         printf("    00.Atras\n");
         printf("--> ");
         fflush(stdin);
@@ -1035,28 +1039,31 @@ void menuPracticasProfesional()
         switch(opcion)
         {
         case 1:
-            arbolPacientes = modificarIngreso(arbolPacientes, archivoIngresos, archivoPxI);
+            crearPractica(archivoPracticas);
             system("pause");            break;
         case 2:
-            arbolPacientes = bajaIngreso(arbolPacientes, archivoIngresos);
+            modificarPractica(archivoPracticas);
             system("pause");
             break;
         case 3:
-            arbolPacientes = cargarResultado(arbolPacientes, archivoPxI);
+            bajaPractica(archivoPracticas);
             system("pause");
             break;
         case 4:
-            mostrarPracticasActivas(archivoPracticas);
+            altaPractica(archivoPracticas);
             system("pause");
             break;
         case 5:
-            mostrarPracticasArch(archivoPracticas);
+            mostrarListaPracticasActivas(archivoPracticas);
+            system("pause");
+        case 6:
+            mostrarListaPracticas(archivoPracticas);
             system("pause");
             break;
         case 00:
             break;
         default:
-            printf("Por favor Ingrese una opcion valida");
+            printf("Por favor Ingrese una opcion valida\n");
             system("pause");
             break;
         }

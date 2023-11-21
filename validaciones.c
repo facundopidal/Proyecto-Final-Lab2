@@ -314,7 +314,7 @@ int leerEnteroPositivo()
         if((scanf("%i", &entero) == 1) && (entero > 0))
             return entero;
         else
-            printf("Eso no es un numero valido. Intenta de nuevo.\n");
+            printf("Eso no es un numero valido. Intenta de nuevo: ");
     }
 }
 

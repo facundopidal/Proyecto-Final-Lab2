@@ -39,6 +39,8 @@ void crearPractica(char nombreArchivo[])
 
 void modificarPractica(char nombreArchivo[])
 {
+
+    mostrarListaPracticasActivas(nombreArchivo);
     PRACTICA practicaAModificar;
     printf("Ingrese ID de practica que quiere modificar: ");
     practicaAModificar.nro=leerEnteroPositivo();
@@ -69,6 +71,7 @@ void modificarPractica(char nombreArchivo[])
 
 void bajaPractica(char nombreArchivo[])
 {
+    mostrarListaPracticasActivas(nombreArchivo);
     PRACTICA practicaAModificar;
     printf("Ingrese ID de practica que quiere dar de baja\n");
     practicaAModificar.nro = leerEnteroPositivo();
@@ -89,6 +92,7 @@ void bajaPractica(char nombreArchivo[])
 
 void altaPractica(char nombreArchivo[])
 {
+    mostrarListaPracticasInActivas(nombreArchivo);
     PRACTICA practicaAModificar;
     printf("Ingrese ID de practica que quiere dar de alta\n");
     practicaAModificar.nro=leerEnteroPositivo();
@@ -249,7 +253,7 @@ nodoListaPR * agregarEnOrdenListaPR(nodoListaPR * lista, nodoListaPR * nn)
     nodoListaPR* aux=lista;
     nodoListaPR* ante;
 
-    while(aux && strcmp(nn->practica.nombrePractica,lista->practica.nombrePractica) == 1)
+    while(aux && strcmp(nn->practica.nombrePractica,aux->practica.nombrePractica) == 1)
     {
         ante=aux;
         aux=aux->sig;

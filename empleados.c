@@ -303,11 +303,11 @@ void cambiarNombreYApellido(char nombreArchivo[])
     int flag = 0;
     if(buffer)
     {
-        while(fread(&aux, sizeof(EMPLEADO), 1, buffer) > 0)
+        while(flag ==0 && fread(&aux, sizeof(EMPLEADO), 1, buffer) > 0)
         {
             if (strcmp(aux.password,pass) == 0 && strcmp(aux.dni,dni) == 0)
             {
-                printf("Ingrese Apellido: ");
+                printf("Ingrese Nuevo Apellido: ");
                 fflush(stdin);
                 gets(aux.apellido);
                 while(!validarPalabras(aux.apellido,DIM_APELLIDO))
@@ -316,7 +316,8 @@ void cambiarNombreYApellido(char nombreArchivo[])
                     fflush(stdin);
                     gets(aux.apellido);
                 }
-                printf("Ingrese Nombre: ");
+                strupr(aux.apellido);
+                printf("Ingrese Nuevo Nombre: ");
                 fflush(stdin);
                 gets(aux.nombre);
                 while(!validarPalabras(aux.nombre,DIM_NOMBRE))
@@ -325,7 +326,7 @@ void cambiarNombreYApellido(char nombreArchivo[])
                     fflush(stdin);
                     gets(aux.nombre);
                 }
-
+                strupr(aux.nombre);
                 fseek(buffer,(-1)*sizeof(EMPLEADO),SEEK_CUR);
                 fwrite(&aux,sizeof(EMPLEADO),1,buffer);
                 printf("Nombre y apellido modificados correctamente\n");
@@ -335,7 +336,7 @@ void cambiarNombreYApellido(char nombreArchivo[])
         fclose(buffer);
     }
     if(flag == 0)
-        printf("Dni o contraseña incorrectos\n");
+        printf("Dni o contrase%ca incorrectos\n",164);
 }
 
 void modificarArchivoEmpleado(EMPLEADO x, char nombreArchivo[])
@@ -379,7 +380,7 @@ nodoListaE * agregarEnOrdenListaE(nodoListaE * lista, nodoListaE * nn)
     nodoListaE* aux=lista;
     nodoListaE* ante;
 
-    while(aux && strcmp(nn->empleado.apellido,lista->empleado.apellido) == 1)
+    while(aux && strcmp(nn->empleado.apellido,aux->empleado.apellido) == 1)
     {
         ante=aux;
         aux=aux->sig;

@@ -1,36 +1,32 @@
 # depslib dependency file v1.0
-1700158140 source:c:\users\julian\desktop\proyecto-final-lab2\empleados.c
-	<stdio.h>
-	<stdlib.h>
-	<stdbool.h>
-	<string.h>
-	"empleados.h"
-
-1700234026 c:\users\julian\desktop\proyecto-final-lab2\empleados.h
-	"validaciones.h"
-
-1700154417 c:\users\julian\desktop\proyecto-final-lab2\validaciones.h
-
-1700157635 source:c:\users\julian\desktop\proyecto-final-lab2\main.c
+1700583831 source:c:\users\julian\desktop\proyecto-final-lab2\empleados.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	<string.h>
 	"validaciones.h"
-	"ingresos.h"
-	"practicas.h"
 	"empleados.h"
-	"pacientes.h"
+
+1700577087 c:\users\julian\desktop\proyecto-final-lab2\empleados.h
+
+1700577087 c:\users\julian\desktop\proyecto-final-lab2\validaciones.h
 	"menus.h"
 
-1700154417 c:\users\julian\desktop\proyecto-final-lab2\ingresos.h
-	"pacientes.h"
+1700586707 source:c:\users\julian\desktop\proyecto-final-lab2\main.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	"menus.h"
 
-1700235093 c:\users\julian\desktop\proyecto-final-lab2\pacientes.h
+1700577087 c:\users\julian\desktop\proyecto-final-lab2\ingresos.h
 
-1700154417 c:\users\julian\desktop\proyecto-final-lab2\practicas.h
+1700577087 c:\users\julian\desktop\proyecto-final-lab2\pacientes.h
+	"menus.h"
 
-1700235059 source:c:\users\julian\desktop\proyecto-final-lab2\pacientes.c
+1700577087 c:\users\julian\desktop\proyecto-final-lab2\practicas.h
+
+1700585584 source:c:\users\julian\desktop\proyecto-final-lab2\pacientes.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -38,39 +34,30 @@
 	"validaciones.h"
 	"pacientes.h"
 	"ingresos.h"
+	"empleados.h"
 	"practicas.h"
+	"mostrar.h"
+	"menus.h"
 
-1700154417 source:c:\users\julian\desktop\proyecto-final-lab2\practicas.c
+1700583831 source:c:\users\julian\desktop\proyecto-final-lab2\practicas.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	<string.h>
 	"validaciones.h"
-	"pacientes.h"
-	"ingresos.h"
 	"practicas.h"
 
-1700154417 source:c:\users\julian\desktop\proyecto-final-lab2\validaciones.c
+1700586308 source:c:\users\julian\desktop\proyecto-final-lab2\validaciones.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	<string.h>
 	<time.h>
 	"validaciones.h"
-	"ingresos.h"
 	"practicas.h"
+	"menus.h"
 
-1700157117 source:c:\users\julian\desktop\proyecto-final-lab2\ingresos.c
-	<stdio.h>
-	<stdlib.h>
-	<stdbool.h>
-	<string.h>
-	"validaciones.h"
-	"pacientes.h"
-	"ingresos.h"
-	"practicas.h"
-
-1700157742 source:c:\users\julian\desktop\proyecto-final-lab2\menus.c
+1700586105 source:c:\users\julian\desktop\proyecto-final-lab2\ingresos.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -80,9 +67,23 @@
 	"ingresos.h"
 	"empleados.h"
 	"practicas.h"
+	"mostrar.h"
 	"menus.h"
 
-1700157690 c:\users\julian\desktop\proyecto-final-lab2\menus.h
+1700588594 source:c:\users\julian\desktop\proyecto-final-lab2\menus.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	"validaciones.h"
+	"pacientes.h"
+	"ingresos.h"
+	"empleados.h"
+	"practicas.h"
+	"mostrar.h"
+	"menus.h"
+
+1700577087 c:\users\julian\desktop\proyecto-final-lab2\menus.h
 
 1700529508 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\empleados.c
 	<stdio.h>
@@ -286,4 +287,19 @@
 	"validaciones.h"
 	"ingresos.h"
 	"practicas.h"
+
+1700583831 c:\users\julian\desktop\proyecto-final-lab2\mostrar.h
+
+1700588109 source:c:\users\julian\desktop\proyecto-final-lab2\mostrar.c
+	<stdio.h>
+	<stdlib.h>
+	<stdbool.h>
+	<string.h>
+	"validaciones.h"
+	"pacientes.h"
+	"ingresos.h"
+	"empleados.h"
+	"practicas.h"
+	"mostrar.h"
+	"menus.h"
 

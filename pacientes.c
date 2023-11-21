@@ -39,23 +39,6 @@ nodoPaciente * leerArchivoPacientes(nodoPaciente * arbol, char nombreArch[])
     return arbol;
 }
 
-///Carga en el arbol balanceadamente
-nodoPaciente * cargarArbolBalanceado(PACIENTE pacientes[], int inicio, int fin)
-{
-    if (inicio > fin)
-        return NULL;
-
-    int medio = (inicio + fin) / 2;
-    nodoPaciente * nuevoNodo = (nodoPaciente*)malloc(sizeof(nodoPaciente));
-    nuevoNodo->listaIngresos = NULL;
-    nuevoNodo->paciente = pacientes[medio];
-    nuevoNodo->izq = cargarArbolBalanceado(pacientes, inicio, medio - 1);
-    nuevoNodo->der = cargarArbolBalanceado(pacientes, medio + 1, fin);
-
-    return nuevoNodo;
-
-}
-
 ///Crea lista de listas
 nodoPaciente * crearListaDeListas(nodoPaciente * arbol, char archIngresos[], char archPxI[])
 {
@@ -127,7 +110,8 @@ nodoPaciente * modificarPaciente(nodoPaciente * arbol)
         {
             printf("MODIFICAR Paciente\n");
             mostrarPaciente(pacienteAModificar->paciente);
-            printf("Ingrese:\n(1) Nombre y Apellido\n(2) Edad\n(3) Telefono\n(4) Direccion\n(00) Salir\n");
+            printf("Ingrese:\n(1) Nombre y Apellido\n(2) Direccion\n(3) Telefono\n(4) Edad\n(00) Salir\n");
+            printf("--> ");
             scanf("%i", &opcion);
             fflush(stdin);
             switch(opcion)
@@ -157,15 +141,17 @@ nodoPaciente * modificarPaciente(nodoPaciente * arbol)
                 printf("El nuevo nombre y apellido es: %s %s",pacienteAModificar->paciente.nombre, pacienteAModificar->paciente.apellido);
                 break;
             case 2:
-                printf("Ingrese la nueva edad: \n");
+                printf("\nIngrese nueva Direccion: ");
                 fflush(stdin);
-                while(scanf("%i", &pacienteAModificar->paciente.edad) != 1 || !validarEdad(pacienteAModificar->paciente.edad))
+                gets(pacienteAModificar->paciente.direccion);
+                while(strlen(pacienteAModificar->paciente.direccion) > DIM_DIRECCION)
                 {
-                    printf("\nEdad no valida - Ingrese nuevamente edad del paciente: ");
+                    printf("Direccion no valida\n Ingrese una direccion hasta 30 caracteres: ");
                     fflush(stdin);
+                    gets(pacienteAModificar->paciente.direccion);
                 }
                 system("cls");
-                printf("Se edito la edad a:%i\n", pacienteAModificar->paciente.edad);
+                printf("Se edito la direccion a:%s\n", pacienteAModificar->paciente.direccion);
                 break;
             case 3:
                 printf("\n Ingrese el nuevo Telefono");
@@ -181,17 +167,15 @@ nodoPaciente * modificarPaciente(nodoPaciente * arbol)
                 printf("Se edito el telefono a:%s\n", pacienteAModificar->paciente.telefono);
                 break;
             case 4:
-                printf("\nIngrese nueva Direccion: ");
+                printf("Ingrese la nueva edad: \n");
                 fflush(stdin);
-                gets(pacienteAModificar->paciente.direccion);
-                while(strlen(pacienteAModificar->paciente.direccion) > DIM_DIRECCION)
+                while(scanf("%i", &pacienteAModificar->paciente.edad) != 1 || !validarEdad(pacienteAModificar->paciente.edad))
                 {
-                    printf("Direccion no valida\n Ingrese una direccion hasta 30 caracteres: ");
+                    printf("\nEdad no valida - Ingrese nuevamente edad del paciente: ");
                     fflush(stdin);
-                    gets(pacienteAModificar->paciente.direccion);
                 }
                 system("cls");
-                printf("Se edito la direccion a:%s\n", pacienteAModificar->paciente.direccion);
+                printf("Se edito la edad a:%i\n", pacienteAModificar->paciente.edad);
                 break;
             case 00:
                 modificarArchivoPacientes(archivoPacientes, pacienteAModificar->paciente);
@@ -483,7 +467,7 @@ nodoListaP* NodoEnOrden(nodoListaP* lista,PACIENTE x)
     nodoListaP* aux=lista;
     nodoListaP* ante;
 
-    while(aux && strcmp(nn->paciente.apellido,lista->paciente.apellido)== 1)
+    while(aux && strcmp(nn->paciente.apellido,aux->paciente.apellido)== 1)
     {
         ante=aux;
         aux=aux->sig;

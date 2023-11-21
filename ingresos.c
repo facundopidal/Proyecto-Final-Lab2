@@ -282,7 +282,6 @@ nodoPaciente * cargarResultado(nodoPaciente * arbol, char archPxI[])
                     printf("--> ");
                     fflush(stdin);
                     scanf("%i", &opcion);
-                    system("cls");
                     switch(opcion)
                     {
                     case 1:
@@ -604,7 +603,7 @@ PRACTICAxINGRESO cargarPxI(int idIngreso)
 nodoPxI * altaListaPxI(nodoPxI * lista, int idIngreso)
 {
     int seguir = 1;
-    mostrarPracticasArch(archivoPracticas);
+    mostrarListaPracticas(archivoPracticas);
     while(seguir == 1)
     {
         PRACTICAxINGRESO aux = cargarPxI(idIngreso);
