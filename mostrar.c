@@ -265,7 +265,7 @@ void consultarIngreso(nodoPaciente * arbol)
     do
     {
         system("cls");
-        printf("%c Consultar Ingreso\n", 284);
+        printf("%c Consultar Ingreso\n", 254);
         printf("    1. Filtrar por fechas\n");
         printf("    2. Buscar por fecha de ingreso\n");
         printf("    3. Buscar por ID de ingreso\n");
