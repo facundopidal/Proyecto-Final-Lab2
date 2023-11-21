@@ -384,7 +384,7 @@ INGRESO cargarIngreso(int id, char dni[])
     int dia,mes,anio;
     obtenerFechaActual(&dia, &mes, &anio);
     fflush(stdin);
-    sprintf(x.fechaIngreso, "%i/%i/%i", dia, mes, anio);
+    sprintf(x.fechaIngreso, "%02i/%02i/%04i", dia, mes, anio);
     printf("La fecha de ingreso se completo con la del dia de hoy: %s\n", x.fechaIngreso);
 
     ///Fecha de retiro

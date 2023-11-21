@@ -9,6 +9,12 @@ typedef struct{
     int eliminado;
 }PRACTICA;
 
+typedef struct nodoListaPR
+{
+    PRACTICA practica;
+    struct nodoListaPR * sig;
+}nodoListaPR;
+
 ///PRINCIPALES
 void crearPractica(char nombreArchivo[]);
 void modificarPractica(char nombreArchivo[]);
@@ -19,6 +25,9 @@ void altaPractica(char nombreArchivo[]);
 PRACTICA cargarPractica();
 int obtenerUltimoNro(char nombreArchivo[]);
 int obtenerIdPractica(char nombrePractica[DIM_NPRACTICA], char nombreArchivo[]);
+nodoListaPR * crearNodoPR(PRACTICA x);
+nodoListaPR * agregarEnOrdenListaPR(nodoListaPR * lista, nodoListaPR * nn);
+
 
 ///ARCHIVO
 void cargarArchivoPracticas(char nombreArch[],PRACTICA x);

@@ -68,22 +68,54 @@ void menuDeMenus()
 
 void menuAdmin()
 {
-    int opt;
-    int optPacientes;
-    int optIngresos;
-    int optPracticas;
+    int opcion;
     do
     {
         system("cls");
         printf("Bienvenido al LABORATORIO \n   ---NOMBRE ACA---\n\n");
         printf("Que desea realizar?\n\n");
+        printf("1.FUNCIONES PRINCIPALES\n");
+        printf("2.FUNCIONES ADICIONALES\n");
+        printf("3.VER ARCHIVOS\n");
+        printf("\n00.Salir\n");
+        printf("--> ");
+
+        fflush(stdin);
+        scanf("%i",&opcion);
+        system("cls");
+        switch(opcion)
+        {
+        case 1:
+            menuPrincipalesAdmin();
+            break;
+        case 2:
+            menuAdicionalesAdmin();
+            break;
+        case 3:
+            menuMostrarArchivosAdmin();
+            break;
+        case 00:
+            break;
+        default:
+            break;
+        }
+    }
+    while(opcion != 00);
+}
+
+void menuPrincipalesAdmin()
+{
+    int opt;
+    do
+    {
+        system("cls");
+        printf("Bienvenido al LABORATORIO \n   ---NOMBRE ACA---\n\n");
+        printf("A cual desea acceder?\n\n");
         printf("1.PACIENTES\n");
         printf("2.INGRESOS\n");
         printf("3.EMPLEADOS\n");
         printf("4.PRACTICAS\n");
-        printf("5.\n");
-        printf("6.\n");
-        printf("\n00,para salir\n");
+        printf("\n00.Salir\n");
         printf("--> ");
 
         fflush(stdin);
@@ -92,169 +124,61 @@ void menuAdmin()
         switch(opt)
         {
         case 1:
-            do
-            {
-                system("cls");
-                printf("Pacientes\n");
-                printf("    1.Cargar Paciente\n");
-                printf("    2.Modificar Paciente\n");
-                printf("    3.Dar de baja Paciente\n");
-                printf("    4.Buscar y mostrar\n");
-                printf("    5.Ver Pacientes Activos\n");
-                printf("    6.Ver todos los pacientes\n");
-                printf("    00.Menu Principal\n");
-                printf("--> ");
-
-                fflush(stdin);
-                scanf("%i",&optPacientes);
-                system("cls");
-
-                switch(optPacientes)
-                {
-                case 1:
-                    arbolPacientes = altaPaciente(arbolPacientes);
-                    system("pause");
-                    break;
-                case 2:
-                    arbolPacientes = modificarPaciente(arbolPacientes);
-                    system("pause");
-                    break;
-                case 3:
-                    arbolPacientes = bajaPaciente(arbolPacientes);
-                    system("pause");
-                    break;
-                case 4:
-                    break;
-                case 5:
-                    mostrarPacientesActivos(arbolPacientes);
-                    system("pause");
-                    break;
-                case 6:
-                    mostrarPacientesTodos(archivoPacientes);
-                    system("pause");
-                    break;
-                case 00:
-                    break;
-                default:
-                    printf("Ingrese una opcion Correcta\n");
-                    system("pause");
-                    break;
-                }
-            }
-            while(optPacientes !=0);
+            menuABMPacientes();
             break;
         case 2:
-            do
-            {
-                system("cls");
-                printf("INGRESOS\n");
-                printf("    1.Cargar Ingreso\n");
-                printf("    2.Modificar Ingreso\n");
-                printf("    3.Dar de baja Ingreso\n");
-                printf("    4.Mostrar ingresos en el arbol\n");
-                printf("    5.Mostrar ingreso y practicas\n");
-                printf("    6.Mostrar ingresos archivo\n");
-                printf("    7.Mostrar pxi archivo\n");
-                printf("    00.Menu Principal\n");
-                printf("--> ");
-
-                fflush(stdin);
-                scanf("%i",&optIngresos);
-                system("cls");
-
-                switch(optIngresos)
-                {
-                case 1:
-                    arbolPacientes = altaIngreso(arbolPacientes, archivoIngresos, archivoPxI);
-                    system("pause");
-                    break;
-                case 2:
-                    arbolPacientes = modificarIngreso(arbolPacientes, archivoIngresos, archivoPxI);
-                    system("pause");
-                    break;
-                case 3:
-                    arbolPacientes = bajaIngreso(arbolPacientes, archivoIngresos);
-                    system("pause");
-                    break;
-                case 4:
-                    mostrarIngresosPorDNI(arbolPacientes);
-                    system("pause");
-                    break;
-                case 5:
-                    mostrarPxIPaciente(arbolPacientes);
-                    system("pause");
-                    break;
-                case 6:
-                    mostrarIngresoArchivo(archivoIngresos);
-                    system("pause");
-                    break;
-                case 7:
-                    mostrarPxIArchivo(archivoPxI);
-                    system("pause");
-                    break;
-                case 00:
-                    break;
-                default:
-                    printf("Ingrese una opcion Correcta\n");
-                    system("pause");
-                    break;
-                }
-            }
-            while(optIngresos != 0);
+            menuABMIngresos();
             break;
         case 3:
-            altaEmpleado(archivoEmpleados);
-            system("pause");
-            system("cls");
+            menuABMEmpleados();
             break;
         case 4:
-            do
-            {
-                system("cls");
-                printf("PRACTICAS\n");
-                mostrarPracticasArch(archivoPracticas);
-                printf("    1.Cargar Practica\n");
-                printf("    2.Modificar Practica\n");
-                printf("    3.Dar de baja Practica\n");
-                printf("    4.Dar de alta Practica\n");
-                printf("    00.Menu Principal\n");
-                printf("--> ");
-
-                fflush(stdin);
-                scanf("%i",&optPracticas);
-                system("cls");
-
-                switch(optPracticas)
-                {
-                case 1:
-                    crearPractica(archivoPracticas);
-                    system("pause");
-                    break;
-                case 2:
-                    modificarPractica(archivoPracticas);
-                    system("pause");
-                    break;
-                case 3:
-                    bajaPractica(archivoPracticas);
-                    system("pause");
-                    break;
-                case 4:
-                    altaPractica(archivoPracticas);
-                    system("pause");
-                    break;
-                case 00:
-                    break;
-                default:
-                    printf("Ingrese una opcion Correcta\n");
-                    system("pause");
-                    break;
-                }
-            }
-            while(optPracticas !=0);
+            menuABMPracticas();
             break;
-
         case 00:
-            printf("Gracias por usar!\n");
+            break;
+        default:
+            printf("Por favor Ingrese una opcion Correcta\n");
+            system("pause");
+            break;
+        }
+    }
+    while(opt!=00);
+}
+
+
+void menuABMPacientes()
+{
+    int optPacientes;
+    do
+    {
+        system("cls");
+        printf("Pacientes\n");
+        printf("    1.Alta Paciente\n");
+        printf("    2.Modificar Paciente\n");
+        printf("    3.Baja Paciente\n");
+        printf("    00.Menu Principal\n");
+        printf("--> ");
+
+        fflush(stdin);
+        scanf("%i",&optPacientes);
+        system("cls");
+
+        switch(optPacientes)
+        {
+        case 1:
+            arbolPacientes = altaPaciente(arbolPacientes);
+            system("pause");
+            break;
+        case 2:
+            arbolPacientes = modificarPaciente(arbolPacientes);
+            system("pause");
+            break;
+        case 3:
+            arbolPacientes = bajaPaciente(arbolPacientes);
+            system("pause");
+            break;
+        case 00:
             break;
         default:
             printf("Ingrese una opcion Correcta\n");
@@ -262,8 +186,464 @@ void menuAdmin()
             break;
         }
     }
-    while(opt!=00);
+    while(optPacientes !=00);
 }
+
+void menuABMIngresos()
+{
+    int optIngresos;
+    do
+    {
+        system("cls");
+        printf("INGRESOS\n");
+        printf("    1.Alta Ingreso\n");
+        printf("    2.Modificar Ingreso\n");
+        printf("    3.Baja Ingreso\n");
+        printf("    00.Menu Principal\n");
+        printf("--> ");
+
+        fflush(stdin);
+        scanf("%i",&optIngresos);
+        system("cls");
+
+        switch(optIngresos)
+        {
+        case 1:
+            arbolPacientes = altaIngreso(arbolPacientes, archivoIngresos, archivoPxI);
+            system("pause");
+            break;
+        case 2:
+            arbolPacientes = modificarIngreso(arbolPacientes, archivoIngresos, archivoPxI);
+            system("pause");
+            break;
+        case 3:
+            arbolPacientes = bajaIngreso(arbolPacientes, archivoIngresos);
+            system("pause");
+            break;
+        case 00:
+            break;
+        default:
+            printf("Ingrese una opcion Correcta\n");
+            system("pause");
+            break;
+        }
+    }
+    while(optIngresos != 00);
+}
+
+void menuABMEmpleados()
+{
+    int optEmpleados;
+    do
+    {
+        system("cls");
+        printf("EMPLEADOS\n");
+        printf("    1.Alta Empleado\n");
+        printf("    2.Modificar Empleado\n");
+        printf("    3.Baja Empleado\n");
+        printf("    00.Menu Principal\n");
+        printf("--> ");
+
+        fflush(stdin);
+        scanf("%i",&optEmpleados);
+        system("cls");
+
+        switch(optEmpleados)
+        {
+        case 1:
+            altaEmpleado(archivoEmpleados);
+            system("pause");
+            break;
+        case 2:
+            modificarEmpleado(archivoEmpleados);
+            system("pause");
+            break;
+        case 3:
+            bajaEmpleado(archivoEmpleados);
+            system("pause");
+            break;
+        case 00:
+            break;
+        default:
+            printf("Ingrese una opcion valida\n");
+            system("pause");
+            break;
+        }
+    }
+    while(optEmpleados != 00);
+}
+
+void menuABMPracticas()
+{
+    int optPracticas;
+    do
+    {
+        system("cls");
+        printf("PRACTICAS\n");
+        mostrarPracticasArch(archivoPracticas);
+        printf("    1.Alta Practica\n");
+        printf("    2.Modificar Practica\n");
+        printf("    3.Baja Practica\n");
+        printf("    4.Dar de alta Practica por Nro\n");
+        printf("    00.Menu Principal\n");
+        printf("--> ");
+
+        fflush(stdin);
+        scanf("%i",&optPracticas);
+        system("cls");
+
+        switch(optPracticas)
+        {
+        case 1:
+            crearPractica(archivoPracticas);
+            system("pause");
+            break;
+        case 2:
+            modificarPractica(archivoPracticas);
+            system("pause");
+            break;
+        case 3:
+            bajaPractica(archivoPracticas);
+            system("pause");
+            break;
+        case 4:
+            altaPractica(archivoPracticas);
+            system("pause");
+            break;
+        case 00:
+            break;
+        default:
+            printf("Por favor Ingrese una opcion Correcta\n");
+            system("pause");
+            break;
+        }
+    }
+    while(optPracticas != 00);
+}
+
+void menuAdicionalesAdmin()
+{
+    int optA;
+    do
+    {
+        system("cls");
+        printf("Bienvenido al LABORATORIO \n   ---NOMBRE ACA---\n\n");
+        printf("A cual desea acceder?\n\n");
+        printf("1.PACIENTES\n");
+        printf("2.INGRESOS\n");
+        printf("3.EMPLEADOS\n");
+        printf("4.PRACTICAS\n");
+        printf("\n00.Salir\n");
+        printf("--> ");
+
+        fflush(stdin);
+        scanf("%i",&optA);
+        system("cls");
+        switch(optA)
+        {
+        case 1:
+            menuAdicionalesPacientes();
+            break;
+        case 2:
+            menuAdicionalesIngresos();
+            break;
+        case 3:
+            menuAdicionalesEmpleados();
+            break;
+        case 4:
+            menuAdicionalesPracticas();
+            break;
+        case 00:
+            break;
+        default:
+            printf("Por favor Ingrese una opcion valida\n");
+            system("pause");
+            break;
+        }
+    }
+    while(optA != 00);
+    system("pause");
+}
+
+void menuAdicionalesPacientes()
+{
+    int optPacientesA;
+    nodoListaP * lista = NULL;
+    do
+    {
+        system("cls");
+        printf("Pacientes (Adicionales)\n");
+        printf("    1.Ver Pacientes Activos Ordenados Por DNI\n");
+        printf("    2.Ver Listado General de Pacientes Ordenados por Apellido\n");
+        printf("    3.Ver Todos los Pacientes\n");
+        printf("    4.Consultar Paciente Por DNI\n");
+        printf("    5.Consultar Paciente e Ingresos Por DNI\n");
+        printf("    00.Menu Principal\n");
+        printf("--> ");
+
+        fflush(stdin);
+        scanf("%i",&optPacientesA);
+        system("cls");
+
+        switch(optPacientesA)
+        {
+        case 1:
+            printf("Todos los pacientes activos:\n");
+            mostrarPacientesActivos(arbolPacientes);
+            system("pause");
+            break;
+        case 2:
+            printf("Listado general de pacientes ordenado Por Apellido:\n");
+            mostrarListaP(listaPacientesAlfabetica(arbolPacientes, lista));
+            system("pause");
+            break;
+        case 3:
+            printf("Listado general de pacientes:\n");
+            mostrarPacientesTodos(archivoPacientes);
+            system("pause");
+            break;
+        case 4:
+            printf("Consulta de paciente\n");
+            consultarPaciente(arbolPacientes);
+            system("pause");
+            break;
+        case 5:
+            printf("Consulta de paciente e ingresos\n");
+            consultarPacienteEIngresos(arbolPacientes);
+            system("pause");
+            break;
+        case 00:
+            break;
+        default:
+            printf("Ingrese una opcion Correcta\n");
+            system("pause");
+            break;
+        }
+    }
+    while(optPacientesA !=00);
+}
+
+void menuAdicionalesIngresos()
+{
+    int optIngresosA;
+    do
+    {
+        system("cls");
+        printf("Ingresos (Adicionales)\n");
+        printf("    1.Ver Ingresos Activos con Detalle de Paciente\n");
+        printf("    2.Consultar Ingreso\n");
+        printf("    00.Menu Principal\n");
+        printf("--> ");
+
+        fflush(stdin);
+        scanf("%i",&optIngresosA);
+        system("cls");
+
+        switch(optIngresosA)
+        {
+        case 1:
+            printf("Listado de Ingresos con detalle de Paciente\n");
+            mostrarIngresosConDetalle(arbolPacientes);
+            system("pause");
+            break;
+        case 2:
+            printf("Consulta de ingreso\n");
+            consultarIngreso(arbolPacientes);
+            system("pause");
+            break;
+        case 00:
+            break;
+        default:
+            printf("Ingrese una opcion Correcta\n");
+            system("pause");
+            break;
+        }
+    }
+    while(optIngresosA != 00);
+}
+
+
+void menuAdicionalesEmpleados()
+{
+    int optEmpleadosA;
+    do
+    {
+        system("cls");
+        printf("Empleados (Adicionales)\n");
+        printf("    1.Listado General Ordenado Por Apellido\n");
+        printf("    2.Consultar Empleado por DNI\n");
+        printf("    00.Menu Principal\n");
+        printf("--> ");
+
+        fflush(stdin);
+        scanf("%i",&optEmpleadosA);
+        system("cls");
+
+        switch(optEmpleadosA)
+        {
+        case 1:
+            printf("Listado general de empleados ordenado por Apellido:\n");
+            mostrarListaEmpleados(archivoEmpleados);
+            system("pause");
+            break;
+        case 2:
+            printf("Consultar Empleado\n");
+            consultarEmpleado(archivoEmpleados);
+            system("pause");
+            break;
+        case 00:
+            break;
+        default:
+            printf("Ingrese una opcion Correcta\n");
+            system("pause");
+            break;
+        }
+    }
+    while(optEmpleadosA != 00);
+}
+
+void menuAdicionalesPracticas()
+{
+    int optPracticasA;
+    do
+    {
+        system("cls");
+        printf("Practicas (Adicionales)\n");
+        printf("    1.Listado general ordenado por Nombre\n");
+        printf("    2.Filtrar Practicas que comiencen con: \n");
+        printf("    00.Menu Principal\n");
+        printf("--> ");
+
+        fflush(stdin);
+        scanf("%i",&optPracticasA);
+        system("cls");
+
+        switch(optPracticasA)
+        {
+        case 1:
+            printf("Listado general de Practicas ordenado Por Nombre: \n");
+            mostrarListaPracticas(archivoPracticas);
+            system("pause");
+            break;
+        case 2:
+            printf("Filtrar Practicas por Caracteres\n");
+            filtrarPracticasPorCaracteres(archivoPracticas);
+            system("pause");
+            break;
+        case 00:
+            break;
+        default:
+            printf("Ingrese una opcion Correcta\n");
+            system("pause");
+            break;
+        }
+    }
+    while(optPracticasA != 00);
+}
+
+
+void menuMostrarArchivosAdmin()
+{
+    int optMostrar;
+    do
+    {
+        system("cls");
+        printf("Cual Archivo desea visualizar?\n\n");
+        printf("1.PACIENTES\n");
+        printf("2.INGRESOS\n");
+        printf("3.EMPLEADOS\n");
+        printf("4.PRACTICAS\n");
+        printf("5.PRACTICAS x INGRESO\n");
+        printf("\n00.Salir\n");
+        printf("--> ");
+
+        fflush(stdin);
+        scanf("%i",&optMostrar);
+        system("cls");
+        switch(optMostrar)
+        {
+        case 1:
+            printf("-Archivo de Pacientes:\n");
+            mostrarPacientesTodos(archivoPacientes);
+            system("pause");
+            break;
+        case 2:
+            printf("-Archivo de Ingresos:\n");
+            mostrarIngresoArchivo(archivoIngresos);
+            system("pause");
+            break;
+        case 3:
+            printf("-Archivo de Empleados:\n");
+            mostrarEmpleadosArchivo(archivoEmpleados);
+            system("pause");
+            break;
+        case 4:
+            printf("-Archivo de Practicas:\n");
+            mostrarPracticasArch(archivoPracticas);
+            system("pause");
+            break;
+        case 5:
+            printf("-Archivo de Practicas x Ingreso:\n");
+            mostrarPxIArchivo(archivoPxI);
+            system("pause");
+            break;
+        case 00:
+            break;
+        default:
+            printf("Por favor ingrese una opcion valida\n");
+            system("pause");
+            break;
+        }
+    }
+    while(optMostrar != 00);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void menuAdministrativo()
 {
@@ -276,7 +656,7 @@ void menuAdministrativo()
         printf("1.PACIENTES\n");
         printf("2.INGRESOS\n");
         printf("3.AJUSTES\n");
-        printf("\n00,para salir\n");
+        printf("\n00. Salir\n");
         printf("--> ");
         fflush(stdin);
         scanf("%i",&opt);
@@ -294,6 +674,8 @@ void menuAdministrativo()
             menuAjustes();
             break;
         default:
+            printf("Por favor Ingrese una opcion correcta\n");
+            system("pause");
             break;
         }
     }
@@ -333,8 +715,6 @@ void menuPacientesAdministrativos()
             system("pause");
             break;
         case 00:
-            printf("Saliendo...");
-            system("pause");
             break;
         default:
             printf("Ingrese una opcion valida\n");
@@ -372,7 +752,7 @@ void menuMostrarPacientes()
             break;
         case 2:
             printf("%c Pacientes Activos Por Apellido: \n", 122);
-            lista = listaPacientesAlfabetica(arbolPacientes);
+            lista = listaPacientesAlfabetica(arbolPacientes, lista);
             mostrarListaP(lista);
             system("pause");
             break;
@@ -387,8 +767,6 @@ void menuMostrarPacientes()
             system("pause");
             break;
         case 00:
-            printf("Saliendo...");
-            system("pause");
             break;
         default:
             printf("Ingrese una opcion valida\n");
@@ -477,8 +855,6 @@ void menuMostrarIngresos()
             mostrarPxIPaciente(arbolPacientes);
             break;
         case 00:
-            printf("Saliendo...");
-            system("pause");
             break;
         default:
             printf("Ingrese una opcion valida\n");
@@ -512,8 +888,6 @@ void menuAjustes()
             system("pause");
             break;
         case 00 :
-            printf("Saliendo ...");
-            system("pause");
             break;
         default :
             printf("Ingrese una opcion valida\n");

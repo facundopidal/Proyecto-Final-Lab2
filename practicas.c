@@ -3,8 +3,6 @@
 #include <stdbool.h>
 #include <string.h>
 #include "validaciones.h"
-#include "pacientes.h"
-#include "ingresos.h"
 #include "practicas.h"
 
 
@@ -50,12 +48,13 @@ void modificarPractica(char nombreArchivo[])
         printf("Ingrese el nuevo Nombre de la practica ID %i: \n",practicaAModificar.nro);
         fflush(stdin);
         gets(practicaAModificar.nombrePractica);
-        while(!validarPalabras(practicaAModificar.nombrePractica,DIM_NPRACTICA))
+        while(strlen(practicaAModificar.nombrePractica) > DIM_NPRACTICA)
         {
             printf("\nPractica INVALIDA\nIngrese nuevamente:  ");
             fflush(stdin);
             gets(practicaAModificar.nombrePractica);
         }
+        strupr(practicaAModificar.nombrePractica);
         printf("Practica Modificada Exitosamente\n");
         mostrarPractica(practicaAModificar);
         modificarArchivoPracticas(practicaAModificar,nombreArchivo);
@@ -185,19 +184,16 @@ PRACTICA cargarPractica()
 {
     PRACTICA x;
     x.eliminado = 0;
-    printf("\nIngrese Nombre de la Practica:  ");
+    printf("Ingrese Nombre de la Practica:  ");
     fflush(stdin);
-    fgets(x.nombrePractica, DIM_NPRACTICA + 1, stdin);
-    x.nombrePractica[strcspn(x.nombrePractica, "\n")] = '\0';
-    while(getchar() != '\n');
-    while(!validarPalabras(x.nombrePractica,DIM_NPRACTICA))
+    gets(x.nombrePractica);
+    while(strlen(x.nombrePractica) > DIM_NPRACTICA)
     {
         printf("Practica INVALIDA\n Ingrese nuevamente:  ");
         fflush(stdin);
-        fgets(x.nombrePractica, DIM_NPRACTICA + 1, stdin);
-        x.nombrePractica[strcspn(x.nombrePractica, "\n")] = '\0';
-        while(getchar() != '\n');
+        gets(x.nombrePractica);
     }
+    strupr(x.nombrePractica);
     return x;
 }
 
@@ -232,6 +228,38 @@ int obtenerIdPractica(char nombrePractica[DIM_NPRACTICA], char nombreArchivo[])
     return -1;
 }
 
+nodoListaPR * crearNodoPR(PRACTICA x)
+{
+    nodoListaPR * nodo = (nodoListaPR *) malloc(sizeof(nodoListaPR));
+    nodo->sig = NULL;
+    nodo->practica = x;
+    return nodo;
+}
+
+nodoListaPR * agregarEnOrdenListaPR(nodoListaPR * lista, nodoListaPR * nn)
+{
+    if(!lista)
+        return nn;
+
+    if(strcmp(nn->practica.nombrePractica,lista->practica.nombrePractica)== -1)
+    {
+        nn->sig = lista;
+        return nn;
+    }
+    nodoListaPR* aux=lista;
+    nodoListaPR* ante;
+
+    while(aux && strcmp(nn->practica.nombrePractica,lista->practica.nombrePractica) == 1)
+    {
+        ante=aux;
+        aux=aux->sig;
+    }
+    nn->sig = aux;
+    ante->sig = nn;
+
+    return lista;
+}
+
 char * obtenerNombrePractica(int nroPractica, char nombreArchivo[])
 {
     char * nombre = (char *) malloc(DIM_NPRACTICA * (sizeof(char)));
@@ -252,4 +280,3 @@ char * obtenerNombrePractica(int nroPractica, char nombreArchivo[])
     }
     return "ERROR";
 }
-

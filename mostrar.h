@@ -7,6 +7,7 @@ void mostrarPaciente(PACIENTE x);
 void mostrarPacientesTodos(char nombreArchivo[]);
 void mostrarPacientesActivos(nodoPaciente* arbol);
 void consultarPaciente(nodoPaciente * arbol);
+void consultarPacienteEIngresos(nodoPaciente * arbol);
 void mostrarListaP(nodoListaP * lista);
 ///-------------------------------------    INGRESOS    ----------------------------------------------------------------------------------------------------------------------------------------
 
@@ -21,6 +22,8 @@ void mostrarIngresoArchivo(char nombreArchivo[]);
 void mostrarPxIArchivo(char nombreArchivo[]);
 void mostrarPracticasAsociadas(nodoIngreso * ing);
 void mostrarIngresoyPracticasPorDNI(nodoPaciente* arbol);
+void mostrarIngresosConDetalle(nodoPaciente * arbol);
+
 ///   CONSULTAR
 void consultarIngreso(nodoPaciente * arbol);
 void mostrarIngresoPorID(nodoPaciente * arbol);
@@ -34,10 +37,15 @@ void filtrarIngresosPorFechaArbol(nodoPaciente * arbol, char * fechaD, char * fe
 ///-------------------------------------    EMPLEADOS    ----------------------------------------------------------------------------------------------------------------------------------------
 
 void mostrarEmpleado(EMPLEADO x);
+void mostrarListaEmpleados(char nombreArchivo[]);
+void consultarEmpleado(char nombreArchivo[]);
+void mostrarEmpleadosArchivo(char nombreArchivo[]);
 
 ///-------------------------------------    PRACTICAS    ----------------------------------------------------------------------------------------------------------------------------------------
 
 void mostrarPractica(PRACTICA x);
 void mostrarPracticasArch(char nombreArchivo[]);
+void mostrarListaPracticas(char nombreArchivo[]);
+void filtrarPracticasPorCaracteres(char nombreArchivo[]);
 
 #endif // MOSTRAR_H_INCLUDED

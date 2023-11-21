@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
-#include "menus.h"
+#include "validaciones.h"
 #include "empleados.h"
 
 void altaEmpleado(char nombreArch[])
@@ -21,7 +21,6 @@ void altaEmpleado(char nombreArch[])
         printf("\nERROR El empleado ya existe en el archivo\n\n");
 
 }
-
 
 void bajaEmpleado(char nombreArch[])
 {
@@ -76,7 +75,7 @@ void modificarEmpleado(char nombreArch[])
                     fflush(stdin);
                     gets(aux.nombre);
                 }
-                system("pause");
+                strupr(aux.nombre);
                 break;
             case 2:
                 printf("Ingrese nuevo Apellido: ");
@@ -88,7 +87,7 @@ void modificarEmpleado(char nombreArch[])
                     fflush(stdin);
                     gets(aux.apellido);
                 }
-                system("pause");
+                strupr(aux.apellido);
                 break;
             case 3:
                 printf("Ingrese el  nuevo tipo de perfil del empleado \n(1) Profesional\n(2) Administrativo\n");
@@ -102,11 +101,11 @@ void modificarEmpleado(char nombreArch[])
                     fflush(stdin);
                     scanf("%i", &aux.tipoPerfil);
                 }
-                system("pause");
                 break;
             case 00:
-                printf("Saliendo...");
-                system("pause");
+                modificarArchivoEmpleado(aux, nombreArch);
+                printf("Modificado exitosamente:\n");
+                mostrarEmpleado(aux);
                 break;
             default:
                 printf("Por favor ingrese una opcion correcta");
@@ -135,7 +134,7 @@ EMPLEADO cargarEmpleado(char dni[])
         fflush(stdin);
         gets(x.apellido);
     }
-
+    strupr(x.apellido);
     ///NOMBRE
     printf("Ingrese Nombre: ");
     fflush(stdin);
@@ -146,7 +145,7 @@ EMPLEADO cargarEmpleado(char dni[])
         fflush(stdin);
         gets(x.nombre);
     }
-
+    strupr(x.nombre);
     ///TIPO PERFIL
     printf("Ingrese el tipo de perfil del empleado \n(1) Profesional\n(2) Administrativo\n");
     printf("--> ");
@@ -278,6 +277,7 @@ void cambiarPassword (char nombreArchivo[])
                     fflush(stdin);
                     gets(Password);
                 }
+                strcpy(aux.password, Password);
                 fseek(buffer,(-1)*sizeof(EMPLEADO),SEEK_CUR);
                 fwrite(&aux,sizeof(EMPLEADO),1,buffer);
                 printf("Contrase%ca modificada correctamente\n", 164);
@@ -287,7 +287,7 @@ void cambiarPassword (char nombreArchivo[])
         fclose(buffer);
     }
     if(flag==0)
-        printf("Dni o contraseña incorrectos\n");
+        printf("Dni o contrase%ca incorrectos\n", 164);
 }
 
 void cambiarNombreYApellido(char nombreArchivo[])
@@ -338,7 +338,57 @@ void cambiarNombreYApellido(char nombreArchivo[])
         printf("Dni o contraseña incorrectos\n");
 }
 
+void modificarArchivoEmpleado(EMPLEADO x, char nombreArchivo[])
+{
+    FILE * buffer = fopen(nombreArchivo, "r+b");
+    EMPLEADO aux;
+    int flag = 0;
+    if(buffer)
+    {
+        while(flag == 0 && fread(&aux, sizeof(EMPLEADO), 1, buffer) > 0)
+        {
+            if(strcmp(aux.dni, x.dni) == 0)
+            {
+                fseek(buffer, (-1) * sizeof(EMPLEADO), 1);
+                fwrite(&x, sizeof(EMPLEADO), 1, buffer);
+                flag = 1;
+            }
+        }
+       fclose(buffer);
+    }
+}
 
+nodoListaE * crearNodoE(EMPLEADO x)
+{
+    nodoListaE * nodo = (nodoListaE *) malloc(sizeof(nodoListaE));
+    nodo->sig = NULL;
+    nodo->empleado = x;
+    return nodo;
+}
+
+nodoListaE * agregarEnOrdenListaE(nodoListaE * lista, nodoListaE * nn)
+{
+    if(!lista)
+        return nn;
+
+    if(strcmp(nn->empleado.apellido,lista->empleado.apellido)== -1)
+    {
+        nn->sig = lista;
+        return nn;
+    }
+    nodoListaE* aux=lista;
+    nodoListaE* ante;
+
+    while(aux && strcmp(nn->empleado.apellido,lista->empleado.apellido) == 1)
+    {
+        ante=aux;
+        aux=aux->sig;
+    }
+    nn->sig = aux;
+    ante->sig = nn;
+
+    return lista;
+}
 
 
 

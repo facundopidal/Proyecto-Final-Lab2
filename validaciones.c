@@ -14,7 +14,7 @@
 bool validarDNI(const char *dni)
 {
     int len = strlen(dni);
-    if (len < 7 || len > DIM_DNI)
+    if (len < 7 || len > DIM_DNI - 1)
         return false;
     for (int i = 0; i < len; i++)
     {
@@ -225,7 +225,6 @@ bool validarPalabras(const char *Palabras,int rango)
             return false;
     return true;
 }
-
 
 
 ///-------------------------------------------------     TELEFONO     --------------------------------------------------------------------------------------------------------------

@@ -39,7 +39,7 @@ nodoPaciente * bajaPaciente(nodoPaciente * arbol);
 
 
 ///ADICIONALES
-nodoListaP* listaPacientesAlfabetica(nodoPaciente* arbol);
+nodoListaP* listaPacientesAlfabetica(nodoPaciente* arbol, nodoListaP * lista);
 
 ///ARCHIVO
 void cargarArchivoPacientes(char nombreArch[],PACIENTE x);

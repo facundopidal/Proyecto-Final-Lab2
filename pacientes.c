@@ -142,7 +142,7 @@ nodoPaciente * modificarPaciente(nodoPaciente * arbol)
                     fflush(stdin);
                     gets(pacienteAModificar->paciente.apellido);
                 }
-
+                strupr(pacienteAModificar->paciente.apellido);
                 printf("\nIngrese nuevo Nombre: ");
                 fflush(stdin);
                 gets(pacienteAModificar->paciente.nombre);
@@ -152,6 +152,7 @@ nodoPaciente * modificarPaciente(nodoPaciente * arbol)
                     fflush(stdin);
                     gets(pacienteAModificar->paciente.nombre);
                 }
+                strupr(pacienteAModificar->paciente.nombre);
                 system("cls");
                 printf("El nuevo nombre y apellido es: %s %s",pacienteAModificar->paciente.nombre, pacienteAModificar->paciente.apellido);
                 break;
@@ -183,6 +184,12 @@ nodoPaciente * modificarPaciente(nodoPaciente * arbol)
                 printf("\nIngrese nueva Direccion: ");
                 fflush(stdin);
                 gets(pacienteAModificar->paciente.direccion);
+                while(strlen(pacienteAModificar->paciente.direccion) > DIM_DIRECCION)
+                {
+                    printf("Direccion no valida\n Ingrese una direccion hasta 30 caracteres: ");
+                    fflush(stdin);
+                    gets(pacienteAModificar->paciente.direccion);
+                }
                 system("cls");
                 printf("Se edito la direccion a:%s\n", pacienteAModificar->paciente.direccion);
                 break;
@@ -335,6 +342,7 @@ PACIENTE cargarPaciente(char dni[])
         fflush(stdin);
         gets(x.apellido);
     }
+    strupr(x.apellido);
     ///NOMBRE
     printf("Ingrese Nombre: ");
     fflush(stdin);
@@ -345,10 +353,17 @@ PACIENTE cargarPaciente(char dni[])
         fflush(stdin);
         gets(x.nombre);
     }
+    strupr(x.nombre);
     ///DIRECCION
     printf("Ingrese Direccion: ");
     fflush(stdin);
     gets(x.direccion);
+    while(strlen(x.direccion) > DIM_DIRECCION)
+    {
+        printf("Direccion no valida\n Ingrese una direccion hasta 30 caracteres: ");
+        fflush(stdin);
+        gets(x.direccion);
+    }
     ///TELEFONO
     printf("Ingrese Telefono: ");
     fflush(stdin);
@@ -442,18 +457,16 @@ nodoPaciente * encontrarMenorArbolPaciente(nodoPaciente * arbol)
     return aux;
 }
 
-nodoListaP* listaPacientesAlfabetica(nodoPaciente* arbol)
+nodoListaP* listaPacientesAlfabetica(nodoPaciente* arbol, nodoListaP * lista)
 {
-
-    nodoListaP * listaAlfabetica = NULL;
     if(arbol)
     {
-        listaAlfabetica = NodoEnOrden(listaAlfabetica,arbol->paciente);
-        listaAlfabetica = listaPacientesAlfabetica(arbol->izq);
-        listaAlfabetica = listaPacientesAlfabetica(arbol->der);
+        lista = NodoEnOrden(lista ,arbol->paciente);
+        lista = listaPacientesAlfabetica(arbol->izq, lista);
+        lista = listaPacientesAlfabetica(arbol->der, lista);
 
     }
-    return listaAlfabetica;
+    return lista;
 }
 
 nodoListaP* NodoEnOrden(nodoListaP* lista,PACIENTE x)

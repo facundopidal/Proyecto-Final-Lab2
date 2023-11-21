@@ -65,7 +65,21 @@ void consultarPaciente(nodoPaciente * arbol)
     {
         printf("Se encontro el paciente, estos son sus datos:\n");
         mostrarPaciente(paciente->paciente);
-        printf("Este es su historial: \n");
+    }
+    else
+        printf("Paciente no encontrado o dado de de baja\n Por favor darlo de alta en el menu principal\n");
+}
+
+void consultarPacienteEIngresos(nodoPaciente * arbol)
+{
+    printf("Ingrese DNI del paciente a consultar: ");
+    char * dni = leerDNI();
+    nodoPaciente * paciente = buscarPaciente(arbol, dni);
+    if(paciente)
+    {
+        printf("Se encontro el paciente, estos son sus datos:\n");
+        mostrarPaciente(paciente->paciente);
+        printf("Este es su historial:\n");
         mostrarIngresosPaciente(paciente);
     }
     else
@@ -227,6 +241,24 @@ void mostrarPracticasAsociadas(nodoIngreso * ing)
     }
 }
 
+void mostrarIngresosConDetalle(nodoPaciente * arbol)
+{
+    nodoIngreso * aux;
+    if(arbol)
+    {
+        mostrarIngresosConDetalle(arbol->izq);
+        aux = arbol->listaIngresos;
+        while(aux)
+        {
+            printf("-Paciente: %s %s, DNI: %s\n", arbol->paciente.apellido, arbol->paciente.nombre, arbol->paciente.dni);
+            mostrarIngresoYPracticas(aux);
+
+            aux = aux->sig;
+        }
+        mostrarIngresosConDetalle(arbol->der);
+    }
+}
+
 void consultarIngreso(nodoPaciente * arbol)
 {
     int opcion;
@@ -316,7 +348,7 @@ void mostrarIngresosPorFechaArbol(nodoPaciente * arbol, char * fecha)
         aux = arbol->listaIngresos;
         while(aux)
         {
-            if(strcmp(aux->ingreso.fechaIngreso, fecha) == 0)///Falta mejorar obtenerFechaActual
+            if(strcmp(aux->ingreso.fechaIngreso, fecha) == 0)
                 mostrarIngresoYPracticas(aux);
             aux = aux->sig;
         }
@@ -350,7 +382,7 @@ void filtrarIngresosPorFechaArbol(nodoPaciente * arbol, char * fechaD, char * fe
         {
             if(fchcmp(aux->ingreso.fechaIngreso, fechaD) >= 0 && fchcmp(aux->ingreso.fechaIngreso, fechaH) <= 0)
             {
-                mostrarPaciente(arbol->paciente);
+                printf("-Paciente: %s %s, DNI: %s\n", arbol->paciente.apellido, arbol->paciente.nombre, arbol->paciente.dni);
                 mostrarIngresoYPracticas(aux);
             }
             aux = aux->sig;
@@ -370,6 +402,60 @@ void mostrarEmpleado(EMPLEADO x)
     printf("Contrase%ca: %s\n", 164, x.password);
     printf("Tipo de empleado: %s\n", tipoEmpleado(x.tipoPerfil));
     printf("------------------------\n");
+}
+
+void mostrarListaEmpleados(char nombreArchivo[])
+{
+    FILE * buffer = fopen(nombreArchivo, "rb");
+    EMPLEADO aux;
+    nodoListaE * lista = NULL;
+    if(buffer)
+    {
+        while(fread(&aux, sizeof(EMPLEADO), 1, buffer) > 0)
+            lista = agregarEnOrdenListaE(lista, crearNodoE(aux));
+        fclose(buffer);
+    }
+    while(lista)
+    {
+        mostrarEmpleado(lista->empleado);
+        lista = lista->sig;
+    }
+}
+
+void consultarEmpleado(char nombreArchivo[])
+{
+    printf("Ingrese el DNI del empleado: ");
+    char * dni = leerDNI();
+    FILE * buffer = fopen(nombreArchivo, "rb");
+    int flag = 0;
+    EMPLEADO aux;
+    if(buffer)
+    {
+        while(flag == 0 && fread(&aux, sizeof(EMPLEADO), 1, buffer) > 0)
+        {
+            if(strcmp(dni, aux.dni) == 0)
+            {
+                printf("Se encontro el empleado, estos son sus datos: \n");
+                mostrarEmpleado(aux);
+                flag = 1;
+            }
+        }
+        fclose(buffer);
+    }
+    if(flag == 0)
+        printf("\nNo se encontro el empleado\n\n");
+}
+
+void mostrarEmpleadosArchivo(char nombreArchivo[])
+{
+    FILE * buffer = fopen(nombreArchivo, "rb");
+    EMPLEADO aux;
+    if(buffer)
+    {
+        while(fread(&aux, sizeof(EMPLEADO), 1, buffer) > 0)
+            mostrarEmpleado(aux);
+        fclose(buffer);
+    }
 }
 
 ///-------------------------------------    PRACTICAS    ----------------------------------------------------------------------------------------------------------------------------------------
@@ -399,4 +485,49 @@ void mostrarPracticasArch(char nombreArchivo[])
         }
         fclose(buffer);
     }
+}
+
+void mostrarListaPracticas(char nombreArchivo[])
+{
+    FILE * buffer = fopen(nombreArchivo, "rb");
+    PRACTICA aux;
+    nodoListaPR * lista = NULL;
+    if(buffer)
+    {
+        while(fread(&aux,sizeof(PRACTICA), 1, buffer) > 0)
+            lista = agregarEnOrdenListaPR(lista, crearNodoPR(aux));
+        fclose(buffer);
+    }
+    while(lista)
+    {
+        mostrarPractica(lista->practica);
+        lista= lista->sig;
+    }
+}
+
+void filtrarPracticasPorCaracteres(char nombreArchivo[])
+{
+    FILE * buffer = fopen(nombreArchivo, "rb");
+    PRACTICA aux;
+    char car[4];
+    printf("Ingrese tres caracteres para filtrar (ej: hem): ");
+    fflush(stdin);
+    gets(car);
+    while(!validarPalabras(car, 4))
+    {
+        printf("Caracteres NO VALIDOS\n Ingrese nuevamente tres caracteres: ");
+        fflush(stdin);
+        gets(car);
+    }
+    strupr(car);
+    if(buffer)
+    {
+        while(fread(&aux, sizeof(PRACTICA), 1, buffer) > 0)
+        {
+            if(strstr(aux.nombrePractica, car))
+                mostrarPractica(aux);
+        }
+        fclose(buffer);
+    }
+
 }

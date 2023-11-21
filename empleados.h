@@ -5,8 +5,6 @@
 #define T_ADMINISTRATIVO 2
 #define archivoEmpleados "empleados.bin"
 
-
-
 typedef struct
 {
     char dni[DIM_DNI];
@@ -16,7 +14,15 @@ typedef struct
     char password[DIM_PASSWORD];
 }EMPLEADO;
 
+typedef struct nodoListaE
+{
+    EMPLEADO empleado;
+    struct nodoListaE * sig;
+}nodoListaE;
+
 void altaEmpleado(char nombreArch[]);
+void modificarEmpleado(char nombreArch[]);
+void bajaEmpleado(char nombreArch[]);
 EMPLEADO buscarEmpleado(char dni[], char nombreArch[]);
 EMPLEADO cargarEmpleado(char dni[]);
 void cargarArchivoEmpleados(EMPLEADO x, char nombreArch[]);
@@ -25,4 +31,9 @@ void eliminarUsuario(char dni[], char nombreArchivo[]);
 int buscarUsuario(char nombreArchivo[],char dni[DIM_DNI],char password[DIM_PASSWORD]);
 void cambiarPassword (char nombreArchivo[]);
 void cambiarNombreYApellido(char nombreArchivo[]);
+
+void modificarArchivoEmpleado(EMPLEADO x, char nombreArchivo[]);
+
+nodoListaE * crearNodoE(EMPLEADO x);
+nodoListaE * agregarEnOrdenListaE(nodoListaE * lista, nodoListaE * nn);
 #endif // EMPLEADOS_H_INCLUDED

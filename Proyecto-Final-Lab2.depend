@@ -84,20 +84,20 @@
 
 1700157690 c:\users\julian\desktop\proyecto-final-lab2\menus.h
 
-1700426925 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\empleados.c
+1700529508 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\empleados.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	<string.h>
-	"menus.h"
+	"validaciones.h"
 	"empleados.h"
 
-1700430966 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\empleados.h
+1700529434 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\empleados.h
 
 1700431128 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\validaciones.h
 	"menus.h"
 
-1700430942 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\ingresos.c
+1700514144 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\ingresos.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -110,12 +110,12 @@
 	"mostrar.h"
 	"menus.h"
 
-1700431119 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\pacientes.h
+1700528721 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\pacientes.h
 	"menus.h"
 
 1700431010 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\ingresos.h
 
-1700239565 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\practicas.h
+1700521942 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\practicas.h
 
 1700424912 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\main.c
 	<stdio.h>
@@ -124,9 +124,9 @@
 	<string.h>
 	"menus.h"
 
-1700431067 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\menus.h
+1700529079 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\menus.h
 
-1700431208 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\menus.c
+1700528738 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\menus.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -139,17 +139,15 @@
 	"mostrar.h"
 	"menus.h"
 
-1700239565 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\practicas.c
+1700526828 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\practicas.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	<string.h>
 	"validaciones.h"
-	"pacientes.h"
-	"ingresos.h"
 	"practicas.h"
 
-1700431884 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\validaciones.c
+1700529079 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\validaciones.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -159,7 +157,7 @@
 	"practicas.h"
 	"menus.h"
 
-1700430941 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\pacientes.c
+1700528721 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\pacientes.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -172,7 +170,7 @@
 	"mostrar.h"
 	"menus.h"
 
-1700431884 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\mostrar.c
+1700527578 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\mostrar.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -185,7 +183,7 @@
 	"mostrar.h"
 	"menus.h"
 
-1700430942 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\mostrar.h
+1700523048 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\mostrar.h
 
 1700251402 source:c:\users\tikic\onedrive\escritorio\proyecto-final-lab2\empleados.c
 	<stdio.h>
