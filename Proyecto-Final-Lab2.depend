@@ -97,7 +97,7 @@
 1700431128 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\validaciones.h
 	"menus.h"
 
-1700514144 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\ingresos.c
+1700576547 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\ingresos.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -113,7 +113,7 @@
 1700528721 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\pacientes.h
 	"menus.h"
 
-1700431010 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\ingresos.h
+1700576522 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\ingresos.h
 
 1700521942 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\practicas.h
 
@@ -124,9 +124,9 @@
 	<string.h>
 	"menus.h"
 
-1700529079 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\menus.h
+1700576493 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\menus.h
 
-1700528738 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\menus.c
+1700576493 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\menus.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -170,7 +170,7 @@
 	"mostrar.h"
 	"menus.h"
 
-1700527578 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\mostrar.c
+1700576624 source:c:\users\win10\desktop\programacion\c\proyecto-final-lab2\mostrar.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -183,7 +183,7 @@
 	"mostrar.h"
 	"menus.h"
 
-1700523048 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\mostrar.h
+1700576624 c:\users\win10\desktop\programacion\c\proyecto-final-lab2\mostrar.h
 
 1700251402 source:c:\users\tikic\onedrive\escritorio\proyecto-final-lab2\empleados.c
 	<stdio.h>

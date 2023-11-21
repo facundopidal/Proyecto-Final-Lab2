@@ -404,6 +404,17 @@ void mostrarEmpleado(EMPLEADO x)
     printf("------------------------\n");
 }
 
+void mostrarEmpleadoSinPass(EMPLEADO x)
+{
+    printf("------------------------\n");
+    printf("DNI: %s\n", x.dni);
+    printf("Nombre: %s\n", x.nombre);
+    printf("Apellido: %s\n", x.apellido);
+    printf("Contrase%ca: ******\n", 164);
+    printf("Tipo de empleado: %s\n", tipoEmpleado(x.tipoPerfil));
+    printf("------------------------\n");
+}
+
 void mostrarListaEmpleados(char nombreArchivo[])
 {
     FILE * buffer = fopen(nombreArchivo, "rb");
@@ -417,7 +428,7 @@ void mostrarListaEmpleados(char nombreArchivo[])
     }
     while(lista)
     {
-        mostrarEmpleado(lista->empleado);
+        mostrarEmpleadoSinPass(lista->empleado);
         lista = lista->sig;
     }
 }
@@ -482,6 +493,22 @@ void mostrarPracticasArch(char nombreArchivo[])
         while(fread(&aux, sizeof(PRACTICA), 1, buffer) > 0)
         {
             mostrarPractica(aux);
+        }
+        fclose(buffer);
+    }
+}
+
+void mostrarPracticasActivas(char nombreArchivo[])
+{
+    FILE *buffer = fopen(nombreArchivo, "rb");
+    if(buffer)
+    {
+        PRACTICA aux;
+        printf("PRACTICAS ACTIVAS: \n");
+        while(fread(&aux, sizeof(PRACTICA), 1, buffer) > 0)
+        {
+            if(aux.eliminado == 0)
+                mostrarPractica(aux);
         }
         fclose(buffer);
     }

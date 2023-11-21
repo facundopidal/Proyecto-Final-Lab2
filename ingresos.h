@@ -52,6 +52,7 @@ int obternerIdIngresoArchivo(char nombreArchivo[]);
 void modificarArchivoIngresos(char nombreArch[], INGRESO x);
 void modificarArchivoPxI(char nombreArch[], PRACTICAxINGRESO pxi, int nroPract);
 void cambiarEliminadoPxI(PRACTICAxINGRESO pxi,char nombreArchivo[]);
+nodoPaciente * cargarResultado(nodoPaciente * arbol, char archPxI[]);
 
 ///-------------------------------------    AUXILIARES    --------------------------------------------------------------------------------------------------------------------------------
 

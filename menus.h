@@ -46,5 +46,8 @@ void menuAjustes();
 ///---------------------------- PROFESIONALES -------------------------------------
 void menuProfesional();
 
+void menuPacientesProfesional();
+void menuIngresosProfesional();
+void menuPracticasProfesional();
 
 #endif // MENUS_H_INCLUDED

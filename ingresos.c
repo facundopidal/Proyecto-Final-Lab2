@@ -249,6 +249,75 @@ nodoPxI * bajaPxI(nodoIngreso * listaIngresos,nodoIngreso * ingresoAMod, char ar
 return ingresoAMod->listaPxI;
 }
 
+nodoPaciente * cargarResultado(nodoPaciente * arbol, char archPxI[])
+{
+    printf("Ingrese DNI del paciente: ");
+    char * dni = leerDNI();
+    nodoPaciente * pacienteAMod = buscarPaciente(arbol, dni);
+    if(pacienteAMod)
+    {
+        printf("Estos son los ingresos del paciente: \n");
+        mostrarIngresosPaciente(pacienteAMod);
+        printf("Ingrese ID del ingreso que desea modificar: ");
+        int id = leerEnteroPositivo();
+        nodoIngreso * ing = buscarIngreso(pacienteAMod->listaIngresos, id);
+        if(ing)
+        {
+            system("cls");
+            printf("Estas son las practicas del Ingreso: \n");
+            mostrarPracticasAsociadas(ing);
+            printf("Ingrese el nro de Practica para cambiar el Resultado: ");
+            int nroP = leerEnteroPositivo();
+            nodoPxI * pxi = buscarPxI(ing->listaPxI, nroP);
+            if(pxi)
+            {
+                int opcion;
+                char res[DIM_RESULTADO - 1];
+                do
+                {
+                    system("cls");
+                    mostrarPxi(pxi->PxI);
+                    printf("1.Editar Resultado\n");
+                    printf("00.Salir\n");
+                    printf("--> ");
+                    fflush(stdin);
+                    scanf("%i", &opcion);
+                    system("cls");
+                    switch(opcion)
+                    {
+                    case 1:
+                        printf("Ingrese el nuevo Resultado: ");
+                        fflush(stdin);
+                        gets(res);
+                        while(strlen(res) >= DIM_RESULTADO)
+                        {
+                            printf("Resultado NO VALIDO\nIngrese el nuevo Resultado(Hasta 40 caracteres): ");
+                            fflush(stdin);
+                            gets(res);
+                        }
+                        strcpy(pxi->PxI.resultado, res);
+                        break;
+                    case 00:
+                        modificarArchivoPxI(archPxI, pxi->PxI, pxi->PxI.nroPractica);
+                        break;
+                    default:
+                        printf("Por favor ingrese una opcion valida\n");
+                        system("pause");
+                        break;
+                    }
+                }
+                while(opcion != 00);
+            }
+            else
+                printf("\nNo se encontro la Practica en este Ingreso\n\n");
+        }
+        else
+            printf("\nNo se encontro el Ingreso\n\n");
+    }
+    else
+        printf("\nNo se encontro el Paciente\n\n");
+    return arbol;
+}
 
 ///-------------------------------------    ARCHIVO    --------------------------------------------------------------------------------------------------------------------------------------
 

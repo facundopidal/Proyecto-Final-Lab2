@@ -37,6 +37,7 @@ void filtrarIngresosPorFechaArbol(nodoPaciente * arbol, char * fechaD, char * fe
 ///-------------------------------------    EMPLEADOS    ----------------------------------------------------------------------------------------------------------------------------------------
 
 void mostrarEmpleado(EMPLEADO x);
+void mostrarEmpleadoSinPass(EMPLEADO x);
 void mostrarListaEmpleados(char nombreArchivo[]);
 void consultarEmpleado(char nombreArchivo[]);
 void mostrarEmpleadosArchivo(char nombreArchivo[]);
@@ -45,6 +46,7 @@ void mostrarEmpleadosArchivo(char nombreArchivo[]);
 
 void mostrarPractica(PRACTICA x);
 void mostrarPracticasArch(char nombreArchivo[]);
+void mostrarPracticasActivas(char nombreArchivo[]);
 void mostrarListaPracticas(char nombreArchivo[]);
 void filtrarPracticasPorCaracteres(char nombreArchivo[]);
 
