@@ -47,7 +47,9 @@ void modificarPractica(char nombreArchivo[])
     practicaAModificar = buscarPracticaArchivo(archivoPracticas,practicaAModificar.nro);
     if(practicaAModificar.nro != -1)
     {
-        printf("Ingrese el nuevo Nombre de la practica ID %i: \n",practicaAModificar.nro);
+        system("cls");
+        mostrarPractica(practicaAModificar);
+        printf("Ingrese el nuevo Nombre de la practica: ",practicaAModificar.nro);
         fflush(stdin);
         gets(practicaAModificar.nombrePractica);
         while(strlen(practicaAModificar.nombrePractica) > DIM_NPRACTICA)
@@ -73,7 +75,7 @@ void bajaPractica(char nombreArchivo[])
 {
     mostrarListaPracticasActivas(nombreArchivo);
     PRACTICA practicaAModificar;
-    printf("Ingrese ID de practica que quiere dar de baja\n");
+    printf("Ingrese ID de practica que quiere dar de baja: ");
     practicaAModificar.nro = leerEnteroPositivo();
     practicaAModificar = buscarPracticaArchivo(archivoPracticas,practicaAModificar.nro);
     if(practicaAModificar.nro == -1)
@@ -83,6 +85,7 @@ void bajaPractica(char nombreArchivo[])
     else
     {
         cambiarEliminadoPractica(1, practicaAModificar, nombreArchivo);
+        system("cls");
         printf("La practica fue dada de baja correctamente\n");
         practicaAModificar.eliminado = 1;
         mostrarPractica(practicaAModificar);
@@ -94,7 +97,7 @@ void altaPractica(char nombreArchivo[])
 {
     mostrarListaPracticasInActivas(nombreArchivo);
     PRACTICA practicaAModificar;
-    printf("Ingrese ID de practica que quiere dar de alta\n");
+    printf("Ingrese ID de practica que quiere dar de alta: ");
     practicaAModificar.nro=leerEnteroPositivo();
     practicaAModificar = buscarPracticaArchivo(archivoPracticas,practicaAModificar.nro);
     if(practicaAModificar.nro == -1)

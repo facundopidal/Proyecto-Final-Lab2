@@ -39,7 +39,7 @@
 	"mostrar.h"
 	"menus.h"
 
-1700583831 source:c:\users\julian\desktop\proyecto-final-lab2\practicas.c
+1700718285 source:c:\users\julian\desktop\proyecto-final-lab2\practicas.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -57,7 +57,7 @@
 	"practicas.h"
 	"menus.h"
 
-1700586105 source:c:\users\julian\desktop\proyecto-final-lab2\ingresos.c
+1700671640 source:c:\users\julian\desktop\proyecto-final-lab2\ingresos.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -70,7 +70,7 @@
 	"mostrar.h"
 	"menus.h"
 
-1700588594 source:c:\users\julian\desktop\proyecto-final-lab2\menus.c
+1700625447 source:c:\users\julian\desktop\proyecto-final-lab2\menus.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
@@ -290,7 +290,7 @@
 
 1700583831 c:\users\julian\desktop\proyecto-final-lab2\mostrar.h
 
-1700588109 source:c:\users\julian\desktop\proyecto-final-lab2\mostrar.c
+1700625447 source:c:\users\julian\desktop\proyecto-final-lab2\mostrar.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>

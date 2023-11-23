@@ -182,6 +182,7 @@ nodoPaciente * modificarIngreso(nodoPaciente * arbol, char archIngresos[], char 
                         ingresoAMod->ingreso.fechaRetiro[strcspn(ingresoAMod->ingreso.fechaRetiro, "\n")] = '\0';
                         while(getchar() != '\n');
                     }
+                    break;
                 case 3:
                     pacienteAModificar->listaIngresos->listaPxI = bajaPxI(pacienteAModificar->listaIngresos,ingresoAMod,archPxI);
                     if(!ingresoAMod->listaPxI)
@@ -201,6 +202,7 @@ nodoPaciente * modificarIngreso(nodoPaciente * arbol, char archIngresos[], char 
                     break;
                 default:
                     printf("Ingrese una opcion valida\n");
+                    system("pause");
                 }
             }
             while(opcion != 0);
